@@ -36,6 +36,25 @@
 #define WRAP_CHAR 1
 #define WRAP_CLIP 2
 
+
+#if defined( __WIN32__ ) || defined( _WIN32 )
+	#define TARGET_WIN32
+#elif defined( __APPLE_CC__)
+	#define TARGET_UNIX
+	#if (TARGET_OF_IPHONE_SIMULATOR) || (TARGET_OS_IPHONE) || (TARGET_IPHONE)
+		#define TARGET_OF_IPHONE
+		#define TARGET_OPENGLES
+	#else
+		#define TARGET_OSX
+	#endif
+#else
+	#define TARGET_UNIX
+	#define TARGET_LINUX
+#endif
+
+
+
+
 extern char TEXTURE_SOLID[];
 
 extern lua_State *lua;
