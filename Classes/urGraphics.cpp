@@ -9,7 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <OpenGLES/EAGLDrawable.h>
 
-#import "EAGLView.h"
+#import "urGraphics.h"
 #import "urAPI.h"
 #import "Texture2d.h"
 #import "MachTimer.h"
