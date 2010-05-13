@@ -410,7 +410,7 @@ void urFont::loadFont(string filename, int fontsize, bool _bAntiAliased, bool _b
 	}
 
 	FT_Face face;
-	if (FT_New_Face( library, "../arial.ttf" /*filename.c_str()*/, 0, &face )) {
+	if (FT_New_Face( library, filename.c_str(), 0, &face )) {
 		return;
 	}
 

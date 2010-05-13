@@ -718,6 +718,8 @@ UILineBreakMode tolinebreakmode(int wrap)
 	return UILineBreakModeWordWrap;
 }
 
+#include "urFont.h"
+urFont font;
 // Main drawing loop. This does everything but brew coffee.
 extern lua_State *lua;
 
@@ -735,7 +737,6 @@ extern lua_State *lua;
 	CGRect  bounds = [self bounds];
 	
     // Replace the implementation of this method to do your own custom drawing
-    
     GLfloat squareVertices[] = {
         -0.5f, -0.5f,
         0.5f,  -0.5f,
@@ -770,6 +771,8 @@ extern lua_State *lua;
     glClear(GL_COLOR_BUFFER_BIT);
 	
 	// Render all (visible and unclipped) regions on a given page.
+	
+	
 	
 	for(urAPI_Region_t* t=firstRegion[currentPage]; t != nil; t=t->next)
 	{
@@ -1038,6 +1041,12 @@ extern lua_State *lua;
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	
 #endif
+	
+	NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+	NSString *filePath = [resourcePath stringByAppendingPathComponent:@"arial.ttf"];
+	const char* filestr = [filePath UTF8String];
+    font.loadFont(filestr, 20);
+	font.drawString("Hello World",100,100);
 	
 	
 	

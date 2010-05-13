@@ -214,6 +214,7 @@
 		77FB9275111BA8C30078AAC5 /* UdpClientSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FB926D111BA8C30078AAC5 /* UdpClientSocket.m */; };
 		77FB9276111BA8C30078AAC5 /* SandwichUpdateListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FB926F111BA8C30078AAC5 /* SandwichUpdateListener.m */; };
 		77FB9277111BA8C30078AAC5 /* SandwichEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FB9272111BA8C30078AAC5 /* SandwichEventManager.m */; };
+		EAA94A9A119C718400DF76DF /* arial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EAA94A99119C718400DF76DF /* arial.ttf */; };
 		EAAE531B1198B5750008A7D9 /* autofit.c in Sources */ = {isa = PBXBuildFile; fileRef = EAAE531A1198B5750008A7D9 /* autofit.c */; };
 		EAAE531D1198B57F0008A7D9 /* ftbase.c in Sources */ = {isa = PBXBuildFile; fileRef = EAAE531C1198B57F0008A7D9 /* ftbase.c */; };
 		EAAE531F1198B5880008A7D9 /* bdf.c in Sources */ = {isa = PBXBuildFile; fileRef = EAAE531E1198B5880008A7D9 /* bdf.c */; };
@@ -607,6 +608,7 @@
 		77FB9272111BA8C30078AAC5 /* SandwichEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SandwichEventManager.m; path = Classes/Sandwich/SandwichEventManager.m; sourceTree = "<group>"; };
 		77FB9273111BA8C30078AAC5 /* SandwichEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SandwichEventManager.h; path = Classes/Sandwich/SandwichEventManager.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EAA94A99119C718400DF76DF /* arial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = arial.ttf; sourceTree = "<group>"; };
 		EAAE531A1198B5750008A7D9 /* autofit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = autofit.c; path = Classes/Freetype/autofit/autofit.c; sourceTree = "<group>"; };
 		EAAE531C1198B57F0008A7D9 /* ftbase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ftbase.c; path = Classes/Freetype/base/ftbase.c; sourceTree = "<group>"; };
 		EAAE531E1198B5880008A7D9 /* bdf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bdf.c; path = Classes/Freetype/bdf/bdf.c; sourceTree = "<group>"; };
@@ -780,6 +782,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EAA94A99119C718400DF76DF /* arial.ttf */,
 				77F043D71123C28B00CB8C95 /* MainWindow.xib */,
 				77A1A6DB10ABD49D004A7C47 /* Icon.png */,
 				77A1A6DC10ABD49D004A7C47 /* Default.png */,
@@ -1390,6 +1393,7 @@
 				77B9FC821194AF12006D5007 /* cloud_bg.jpg in Resources */,
 				77B9FCB71194AF8F006D5007 /* o-alpha.png in Resources */,
 				77B9FCB91194AFB8006D5007 /* x-alpha.png in Resources */,
+				EAA94A9A119C718400DF76DF /* arial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
