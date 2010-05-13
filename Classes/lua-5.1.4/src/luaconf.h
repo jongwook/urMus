@@ -39,7 +39,9 @@
 #define LUA_USE_READLINE	/* needs some extra libraries */
 #endif
 
+#if defined(__APPLE_CC__)
 #define LUA_USE_MACOSX
+#endif
 
 #if defined(LUA_USE_MACOSX)
 #define LUA_USE_POSIX

@@ -1,0 +1,526 @@
+﻿Build started 2010-05-13 오후 4:26:04.
+     1>Project "C:\Users\Jongwook-BC\Documents\Visual Studio 2010\Projects\urMus\urMusWin\urMus.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\urMus.unsuccessfulbuild".
+       ClCompile:
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"../Classes/stk-4.4.1/include/" /I../Classes/zlib/ /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt ..\Classes\libpng\png.c ..\Classes\libpng\pngerror.c ..\Classes\libpng\pngget.c ..\Classes\libpng\pngmem.c ..\Classes\libpng\pngpread.c ..\Classes\libpng\pngread.c ..\Classes\libpng\pngrio.c ..\Classes\libpng\pngrtran.c ..\Classes\libpng\pngrutil.c ..\Classes\libpng\pngset.c ..\Classes\libpng\pngtrans.c ..\Classes\libpng\pngwio.c ..\Classes\libpng\pngwrite.c ..\Classes\libpng\pngwtran.c ..\Classes\libpng\pngwutil.c "..\Classes\lua-5.1.4\src\lapi.c" "..\Classes\lua-5.1.4\src\lauxlib.c" "..\Classes\lua-5.1.4\src\lbaselib.c" "..\Classes\lua-5.1.4\src\lcode.c" "..\Classes\lua-5.1.4\src\ldblib.c" "..\Classes\lua-5.1.4\src\ldebug.c" "..\Classes\lua-5.1.4\src\ldo.c" "..\Classes\lua-5.1.4\src\ldump.c" "..\Classes\lua-5.1.4\src\lfs.c" "..\Classes\lua-5.1.4\src\lfunc.c" "..\Classes\lua-5.1.4\src\lgc.c" "..\Classes\lua-5.1.4\src\linit.c" "..\Classes\lua-5.1.4\src\liolib.c" "..\Classes\lua-5.1.4\src\llex.c" "..\Classes\lua-5.1.4\src\lmathlib.c" "..\Classes\lua-5.1.4\src\lmem.c" "..\Classes\lua-5.1.4\src\loadlib.c" "..\Classes\lua-5.1.4\src\lobject.c" "..\Classes\lua-5.1.4\src\lopcodes.c" "..\Classes\lua-5.1.4\src\loslib.c" "..\Classes\lua-5.1.4\src\lparser.c" "..\Classes\lua-5.1.4\src\lstate.c" "..\Classes\lua-5.1.4\src\lstring.c" "..\Classes\lua-5.1.4\src\lstrlib.c" "..\Classes\lua-5.1.4\src\ltable.c" "..\Classes\lua-5.1.4\src\ltablib.c" "..\Classes\lua-5.1.4\src\ltm.c" "..\Classes\lua-5.1.4\src\lua.c" "..\Classes\lua-5.1.4\src\luac.c" "..\Classes\lua-5.1.4\src\lundump.c" "..\Classes\lua-5.1.4\src\lvm.c" "..\Classes\lua-5.1.4\src\lzio.c" "..\Classes\lua-5.1.4\src\print.c" ..\Classes\zlib\adler32.c ..\Classes\zlib\compress.c ..\Classes\zlib\crc32.c ..\Classes\zlib\deflate.c ..\Classes\zlib\gzclose.c ..\Classes\zlib\gzlib.c ..\Classes\zlib\gzread.c ..\Classes\zlib\gzwrite.c ..\Classes\zlib\infback.c ..\Classes\zlib\inffast.c ..\Classes\zlib\inflate.c ..\Classes\zlib\inftrees.c ..\Classes\zlib\trees.c ..\Classes\zlib\uncompr.c ..\Classes\zlib\zutil.c
+         zutil.c
+         uncompr.c
+         trees.c
+         inftrees.c
+         inflate.c
+         inffast.c
+         infback.c
+         gzwrite.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzwrite.c(80): warning C4996: 'write': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _write. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\io.h(318) : see declaration of 'write'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzwrite.c(81): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzwrite.c(333): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_vsnprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzwrite.c(528): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\io.h(302) : see declaration of 'close'
+         gzread.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzread.c(31): warning C4996: 'read': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _read. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\io.h(313) : see declaration of 'read'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzread.c(37): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzread.c(649): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\io.h(302) : see declaration of 'close'
+         gzlib.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzlib.c(156): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzlib.c(173): warning C4996: 'open': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _open. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\io.h(312) : see declaration of 'open'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzlib.c(183): warning C4996: 'lseek': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _lseek. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\io.h(310) : see declaration of 'lseek'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzlib.c(220): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzlib.c(267): warning C4996: 'lseek': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _lseek. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\io.h(310) : see declaration of 'lseek'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzlib.c(308): warning C4996: 'lseek': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _lseek. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\io.h(310) : see declaration of 'lseek'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzlib.c(403): warning C4996: 'lseek': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _lseek. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\io.h(310) : see declaration of 'lseek'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzlib.c(512): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzlib.c(513): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\zlib\gzlib.c(514): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+         gzclose.c
+         deflate.c
+         crc32.c
+         compress.c
+         adler32.c
+         print.c
+         lzio.c
+         lvm.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lvm.c(53): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         lundump.c
+         luac.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\luac.c(44): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\luac.c(175): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+         Generating Code...
+         Compiling...
+         lua.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lua.c(324): warning C4996: 'getenv': This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdlib.h(433) : see declaration of 'getenv'
+         ltm.c
+         ltablib.c
+         ltable.c
+         lstrlib.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lstrlib.c(740): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(188) : see declaration of 'strncpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lstrlib.c(750): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lstrlib.c(775): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lstrlib.c(780): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lstrlib.c(785): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lstrlib.c(790): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lstrlib.c(808): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         lstring.c
+         lstate.c
+         lparser.c
+         loslib.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\loslib.c(31): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\loslib.c(60): warning C4996: 'tmpnam': This function or variable may be unsafe. Consider using tmpnam_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(344) : see declaration of 'tmpnam'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\loslib.c(69): warning C4996: 'getenv': This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdlib.h(433) : see declaration of 'getenv'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\loslib.c(129): warning C4996: 'gmtime': This function or variable may be unsafe. Consider using gmtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\time.inl(99) : see declaration of 'gmtime'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\loslib.c(133): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\time.inl(112) : see declaration of 'localtime'
+         lopcodes.c
+         lobject.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lobject.c(145): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lobject.c(184): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(188) : see declaration of 'strncpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lobject.c(193): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lobject.c(196): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lobject.c(198): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lobject.c(204): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lobject.c(206): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(175) : see declaration of 'strncat'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lobject.c(207): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lobject.c(210): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lobject.c(211): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+         loadlib.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\loadlib.c(334): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\loadlib.c(595): warning C4996: 'getenv': This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdlib.h(433) : see declaration of 'getenv'
+         lmem.c
+         lmathlib.c
+         llex.c
+         liolib.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\liolib.c(39): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\liolib.c(41): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\liolib.c(49): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\liolib.c(165): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\liolib.c(185): warning C4996: 'tmpfile': This function or variable may be unsafe. Consider using tmpfile_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(338) : see declaration of 'tmpfile'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\liolib.c(205): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\liolib.c(257): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\liolib.c(275): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(253) : see declaration of 'fscanf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\liolib.c(395): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+         linit.c
+         lgc.c
+         lfunc.c
+         lfs.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(112): warning C4996: 'chdir': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _chdir. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\direct.h(123) : see declaration of 'chdir'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(115): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(130): warning C4996: 'getcwd': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getcwd. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\direct.h(117) : see declaration of 'getcwd'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(132): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(190): warning C4996: 'fileno': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _fileno. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(723) : see declaration of 'fileno'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(229): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(263): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(284): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(294): warning C4996: 'umask': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _umask. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\io.h(317) : see declaration of 'umask'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(303): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(306): warning C4996: 'umask': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _umask. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\io.h(317) : see declaration of 'umask'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(319): warning C4996: 'rmdir': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _rmdir. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\direct.h(125) : see declaration of 'rmdir'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(323): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(345): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(410): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(498): warning C4244: 'function' : conversion from 'time_t' to 'lua_Number', possible loss of data
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(503): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(541): warning C4244: 'function' : conversion from '__time64_t' to 'lua_Number', possible loss of data
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(545): warning C4244: 'function' : conversion from '__time64_t' to 'lua_Number', possible loss of data
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lfs.c(549): warning C4244: 'function' : conversion from '__time64_t' to 'lua_Number', possible loss of data
+         Generating Code...
+         Compiling...
+         ldump.c
+         ldo.c
+         ldebug.c
+         ldblib.c
+         lcode.c
+         lbaselib.c
+         lauxlib.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lauxlib.c(544): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(157) : see declaration of 'strerror'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lauxlib.c(564): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\lua-5.1.4\src\lauxlib.c(574): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(249) : see declaration of 'freopen'
+         lapi.c
+         pngwutil.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngwutil.c(226): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngwutil.c(1260): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngwutil.c(1621): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngwutil.c(1623): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+         pngwtran.c
+         pngwrite.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngwrite.c(450): warning C4996: 'gmtime': This function or variable may be unsafe. Consider using gmtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\time.inl(99) : see declaration of 'gmtime'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngwrite.c(548): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngwrite.c(553): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+         pngwio.c
+         pngtrans.c
+         pngset.c
+         pngrutil.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngrutil.c(276): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngrutil.c(374): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngrutil.c(1128): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngrutil.c(1131): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+         pngrtran.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngrtran.c(1315): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+         pngrio.c
+         pngread.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngread.c(134): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\pngread.c(139): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+         pngpread.c
+         pngmem.c
+         Generating Code...
+         Compiling...
+         pngget.c
+         pngerror.c
+         png.c
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\libpng\png.c(537): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_snprintf'
+         Generating Code...
+         All outputs are up-to-date.
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"../Classes/stk-4.4.1/include/" /I../Classes/zlib/ /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt "..\Classes\stk-4.4.1\src\ADSR.cpp" "..\Classes\stk-4.4.1\src\Asymp.cpp" "..\Classes\stk-4.4.1\src\BandedWG.cpp" "..\Classes\stk-4.4.1\src\BeeThree.cpp" "..\Classes\stk-4.4.1\src\BiQuad.cpp" "..\Classes\stk-4.4.1\src\Blit.cpp" "..\Classes\stk-4.4.1\src\BlitSaw.cpp" "..\Classes\stk-4.4.1\src\BlitSquare.cpp" "..\Classes\stk-4.4.1\src\BlowBotl.cpp" "..\Classes\stk-4.4.1\src\BlowHole.cpp" "..\Classes\stk-4.4.1\src\Bowed.cpp" "..\Classes\stk-4.4.1\src\Brass.cpp" "..\Classes\stk-4.4.1\src\Chorus.cpp" "..\Classes\stk-4.4.1\src\Clarinet.cpp" "..\Classes\stk-4.4.1\src\Delay.cpp" "..\Classes\stk-4.4.1\src\DelayA.cpp" "..\Classes\stk-4.4.1\src\DelayL.cpp" "..\Classes\stk-4.4.1\src\Drummer.cpp" "..\Classes\stk-4.4.1\src\Echo.cpp" "..\Classes\stk-4.4.1\src\Envelope.cpp" "..\Classes\stk-4.4.1\src\FileLoop.cpp" "..\Classes\stk-4.4.1\src\FileRead.cpp" "..\Classes\stk-4.4.1\src\FileWrite.cpp" "..\Classes\stk-4.4.1\src\FileWvIn.cpp" "..\Classes\stk-4.4.1\src\FileWvOut.cpp" "..\Classes\stk-4.4.1\src\Fir.cpp" "..\Classes\stk-4.4.1\src\Flute.cpp" "..\Classes\stk-4.4.1\src\FM.cpp" "..\Classes\stk-4.4.1\src\FMVoices.cpp" "..\Classes\stk-4.4.1\src\FormSwep.cpp" "..\Classes\stk-4.4.1\src\Granulate.cpp" "..\Classes\stk-4.4.1\src\HevyMetl.cpp" "..\Classes\stk-4.4.1\src\Iir.cpp" "..\Classes\stk-4.4.1\src\JCRev.cpp" "..\Classes\stk-4.4.1\src\Mandolin.cpp" "..\Classes\stk-4.4.1\src\Mesh2D.cpp" "..\Classes\stk-4.4.1\src\Modal.cpp" "..\Classes\stk-4.4.1\src\ModalBar.cpp" "..\Classes\stk-4.4.1\src\Modulate.cpp" "..\Classes\stk-4.4.1\src\Moog.cpp" "..\Classes\stk-4.4.1\src\Noise.cpp" "..\Classes\stk-4.4.1\src\NRev.cpp" "..\Classes\stk-4.4.1\src\OnePole.cpp" "..\Classes\stk-4.4.1\src\OneZero.cpp" "..\Classes\stk-4.4.1\src\PercFlut.cpp" "..\Classes\stk-4.4.1\src\Phonemes.cpp" "..\Classes\stk-4.4.1\src\PitShift.cpp" "..\Classes\stk-4.4.1\src\Plucked.cpp" "..\Classes\stk-4.4.1\src\PluckTwo.cpp" "..\Classes\stk-4.4.1\src\PoleZero.cpp" "..\Classes\stk-4.4.1\src\PRCRev.cpp" "..\Classes\stk-4.4.1\src\Resonate.cpp" "..\Classes\stk-4.4.1\src\Rhodey.cpp" "..\Classes\stk-4.4.1\src\Sampler.cpp" "..\Classes\stk-4.4.1\src\Saxofony.cpp" "..\Classes\stk-4.4.1\src\Shakers.cpp" "..\Classes\stk-4.4.1\src\Simple.cpp" "..\Classes\stk-4.4.1\src\SineWave.cpp" "..\Classes\stk-4.4.1\src\SingWave.cpp" "..\Classes\stk-4.4.1\src\Sitar.cpp" "..\Classes\stk-4.4.1\src\Sphere.cpp" "..\Classes\stk-4.4.1\src\StifKarp.cpp" "..\Classes\stk-4.4.1\src\Stk.cpp" "..\Classes\stk-4.4.1\src\TapDelay.cpp" "..\Classes\stk-4.4.1\src\TubeBell.cpp" "..\Classes\stk-4.4.1\src\TwoPole.cpp" "..\Classes\stk-4.4.1\src\TwoZero.cpp" "..\Classes\stk-4.4.1\src\Voicer.cpp" "..\Classes\stk-4.4.1\src\VoicForm.cpp" "..\Classes\stk-4.4.1\src\Whistle.cpp" "..\Classes\stk-4.4.1\src\Wurley.cpp" ..\Classes\WinMain.cpp
+         WinMain.cpp
+         Wurley.cpp
+         Whistle.cpp
+         VoicForm.cpp
+         Voicer.cpp
+         TwoZero.cpp
+         TwoPole.cpp
+         TubeBell.cpp
+         TapDelay.cpp
+         Stk.cpp
+         StifKarp.cpp
+         Sphere.cpp
+         Sitar.cpp
+         SingWave.cpp
+         SineWave.cpp
+         Simple.cpp
+         Shakers.cpp
+         Saxofony.cpp
+         Sampler.cpp
+         Rhodey.cpp
+         Generating Code...
+         Compiling...
+         Resonate.cpp
+         PRCRev.cpp
+         PoleZero.cpp
+         PluckTwo.cpp
+         Plucked.cpp
+         PitShift.cpp
+         Phonemes.cpp
+         PercFlut.cpp
+         OneZero.cpp
+         OnePole.cpp
+         NRev.cpp
+         Noise.cpp
+         Moog.cpp
+         Modulate.cpp
+         ModalBar.cpp
+         Modal.cpp
+         Mesh2D.cpp
+         Mandolin.cpp
+         JCRev.cpp
+         Iir.cpp
+         Generating Code...
+         Compiling...
+         HevyMetl.cpp
+         Granulate.cpp
+         FormSwep.cpp
+         FMVoices.cpp
+         FM.cpp
+         Flute.cpp
+         Fir.cpp
+         FileWvOut.cpp
+         FileWvIn.cpp
+         FileWrite.cpp
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(185): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(188) : see declaration of 'strncpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(186): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(187): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(212): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(188) : see declaration of 'strncpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(213): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(214): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(296): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(188) : see declaration of 'strncpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(297): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(298): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(361): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(188) : see declaration of 'strncpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(362): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(363): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(507): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(188) : see declaration of 'strncpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(508): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(509): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(522): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\filewrite.cpp(558): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(188) : see declaration of 'strncpy'
+         FileRead.cpp
+     1>c:\users\jongwook-bc\documents\visual studio 2010\projects\urmus\classes\stk-4.4.1\src\fileread.cpp(78): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+         FileLoop.cpp
+         Envelope.cpp
+         Echo.cpp
+         Drummer.cpp
+         DelayL.cpp
+         DelayA.cpp
+         Delay.cpp
+         Clarinet.cpp
+         Chorus.cpp
+         Generating Code...
+         Compiling...
+         Brass.cpp
+         Bowed.cpp
+         BlowHole.cpp
+         BlowBotl.cpp
+         BlitSquare.cpp
+         BlitSaw.cpp
+         Blit.cpp
+         BiQuad.cpp
+         BeeThree.cpp
+         BandedWG.cpp
+         Asymp.cpp
+         ADSR.cpp
+         Generating Code...
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jongwook-BC\Documents\Visual Studio 2010\Projects\urMus\urMusWin\Debug\urMus.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\urMus.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Jongwook-BC\Documents\Visual Studio 2010\Projects\urMus\urMusWin\Debug\urMus.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jongwook-BC\Documents\Visual Studio 2010\Projects\urMus\urMusWin\Debug\urMus.lib" /MACHINE:X86 Debug\urMus.exe.embed.manifest.res
+         Debug\png.obj
+         Debug\pngerror.obj
+         Debug\pngget.obj
+         Debug\pngmem.obj
+         Debug\pngpread.obj
+         Debug\pngread.obj
+         Debug\pngrio.obj
+         Debug\pngrtran.obj
+         Debug\pngrutil.obj
+         Debug\pngset.obj
+         Debug\pngtrans.obj
+         Debug\pngwio.obj
+         Debug\pngwrite.obj
+         Debug\pngwtran.obj
+         Debug\pngwutil.obj
+         Debug\lapi.obj
+         Debug\lauxlib.obj
+         Debug\lbaselib.obj
+         Debug\lcode.obj
+         Debug\ldblib.obj
+         Debug\ldebug.obj
+         Debug\ldo.obj
+         Debug\ldump.obj
+         Debug\lfs.obj
+         Debug\lfunc.obj
+         Debug\lgc.obj
+         Debug\linit.obj
+         Debug\liolib.obj
+         Debug\llex.obj
+         Debug\lmathlib.obj
+         Debug\lmem.obj
+         Debug\loadlib.obj
+         Debug\lobject.obj
+         Debug\lopcodes.obj
+         Debug\loslib.obj
+         Debug\lparser.obj
+         Debug\lstate.obj
+         Debug\lstring.obj
+         Debug\lstrlib.obj
+         Debug\ltable.obj
+         Debug\ltablib.obj
+         Debug\ltm.obj
+         Debug\lua.obj
+         Debug\luac.obj
+         Debug\lundump.obj
+         Debug\lvm.obj
+         Debug\lzio.obj
+         Debug\print.obj
+         Debug\ADSR.obj
+         Debug\Asymp.obj
+         Debug\BandedWG.obj
+         Debug\BeeThree.obj
+         Debug\BiQuad.obj
+         Debug\Blit.obj
+         Debug\BlitSaw.obj
+         Debug\BlitSquare.obj
+         Debug\BlowBotl.obj
+         Debug\BlowHole.obj
+         Debug\Bowed.obj
+         Debug\Brass.obj
+         Debug\Chorus.obj
+         Debug\Clarinet.obj
+         Debug\Delay.obj
+         Debug\DelayA.obj
+         Debug\DelayL.obj
+         Debug\Drummer.obj
+         Debug\Echo.obj
+         Debug\Envelope.obj
+         Debug\FileLoop.obj
+         Debug\FileRead.obj
+         Debug\FileWrite.obj
+         Debug\FileWvIn.obj
+         Debug\FileWvOut.obj
+         Debug\Fir.obj
+         Debug\Flute.obj
+         Debug\FM.obj
+         Debug\FMVoices.obj
+         Debug\FormSwep.obj
+         Debug\Granulate.obj
+         Debug\HevyMetl.obj
+         Debug\Iir.obj
+         Debug\JCRev.obj
+         Debug\Mandolin.obj
+         Debug\Mesh2D.obj
+         Debug\Modal.obj
+         Debug\ModalBar.obj
+         Debug\Modulate.obj
+         Debug\Moog.obj
+         Debug\Noise.obj
+         Debug\NRev.obj
+         Debug\OnePole.obj
+         Debug\OneZero.obj
+         Debug\PercFlut.obj
+         Debug\Phonemes.obj
+         Debug\PitShift.obj
+         Debug\Plucked.obj
+         Debug\PluckTwo.obj
+         Debug\PoleZero.obj
+         Debug\PRCRev.obj
+         Debug\Resonate.obj
+         Debug\Rhodey.obj
+         Debug\Sampler.obj
+         Debug\Saxofony.obj
+         Debug\Shakers.obj
+         Debug\Simple.obj
+         Debug\SineWave.obj
+         Debug\SingWave.obj
+         Debug\Sitar.obj
+         Debug\Sphere.obj
+         Debug\StifKarp.obj
+         Debug\Stk.obj
+         Debug\TapDelay.obj
+         Debug\TubeBell.obj
+         Debug\TwoPole.obj
+         Debug\TwoZero.obj
+         Debug\Voicer.obj
+         Debug\VoicForm.obj
+         Debug\Whistle.obj
+         Debug\Wurley.obj
+         Debug\WinMain.obj
+         Debug\adler32.obj
+         Debug\compress.obj
+         Debug\crc32.obj
+         Debug\deflate.obj
+         Debug\gzclose.obj
+         Debug\gzlib.obj
+         Debug\gzread.obj
+         Debug\gzwrite.obj
+         Debug\infback.obj
+         Debug\inffast.obj
+         Debug\inflate.obj
+         Debug\inftrees.obj
+         Debug\trees.obj
+         Debug\uncompr.obj
+         Debug\zutil.obj
+       Manifest:
+         c:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\urMus.exe.embed.manifest" /manifest Debug\urMus.exe.intermediate.manifest
+         All outputs are up-to-date.
+       LinkEmbedManifest:
+         All outputs are up-to-date.
+         urMus.vcxproj -> C:\Users\Jongwook-BC\Documents\Visual Studio 2010\Projects\urMus\urMusWin\Debug\urMus.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\urMus.unsuccessfulbuild".
+         Touching "Debug\urMus.lastbuildstate".
+     1>Done Building Project "C:\Users\Jongwook-BC\Documents\Visual Studio 2010\Projects\urMus\urMusWin\urMus.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:01:00.88

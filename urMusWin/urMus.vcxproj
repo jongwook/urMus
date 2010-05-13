@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Classes\libpng\png.c" />
+    <ClCompile Include="..\Classes\libpng\pngerror.c" />
+    <ClCompile Include="..\Classes\libpng\pngget.c" />
+    <ClCompile Include="..\Classes\libpng\pngmem.c" />
+    <ClCompile Include="..\Classes\libpng\pngpread.c" />
+    <ClCompile Include="..\Classes\libpng\pngread.c" />
+    <ClCompile Include="..\Classes\libpng\pngrio.c" />
+    <ClCompile Include="..\Classes\libpng\pngrtran.c" />
+    <ClCompile Include="..\Classes\libpng\pngrutil.c" />
+    <ClCompile Include="..\Classes\libpng\pngset.c" />
+    <ClCompile Include="..\Classes\libpng\pngtrans.c" />
+    <ClCompile Include="..\Classes\libpng\pngwio.c" />
+    <ClCompile Include="..\Classes\libpng\pngwrite.c" />
+    <ClCompile Include="..\Classes\libpng\pngwtran.c" />
+    <ClCompile Include="..\Classes\libpng\pngwutil.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lapi.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lauxlib.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lbaselib.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lcode.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\ldblib.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\ldebug.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\ldo.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\ldump.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lfs.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lfunc.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lgc.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\linit.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\liolib.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\llex.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lmathlib.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lmem.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\loadlib.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lobject.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lopcodes.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\loslib.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lparser.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lstate.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lstring.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lstrlib.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\ltable.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\ltablib.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\ltm.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lua.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\luac.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lundump.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lvm.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\lzio.c" />
+    <ClCompile Include="..\Classes\lua-5.1.4\src\print.c" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\ADSR.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Asymp.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\BandedWG.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\BeeThree.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\BiQuad.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Blit.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\BlitSaw.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\BlitSquare.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\BlowBotl.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\BlowHole.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Bowed.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Brass.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Chorus.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Clarinet.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Delay.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\DelayA.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\DelayL.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Drummer.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Echo.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Envelope.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\FileLoop.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\FileRead.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\FileWrite.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\FileWvIn.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\FileWvOut.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Fir.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Flute.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\FM.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\FMVoices.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\FormSwep.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Granulate.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\HevyMetl.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Iir.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\JCRev.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Mandolin.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Mesh2D.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Modal.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\ModalBar.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Modulate.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Moog.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Noise.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\NRev.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\OnePole.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\OneZero.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\PercFlut.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Phonemes.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\PitShift.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Plucked.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\PluckTwo.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\PoleZero.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\PRCRev.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Resonate.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Rhodey.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Sampler.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Saxofony.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Shakers.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Simple.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\SineWave.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\SingWave.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Sitar.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Sphere.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\StifKarp.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Stk.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\TapDelay.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\TubeBell.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\TwoPole.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\TwoZero.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Voicer.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\VoicForm.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Whistle.cpp" />
+    <ClCompile Include="..\Classes\stk-4.4.1\src\Wurley.cpp" />
+    <ClCompile Include="..\Classes\WinMain.cpp" />
+    <ClCompile Include="..\Classes\zlib\adler32.c" />
+    <ClCompile Include="..\Classes\zlib\compress.c" />
+    <ClCompile Include="..\Classes\zlib\crc32.c" />
+    <ClCompile Include="..\Classes\zlib\deflate.c" />
+    <ClCompile Include="..\Classes\zlib\gzclose.c" />
+    <ClCompile Include="..\Classes\zlib\gzlib.c" />
+    <ClCompile Include="..\Classes\zlib\gzread.c" />
+    <ClCompile Include="..\Classes\zlib\gzwrite.c" />
+    <ClCompile Include="..\Classes\zlib\infback.c" />
+    <ClCompile Include="..\Classes\zlib\inffast.c" />
+    <ClCompile Include="..\Classes\zlib\inflate.c" />
+    <ClCompile Include="..\Classes\zlib\inftrees.c" />
+    <ClCompile Include="..\Classes\zlib\trees.c" />
+    <ClCompile Include="..\Classes\zlib\uncompr.c" />
+    <ClCompile Include="..\Classes\zlib\zutil.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Classes\libpng\png.h" />
+    <ClInclude Include="..\Classes\libpng\pngconf.h" />
+    <ClInclude Include="..\Classes\libpng\pngpriv.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lapi.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lauxlib.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lcode.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\ldebug.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\ldo.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lfs.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lfunc.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lgc.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\llex.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\llimits.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lmem.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lobject.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lopcodes.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lparser.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lstate.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lstring.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\ltable.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\ltm.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lua.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\luaconf.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lualib.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lundump.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lvm.h" />
+    <ClInclude Include="..\Classes\lua-5.1.4\src\lzio.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\ADSR.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Asymp.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\BandedWG.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\BeeThree.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\BiQuad.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Blit.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\BlitSaw.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\BlitSquare.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\BlowBotl.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\BlowHole.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Bowed.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\BowTable.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Brass.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Chorus.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Clarinet.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Delay.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\DelayA.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\DelayL.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Drummer.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Echo.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Effect.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Envelope.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\FileLoop.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\FileRead.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\FileWrite.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\FileWvIn.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\FileWvOut.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Filter.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Fir.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Flute.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\FM.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\FMVoices.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\FormSwep.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Function.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Generator.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Granulate.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\HevyMetl.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Iir.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Instrmnt.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\JCRev.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\JetTable.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Mandolin.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Mesh2D.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Modal.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\ModalBar.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Modulate.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Moog.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Noise.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\NRev.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\OnePole.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\OneZero.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\PercFlut.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Phonemes.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\PitShift.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Plucked.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\PluckTwo.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\PoleZero.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\PRCRev.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\ReedTable.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Resonate.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Rhodey.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Sampler.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Saxofony.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Shakers.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Simple.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\SineWave.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\SingWave.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Sitar.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\SKINI-msg.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Sphere.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\StifKarp.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Stk.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\TapDelay.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\TubeBell.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\TwoPole.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\TwoZero.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Vector3D.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Voicer.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\VoicForm.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Whistle.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\Wurley.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\WvIn.h" />
+    <ClInclude Include="..\Classes\stk-4.4.1\include\WvOut.h" />
+    <ClInclude Include="..\Classes\zlib\crc32.h" />
+    <ClInclude Include="..\Classes\zlib\deflate.h" />
+    <ClInclude Include="..\Classes\zlib\gzguts.h" />
+    <ClInclude Include="..\Classes\zlib\inffast.h" />
+    <ClInclude Include="..\Classes\zlib\inffixed.h" />
+    <ClInclude Include="..\Classes\zlib\inflate.h" />
+    <ClInclude Include="..\Classes\zlib\inftrees.h" />
+    <ClInclude Include="..\Classes\zlib\trees.h" />
+    <ClInclude Include="..\Classes\zlib\zconf.h" />
+    <ClInclude Include="..\Classes\zlib\zlib.h" />
+    <ClInclude Include="..\Classes\zlib\zutil.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8916E24A-9F91-438D-A4A9-D4D6F2A2B28E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>urMus</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Classes/stk-4.4.1/include/;../Classes/zlib/</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Classes/stk-4.4.1/include/</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
