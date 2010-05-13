@@ -8,7 +8,7 @@
  */
 
 #include "urAPI.h"
-#import "EAGLView.h"
+#import "urGraphics.h"
 #import "MachTimer.h"
 #include "RIOAudioUnitLayer.h"
 #include "urSound.h"

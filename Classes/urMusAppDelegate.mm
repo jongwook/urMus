@@ -7,7 +7,7 @@
 //
 
 #import "urMusAppDelegate.h"
-#import "EAGLView.h"
+#import "urGraphics.h"
 #include "urAPI.h"
 #include "RIOAudioUnitLayer.h"
 #include "lfs.h"
