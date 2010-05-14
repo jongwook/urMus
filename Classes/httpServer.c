@@ -7,8 +7,16 @@
  *
  */
 #include "httpServer.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "lua.h"
 #include "lauxlib.h"
+#ifdef __cplusplus
+}
+#endif
+
 #include "mongoose.h"
 #include <pthread.h>
 #include <netinet/in.h>

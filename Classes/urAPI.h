@@ -8,9 +8,17 @@
  */
 #ifndef __URAPI_H__
 #define __URAPI_H__
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
+#ifdef __cplusplus
+}
+#endif
+
 #include "urSound.h"
 
 #import "Texture2d.h"

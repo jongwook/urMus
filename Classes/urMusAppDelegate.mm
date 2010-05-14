@@ -10,7 +10,15 @@
 #import "urGraphics.h"
 #include "urAPI.h"
 #include "RIOAudioUnitLayer.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "lfs.h"
+#ifdef __cplusplus
+}
+#endif
+
 #include "httpServer.h"
 
 // This enables video projector output. It's not official API hence not safe for app store.
