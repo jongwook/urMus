@@ -11,6 +11,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Classes\Freetype\autofit\autofit.c" />
+    <ClCompile Include="..\Classes\Freetype\base\ftbase.c" />
+    <ClCompile Include="..\Classes\Freetype\bdf\bdf.c" />
+    <ClCompile Include="..\Classes\Freetype\cache\ftcache.c" />
+    <ClCompile Include="..\Classes\Freetype\cff\cff.c" />
+    <ClCompile Include="..\Classes\Freetype\cid\type1cid.c" />
+    <ClCompile Include="..\Classes\Freetype\gxvalid\gxvalid.c" />
+    <ClCompile Include="..\Classes\Freetype\gzip\ftgzip.c" />
+    <ClCompile Include="..\Classes\Freetype\lzw\ftlzw.c" />
+    <ClCompile Include="..\Classes\Freetype\otvalid\otvalid.c" />
+    <ClCompile Include="..\Classes\Freetype\pcf\pcf.c" />
+    <ClCompile Include="..\Classes\Freetype\pfr\pfr.c" />
+    <ClCompile Include="..\Classes\Freetype\psaux\psaux.c" />
+    <ClCompile Include="..\Classes\Freetype\pshinter\pshinter.c" />
+    <ClCompile Include="..\Classes\Freetype\psnames\psnames.c" />
+    <ClCompile Include="..\Classes\Freetype\raster\raster.c" />
+    <ClCompile Include="..\Classes\Freetype\sfnt\sfnt.c" />
+    <ClCompile Include="..\Classes\Freetype\smooth\smooth.c" />
+    <ClCompile Include="..\Classes\Freetype\truetype\truetype.c" />
+    <ClCompile Include="..\Classes\Freetype\type1\type1.c" />
+    <ClCompile Include="..\Classes\Freetype\type42\type42.c" />
+    <ClCompile Include="..\Classes\Freetype\winfonts\winfnt.c" />
     <ClCompile Include="..\Classes\libpng\png.c" />
     <ClCompile Include="..\Classes\libpng\pngerror.c" />
     <ClCompile Include="..\Classes\libpng\pngget.c" />
@@ -54,7 +76,6 @@
     <ClCompile Include="..\Classes\lua-5.1.4\src\ltablib.c" />
     <ClCompile Include="..\Classes\lua-5.1.4\src\ltm.c" />
     <ClCompile Include="..\Classes\lua-5.1.4\src\lua.c" />
-    <ClCompile Include="..\Classes\lua-5.1.4\src\luac.c" />
     <ClCompile Include="..\Classes\lua-5.1.4\src\lundump.c" />
     <ClCompile Include="..\Classes\lua-5.1.4\src\lvm.c" />
     <ClCompile Include="..\Classes\lua-5.1.4\src\lzio.c" />
@@ -148,6 +169,90 @@
     <ClCompile Include="..\Classes\zlib\zutil.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Classes\Freetype\include\freetype\config\ftconfig.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\config\ftheader.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\config\ftmodule.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\config\ftoption.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\config\ftstdlib.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\freetype.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftadvanc.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftbbox.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftbdf.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftbitmap.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftcache.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftchapters.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftcid.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\fterrdef.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\fterrors.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftgasp.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftglyph.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftgxval.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftgzip.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftimage.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftincrem.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftlcdfil.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftlist.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftlzw.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftmac.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftmm.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftmodapi.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftmoderr.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftotval.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftoutln.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftpfr.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftrender.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftsizes.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftsnames.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftstroke.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftsynth.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftsystem.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\fttrigon.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\fttypes.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftwinfnt.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ftxf86.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\autohint.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\ftcalc.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\ftdebug.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\ftdriver.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\ftgloadr.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\ftmemory.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\ftobjs.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\ftpic.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\ftrfork.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\ftserv.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\ftstream.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\fttrace.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\ftvalid.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\internal.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\pcftypes.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\psaux.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\pshints.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svbdf.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svcid.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svgldict.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svgxval.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svkern.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svmm.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svotval.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svpfr.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svpostnm.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svpscmap.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svpsinfo.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svsfnt.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svttcmap.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svtteng.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svttglyf.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svwinfnt.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\services\svxf86nm.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\sfnt.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\t1types.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\internal\tttypes.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\t1tables.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ttnameid.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\tttables.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\tttags.h" />
+    <ClInclude Include="..\Classes\Freetype\include\freetype\ttunpat.h" />
+    <ClInclude Include="..\Classes\Freetype\include\ft2build.h" />
     <ClInclude Include="..\Classes\libpng\png.h" />
     <ClInclude Include="..\Classes\libpng\pngconf.h" />
     <ClInclude Include="..\Classes\libpng\pngpriv.h" />
@@ -310,7 +415,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Classes/stk-4.4.1/include/;../Classes/zlib/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Classes/stk-4.4.1/include/;../Classes/zlib/;../Classes/freetype/include/</AdditionalIncludeDirectories>
+      <AdditionalOptions>/MP2 %(AdditionalOptions)</AdditionalOptions>
+      <MinimalRebuild>
+      </MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -326,7 +434,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Classes/stk-4.4.1/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Classes/stk-4.4.1/include/;../Classes/zlib/;../Classes/freetype/include/</AdditionalIncludeDirectories>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <AdditionalOptions>/MP2 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
