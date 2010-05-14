@@ -9,7 +9,16 @@ build/*
 *~.nib
 *.swp
 *.o
-
+*.pch
+*.suo
+*.mobileprovision
+*.obj
+*.tlog
+*.log
+*.ilk
+*.lastbuildstate
+*.pdb
+*.idb
 
 # old skool
 .svn
