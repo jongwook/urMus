@@ -1042,12 +1042,14 @@ extern lua_State *lua;
 	
 #endif
 	
+	// urFont example
+#if 0
 	NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
 	NSString *filePath = [resourcePath stringByAppendingPathComponent:@"arial.ttf"];
 	const char* filestr = [filePath UTF8String];
     font.loadFont(filestr, 20);
 	font.drawString("Hello World",100,100);
-	
+#endif
 	
 	
     glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);

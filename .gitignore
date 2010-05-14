@@ -10,7 +10,6 @@ urMus.xcodeproj/*.mode2v3
 *~.nib
 *.swp
 *.o
-*.pch
 *.suo
 *.mobileprovision
 *.obj
@@ -20,7 +19,6 @@ urMus.xcodeproj/*.mode2v3
 *.lastbuildstate
 *.pdb
 *.idb
-*.ipch
 *.opensdf
 
 # old skool
