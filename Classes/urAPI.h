@@ -87,7 +87,7 @@ typedef struct urAPI_TextLabel
 	bool updatestring;
 	
 	// Private
-	Texture2D		*textlabelTex;
+	urTexture		*textlabelTex;
 } urAPI_TextLabel_t;
 
 typedef struct urAPI_Region urAPI_Region_t;
@@ -108,7 +108,7 @@ typedef struct urAPI_Texture
 		float texturesolidcolor[4]; // for solid
 		float texturebrushcolor[4]; // for brushes
 		// Private
-		Texture2D	*backgroundTex;
+		urTexture	*backgroundTex;
 		urAPI_Region_t *region;
 	} urAPI_Texture_t;
 

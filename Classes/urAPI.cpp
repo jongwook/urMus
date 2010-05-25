@@ -2342,7 +2342,7 @@ int texture_SetFill(lua_State* lua)
 	return 0;
 }
 
-void clearTexture(Texture2D* t, float r, float g, float b);
+void clearTexture(urTexture* t, float r, float g, float b);
 
 int texture_Clear(lua_State* lua)
 {
@@ -2425,7 +2425,7 @@ int texture_BrushSize(lua_State* lua)
 	return 1;
 }
 
-void SetBrushTexture(Texture2D* t);
+void SetBrushTexture(urTexture* t);
 
 int region_UseAsBrush(lua_State* lua)
 {

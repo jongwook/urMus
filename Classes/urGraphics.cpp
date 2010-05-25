@@ -175,7 +175,7 @@ float arg2coordx[MAX_FINGERS];
 float arg2coordy[MAX_FINGERS];
 
 // This is the texture to hold DPrint and lua error messages.
-Texture2D       *errorStrTex = nil;
+urTexture       *errorStrTex = nil;
 
 - (void)awakeFromNib
 {
@@ -331,14 +331,14 @@ bool newerror = true;
 #define kLuminosity			0.75
 #define kSaturation			1.0
 
-static Texture2D* brushtexture = NULL;
+static urTexture* brushtexture = NULL;
 static float brushsize = 1;
 
 // 2D Painting functionality
 
 // Brush handling
 
-void SetBrushTexture(Texture2D * texture)
+void SetBrushTexture(urTexture * texture)
 {
 	brushtexture = texture;
 	brushsize = texture.pixelsWide;
@@ -398,7 +398,7 @@ void CreateFrameBuffer()
 
 void drawPointToTexture(urAPI_Texture_t *texture, float x, float y)
 {
-	Texture2D *bgtexture = texture->backgroundTex;
+	urTexture *bgtexture = texture->backgroundTex;
 	y = SCREEN_HEIGHT - y;
 
 	// allocate frame buffer
@@ -408,7 +408,7 @@ void drawPointToTexture(urAPI_Texture_t *texture, float x, float y)
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
 	// attach renderbuffer
-	glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
+	glFramebufferurTextureOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
 	
 	SetupBrush();
 	
@@ -450,7 +450,7 @@ int prepareBrushedLine(float startx, float starty, float endx, float endy, int v
 // Render a quadrangle to a texture
 void drawQuadToTexture(urAPI_Texture_t *texture, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
 {
-	Texture2D *bgtexture = texture->backgroundTex;
+	urTexture *bgtexture = texture->backgroundTex;
 	y1 = SCREEN_HEIGHT - y1;
 	y2 = SCREEN_HEIGHT - y2;
 	y3 = SCREEN_HEIGHT - y3;
@@ -463,7 +463,7 @@ void drawQuadToTexture(urAPI_Texture_t *texture, float x1, float y1, float x2, f
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
 	// attach renderbuffer
-	glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
+	glFramebufferurTextureOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
 	
 	SetupBrush();
 	
@@ -525,7 +525,7 @@ void drawQuadToTexture(urAPI_Texture_t *texture, float x1, float y1, float x2, f
 // Render an ellipse to a texture
 void drawEllipseToTexture(urAPI_Texture_t *texture, float x, float y, float w, float h)
 {
-	Texture2D *bgtexture = texture->backgroundTex;
+	urTexture *bgtexture = texture->backgroundTex;
 	y = SCREEN_HEIGHT - y;
 	
 	// allocate frame buffer
@@ -535,7 +535,7 @@ void drawEllipseToTexture(urAPI_Texture_t *texture, float x, float y, float w, f
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
 	// attach renderbuffer
-	glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
+	glFramebufferurTextureOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
 	
 //	glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
 //	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
@@ -595,7 +595,7 @@ void drawEllipseToTexture(urAPI_Texture_t *texture, float x, float y, float w, f
 
 void drawLineToTexture(urAPI_Texture_t *texture, float startx, float starty, float endx, float endy)
 {
-	Texture2D *bgtexture = texture->backgroundTex;
+	urTexture *bgtexture = texture->backgroundTex;
 	
 	starty = texture->backgroundTex->_height - starty;
 	endy = texture->backgroundTex->_height - endy;
@@ -606,7 +606,7 @@ void drawLineToTexture(urAPI_Texture_t *texture, float startx, float starty, flo
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
 	// attach renderbuffer
-	glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
+	glFramebufferurTextureOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
 	
 	SetupBrush();
 
@@ -667,14 +667,14 @@ void drawLineToTexture(urAPI_Texture_t *texture, float startx, float starty, flo
 
 // Clear a texture with a given RGB color
 
-void clearTexture(Texture2D* texture, float r, float g, float b)
+void clearTexture(urTexture* texture, float r, float g, float b)
 {
 	if(textureFrameBuffer == -1)
 		CreateFrameBuffer();
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
 	// attach renderbuffer
-	glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, texture.name, 0);
+	glFramebufferurTextureOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, texture.name, 0);
 	
 //	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
@@ -697,7 +697,7 @@ void instantiateTexture(urAPI_Region_t* t)
 		CGSize rectsize;
 		rectsize.width = t->width;
 		rectsize.height = t->height;
-		t->texture->backgroundTex = [[Texture2D alloc] initWithImage:textureimage rectsize:rectsize];
+		t->texture->backgroundTex = [[urTexture alloc] initWithImage:textureimage rectsize:rectsize];
 	}
 	[texturepathstr release];	
 }
@@ -907,7 +907,7 @@ extern lua_State *lua;
 					glEnable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
 				}
-				// switch it back to GL_ONE for other types of images, rather than text because Texture2D uses CG to load, which premultiplies alpha
+				// switch it back to GL_ONE for other types of images, rather than text because urTexture uses CG to load, which premultiplies alpha
 				glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 			}
 			else
@@ -943,7 +943,7 @@ extern lua_State *lua;
 					t->textlabel->updatestring = false;
 					if(t->textlabel->drawshadow==false)
 					{
-						t->textlabel->textlabelTex = [[Texture2D alloc] initWithString:textlabelstr
+						t->textlabel->textlabelTex = [[urTexture alloc] initWithString:textlabelstr
 																			  dimensions:CGSizeMake(t->width, t->height) alignment:align
 																			  fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)];
 					}
@@ -954,7 +954,7 @@ extern lua_State *lua;
 						shadowColors[1] = t->textlabel->shadowcolor[1];
 						shadowColors[2] = t->textlabel->shadowcolor[2];
 						shadowColors[3] = t->textlabel->shadowcolor[3];
-						t->textlabel->textlabelTex = [[Texture2D alloc] initWithString:textlabelstr
+						t->textlabel->textlabelTex = [[urTexture alloc] initWithString:textlabelstr
 																			  dimensions:CGSizeMake(t->width, t->height) alignment:align
 																				fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)
 																			shadowOffset:CGSizeMake(t->textlabel->shadowoffset[0],t->textlabel->shadowoffset[1]) shadowBlur:t->textlabel->shadowblur shadowColor:t->textlabel->shadowcolor];
@@ -966,7 +966,7 @@ extern lua_State *lua;
 				// text will need blending
 				glEnable(GL_BLEND);
 				
-				// text from Texture2D uses A8 tex format, so needs GL_SRC_ALPHA
+				// text from urTexture uses A8 tex format, so needs GL_SRC_ALPHA
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				for(int i=0;i<4;i++) // default regions are white
 				{
@@ -996,7 +996,7 @@ extern lua_State *lua;
 				[t->textlabel->textlabelTex drawAtPoint:CGPointMake(t->left,
 																	  bottom) tile:true];
 				
-				// switch it back to GL_ONE for other types of images, rather than text because Texture2D uses CG to load, which premultiplies alpha
+				// switch it back to GL_ONE for other types of images, rather than text because urTexture uses CG to load, which premultiplies alpha
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			}
 		}
@@ -1012,7 +1012,7 @@ extern lua_State *lua;
 	if (errorStrTex == nil)
 	{
 		newerror = false;
-		errorStrTex = [[Texture2D alloc] initWithString:errorstr
+		errorStrTex = [[urTexture alloc] initWithString:errorstr
 										 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
 										   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap ];
 	}
@@ -1020,7 +1020,7 @@ extern lua_State *lua;
 	{
 		[errorStrTex dealloc];
 		newerror = false;
-		errorStrTex = [[Texture2D alloc] initWithString:errorstr
+		errorStrTex = [[urTexture alloc] initWithString:errorstr
 										 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
 										   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap];
 	}
@@ -1028,7 +1028,7 @@ extern lua_State *lua;
 	// text will need blending
 	glEnable(GL_BLEND);
 	
-	// text from Texture2D uses A8 tex format, so needs GL_SRC_ALPHA
+	// text from urTexture uses A8 tex format, so needs GL_SRC_ALPHA
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	for(int i=0;i<16;i++) // default regions are white
 		squareColors[i] = 200;
@@ -1037,7 +1037,7 @@ extern lua_State *lua;
 	[errorStrTex drawAtPoint:CGPointMake(0.0,
 									 bounds.size.height * 0.5f) tile:true];
 	
-	// switch it back to GL_ONE for other types of images, rather than text because Texture2D uses CG to load, which premultiplies alpha
+	// switch it back to GL_ONE for other types of images, rather than text because urTexture uses CG to load, which premultiplies alpha
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	
 #endif
