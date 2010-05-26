@@ -498,6 +498,7 @@
 		77FB9272111BA8C30078AAC5 /* SandwichEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SandwichEventManager.m; path = Classes/Sandwich/SandwichEventManager.m; sourceTree = "<group>"; };
 		77FB9273111BA8C30078AAC5 /* SandwichEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SandwichEventManager.h; path = Classes/Sandwich/SandwichEventManager.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA3E2A1311AD9F4E00AF946C /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		EAA94A99119C718400DF76DF /* arial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = arial.ttf; sourceTree = "<group>"; };
 		EAA94AED119C77D800DF76DF /* urAPI.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = urAPI.cpp; sourceTree = "<group>"; };
 		EAA94AF8119C78E000DF76DF /* MachTimer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MachTimer.cpp; sourceTree = "<group>"; };
@@ -572,11 +573,11 @@
 		EAD08F6711987DBC004F1B0C /* pngwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwrite.c; path = Classes/libpng/pngwrite.c; sourceTree = "<group>"; };
 		EAD08F6811987DBC004F1B0C /* pngwtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwtran.c; path = Classes/libpng/pngwtran.c; sourceTree = "<group>"; };
 		EAD08F6911987DBC004F1B0C /* pngwutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwutil.c; path = Classes/libpng/pngwutil.c; sourceTree = "<group>"; };
-		EAD08FB111988046004F1B0C /* urFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = urFont.cpp; sourceTree = "<group>"; };
+		EAD08FB111988046004F1B0C /* urFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = urFont.cpp; sourceTree = "<group>"; };
 		EAD08FB211988046004F1B0C /* urFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = urFont.h; sourceTree = "<group>"; };
-		EAD08FB311988046004F1B0C /* urImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = urImage.cpp; sourceTree = "<group>"; };
+		EAD08FB311988046004F1B0C /* urImage.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = urImage.cpp; sourceTree = "<group>"; };
 		EAD08FB411988046004F1B0C /* urImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = urImage.h; sourceTree = "<group>"; };
-		EAD08FB511988046004F1B0C /* urTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = urTexture.cpp; sourceTree = "<group>"; };
+		EAD08FB511988046004F1B0C /* urTexture.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = urTexture.cpp; sourceTree = "<group>"; };
 		EAD08FB611988046004F1B0C /* urTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = urTexture.h; sourceTree = "<group>"; };
 		EAEACB72119CD13200EED0BF /* ADSR.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ADSR.cpp; path = src/ADSR.cpp; sourceTree = "<group>"; };
 		EAEACB73119CD13200EED0BF /* Asymp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Asymp.cpp; path = src/Asymp.cpp; sourceTree = "<group>"; };
@@ -734,6 +735,7 @@
 				EAA94AFA119C78E000DF76DF /* urSoundAtoms.cpp */,
 				23C561281192A56900758BB9 /* httpServer.h */,
 				23C561291192A56900758BB9 /* httpServer.c */,
+				EA3E2A1311AD9F4E00AF946C /* config.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";

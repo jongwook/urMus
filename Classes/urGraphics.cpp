@@ -11,7 +11,7 @@
 
 #import "urGraphics.h"
 #import "urAPI.h"
-#import "Texture2d.h"
+//#import "Texture2d.h"
 #import "MachTimer.h"
 #import "urSound.h"
 #import "httpServer.h"
@@ -341,7 +341,7 @@ static float brushsize = 1;
 void SetBrushTexture(urTexture * texture)
 {
 	brushtexture = texture;
-	brushsize = texture.pixelsWide;
+	brushsize = texture->getWidth();
 }
 
 void SetBrushSize(float size)
@@ -364,7 +364,7 @@ void SetupBrush()
 {
 	if(brushtexture != NULL)
 	{
-		glBindTexture(GL_TEXTURE_2D, brushtexture.name);
+		glBindTexture(GL_TEXTURE_2D, brushtexture->getName());
 		glDisable(GL_DITHER);
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
@@ -408,7 +408,7 @@ void drawPointToTexture(urAPI_Texture_t *texture, float x, float y)
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
 	// attach renderbuffer
-	glFramebufferurTextureOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
+	glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture->getName(), 0);
 	
 	SetupBrush();
 	
@@ -463,7 +463,7 @@ void drawQuadToTexture(urAPI_Texture_t *texture, float x1, float y1, float x2, f
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
 	// attach renderbuffer
-	glFramebufferurTextureOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
+	glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture->getName(), 0);
 	
 	SetupBrush();
 	
@@ -535,7 +535,7 @@ void drawEllipseToTexture(urAPI_Texture_t *texture, float x, float y, float w, f
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
 	// attach renderbuffer
-	glFramebufferurTextureOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
+	glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture->getName(), 0);
 	
 //	glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
 //	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
@@ -597,8 +597,8 @@ void drawLineToTexture(urAPI_Texture_t *texture, float startx, float starty, flo
 {
 	urTexture *bgtexture = texture->backgroundTex;
 	
-	starty = texture->backgroundTex->_height - starty;
-	endy = texture->backgroundTex->_height - endy;
+	starty = texture->backgroundTex->getHeight() - starty;
+	endy = texture->backgroundTex->getHeight() - endy;
 	// allocate frame buffer
 	if(textureFrameBuffer == -1)
 		CreateFrameBuffer();
@@ -606,7 +606,7 @@ void drawLineToTexture(urAPI_Texture_t *texture, float startx, float starty, flo
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
 	// attach renderbuffer
-	glFramebufferurTextureOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
+	glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture->getName(), 0);
 	
 	SetupBrush();
 
@@ -674,7 +674,7 @@ void clearTexture(urTexture* texture, float r, float g, float b)
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
 	// attach renderbuffer
-	glFramebufferurTextureOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, texture.name, 0);
+	glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, texture->getName(), 0);
 	
 //	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
@@ -697,7 +697,7 @@ void instantiateTexture(urAPI_Region_t* t)
 		CGSize rectsize;
 		rectsize.width = t->width;
 		rectsize.height = t->height;
-		t->texture->backgroundTex = [[urTexture alloc] initWithImage:textureimage rectsize:rectsize];
+		t->texture->backgroundTex = nil;//TODO//[[urTexture alloc] initWithImage:textureimage rectsize:rectsize];
 	}
 	[texturepathstr release];	
 }
@@ -892,7 +892,7 @@ extern lua_State *lua;
 					
 					
 					glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-					[t->texture->backgroundTex drawInRect:CGRectMake(t->left,t->bottom,t->width,t->height)];
+					//TODO//[t->texture->backgroundTex drawInRect:CGRectMake(t->left,t->bottom,t->width,t->height)];
 					
 					glEnable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
@@ -924,7 +924,7 @@ extern lua_State *lua;
 				if(t->textlabel->updatestring)
 				{
 					if(t->textlabel->textlabelTex)
-						[t->textlabel->textlabelTex dealloc];
+						;//TODO//[t->textlabel->textlabelTex dealloc];
 					UITextAlignment align = UITextAlignmentCenter;
 					switch(t->textlabel->justifyh)
 					{
@@ -943,9 +943,9 @@ extern lua_State *lua;
 					t->textlabel->updatestring = false;
 					if(t->textlabel->drawshadow==false)
 					{
-						t->textlabel->textlabelTex = [[urTexture alloc] initWithString:textlabelstr
-																			  dimensions:CGSizeMake(t->width, t->height) alignment:align
-																			  fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)];
+						t->textlabel->textlabelTex = nil;//TODO//[[urTexture alloc] initWithString:textlabelstr
+															//				  dimensions:CGSizeMake(t->width, t->height) alignment:align
+															//				  fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)];
 					}
 					else
 					{
@@ -954,10 +954,10 @@ extern lua_State *lua;
 						shadowColors[1] = t->textlabel->shadowcolor[1];
 						shadowColors[2] = t->textlabel->shadowcolor[2];
 						shadowColors[3] = t->textlabel->shadowcolor[3];
-						t->textlabel->textlabelTex = [[urTexture alloc] initWithString:textlabelstr
-																			  dimensions:CGSizeMake(t->width, t->height) alignment:align
-																				fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)
-																			shadowOffset:CGSizeMake(t->textlabel->shadowoffset[0],t->textlabel->shadowoffset[1]) shadowBlur:t->textlabel->shadowblur shadowColor:t->textlabel->shadowcolor];
+						t->textlabel->textlabelTex = nil; //TODO//[[urTexture alloc] initWithString:textlabelstr
+															//				  dimensions:CGSizeMake(t->width, t->height) alignment:align
+															//					fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)
+															//				shadowOffset:CGSizeMake(t->textlabel->shadowoffset[0],t->textlabel->shadowoffset[1]) shadowBlur:t->textlabel->shadowblur shadowColor:t->textlabel->shadowcolor];
 					}
 					[fontname release];
 					[textlabelstr release];
@@ -979,7 +979,7 @@ extern lua_State *lua;
 				glEnableClientState(GL_COLOR_ARRAY);
 				
 				int bottom = t->bottom;
-				int fontheight = [t->textlabel->textlabelTex fontblockHeight];
+				int fontheight = nil;//TODO//[t->textlabel->textlabelTex fontblockHeight];
 				switch(t->textlabel->justifyv)
 				{
 					case JUSTIFYV_MIDDLE:
@@ -993,8 +993,7 @@ extern lua_State *lua;
 						break;
 				}
 				
-				[t->textlabel->textlabelTex drawAtPoint:CGPointMake(t->left,
-																	  bottom) tile:true];
+				//TODO//[t->textlabel->textlabelTex drawAtPoint:CGPointMake(t->left,bottom) tile:true];
 				
 				// switch it back to GL_ONE for other types of images, rather than text because urTexture uses CG to load, which premultiplies alpha
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -1012,17 +1011,17 @@ extern lua_State *lua;
 	if (errorStrTex == nil)
 	{
 		newerror = false;
-		errorStrTex = [[urTexture alloc] initWithString:errorstr
-										 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
-										   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap ];
+		errorStrTex = nil;//TODO//[[urTexture alloc] initWithString:errorstr
+							//			 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
+							//			   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap ];
 	}
 	else if(newerror)
 	{
 		[errorStrTex dealloc];
 		newerror = false;
-		errorStrTex = [[urTexture alloc] initWithString:errorstr
-										 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
-										   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap];
+		errorStrTex = nil;//TODO//[[urTexture alloc] initWithString:errorstr
+							//			 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
+							//			   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap];
 	}
 	
 	// text will need blending

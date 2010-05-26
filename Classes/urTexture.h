@@ -1,14 +1,12 @@
 #ifndef __URTEXTURE_H__
 #define __URTEXTURE_H__
 
-#ifdef TARGET_WINDOWS
-	#include <windows.h>
-	#include <gl/gl.h>
-#endif
-
+#include "config.h"
 #include "urImage.h"
 #include "urFont.h"
 
+
+#ifndef __APPLE_CC__
 
 typedef enum {
 	kTexture2DPixelFormat_Automatic = 0,
@@ -47,7 +45,9 @@ typedef enum {
    LineBreakModeTailTruncation,
    LineBreakModeMiddleTruncation,
 } LineBreakMode;
-
+#else
+	#include <UIKit/UIKit.h>
+#endif
 
 
 

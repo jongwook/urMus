@@ -21,7 +21,7 @@ extern "C" {
 
 #include "urSound.h"
 
-#import "Texture2d.h"
+#import "urTexture.h"
 
 #undef SANDWICH_SUPPORT
 
