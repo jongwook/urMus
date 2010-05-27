@@ -143,7 +143,7 @@ public:
 	urFont();
 	virtual ~urFont();
 		
-	// 			-- default, non-full char set, anti aliased:
+	void		clone(urFont *copy);
 	void 		loadFont(string filename, int fontsize);
 	void 		loadFont(string filename, int fontsize, bool _bAntiAliased, bool _bFullCharacterSet, bool makeContours = false);
 
@@ -159,9 +159,12 @@ public:
 	
 	ofTTFCharacter getCharacterAsPoints(int character);
 
+	int				refCount;
+	string			key;
 protected:
 	vector <ofTTFCharacter> charOutlines;
-
+	
+	
 	float 			lineHeight;
 	charProps 		* 	cps;			// properties for each character
 	GLuint			*	texNames;		// textures for each character

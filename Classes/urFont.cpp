@@ -343,11 +343,11 @@ static ofTTFCharacter makeContoursForCharacter(FT_Face &face){
 	return charOutlines;
 }
 
-
 //------------------------------------------------------------------
 urFont::urFont(){
 	bLoadedOk		= false;
 	bMakeContours	= false;
+	refCount		= 0;
 }
 
 //------------------------------------------------------------------
@@ -373,7 +373,9 @@ void urFont::loadFont(string filename, int fontsize){
 
 //------------------------------------------------------------------
 void urFont::loadFont(string filename, int fontsize, bool _bAntiAliased, bool _bFullCharacterSet, bool makeContours){
-
+	
+	
+	
 	bMakeContours = makeContours;
 
 	//------------------------------------------------
@@ -668,6 +670,7 @@ void urFont::drawChar(int c, float x, float y) {
 
 //=====================================================================
 void urFont::drawString(string c, float x, float y) {
+	
 	if (!bLoadedOk){
 		//    	ofLog(OF_LOG_ERROR,"Error : font not allocated -- line %d in %s", __LINE__,__FILE__);
 		return;
@@ -706,7 +709,7 @@ void urFont::drawString(string c, float x, float y) {
 			if (c[index] == '\n') {
 
 				Y = (float) lineHeight;
-				glTranslatef(-X, Y, 0);
+				glTranslatef(-X, -Y, 0);
 				X = 0 ; //reset X Pos back to zero
 
 			}else if (c[index] == ' ') {

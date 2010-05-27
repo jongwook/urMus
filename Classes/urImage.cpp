@@ -1,6 +1,6 @@
 #include "urImage.h"
 
-urImage::urImage(char* file_name)
+urImage::urImage(const char* file_name)
 {
 	unsigned int sig_read=0;
 	buffer=NULL;
@@ -44,7 +44,7 @@ urImage::urImage(char* file_name)
 		return;
 	}
 	
-	int channels=png_ptr->channels;
+	channels=png_ptr->channels;
 
 	buffer = new png_byte[width * height * channels];
 	for (unsigned int i = 0; i < height; i++) {
@@ -61,4 +61,21 @@ urImage::~urImage(void)
 	if(buffer) 
 		delete [] buffer;
 
+}
+
+
+void urImage::resize(png_uint_32 newwidth, png_uint_32 newheight) {
+	if(!buffer) return;
+	if(newwidth<width || newheight<height) return;
+	
+	png_byte *newbuf = new png_byte[newwidth*newheight*channels];
+	memset(newbuf, 0, newwidth*newheight*channels);
+	for(int i=0;i<height;i++) 
+		memcpy(newbuf + channels * i * newwidth, buffer + channels * i * width , width*channels);
+	
+	width=newwidth;
+	height=newheight;
+	
+	delete [] buffer;
+	buffer=newbuf;
 }

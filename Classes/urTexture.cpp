@@ -1,5 +1,22 @@
 #include "urTexture.h"
 
+
+// static font storage
+#include <map>
+std::map<string,urFont *> fonts;
+
+inline int pow2roundup (int x)
+{
+    if (x < 0) return 0;
+    --x;
+    x |= x >> 1;
+    x |= x >> 2;
+    x |= x >> 4;
+    x |= x >> 8;
+    x |= x >> 16;
+    return x+1;
+}
+
 urTexture::urTexture(const void *data, GLenum format, unsigned int width, unsigned int height)
 {
 	GLint saveName;
@@ -14,6 +31,8 @@ urTexture::urTexture(const void *data, GLenum format, unsigned int width, unsign
 	this->width=width;
 	this->height=height;
 	this->format=format;
+	
+	this->font=NULL;
 }
 
 urTexture::urTexture(urImage *image) 
@@ -33,6 +52,14 @@ urTexture::urTexture(urImage *image)
 
 	width=image->getWidth();
 	height=image->getHeight();
+	int newwidth=pow2roundup(width);
+	int newheight=pow2roundup(height);
+	//newheight=newwidth=MAX(newwidth,newheight);
+	_maxS=(GLfloat)width/newwidth;
+	_maxT=(GLfloat)height/newheight;
+	
+	width=newwidth;
+	height=newheight;
 
 	glGenTextures(1, &name);
 	glGetIntegerv(GL_TEXTURE_BINDING_2D, &saveName);
@@ -44,11 +71,40 @@ urTexture::urTexture(urImage *image)
 	this->width=width;
 	this->height=height;
 	this->format=format;
+	
+	this->font=NULL;
 }
 
-urTexture::urTexture(const char *str, const char *fontname, unsigned int size) {
+urTexture::urTexture(const char *str, const char *fontname, unsigned int size, unsigned int width, unsigned int height) {
 	name=0;
-	font.loadFont("arial.ttf",size,true,true,true);
+	
+	char fontsizestr[16];
+	sprintf(fontsizestr, " %d", size);
+	string key=fontname;
+	key += fontsizestr;
+	if(fonts.find(key)==fonts.end()) {
+		fonts[key]=font=new urFont();
+		font->loadFont(fontname,size,true,true,true);
+		font->key=key;
+		font->refCount++;
+	} else {
+		font=fonts[key];
+		font->refCount++;
+	}
+	
+	this->width=width;
+	this->height=height;
+	this->str=str;
+}
+
+urTexture::urTexture(const char *str, urFont *font, unsigned int width, unsigned int height) {
+	name=0;
+	ownfont=false;
+	this->font=font;
+	font->refCount++;
+	
+	this->width=width;
+	this->height=height;
 	this->str=str;
 }
 
@@ -56,41 +112,57 @@ urTexture::~urTexture(void)
 {
 	if(name)
 		glDeleteTextures(1, &name);
+	
+	if(font) {
+		font->refCount--;
+		if(font->refCount==0) {
+			fonts.erase(font->key);
+			delete font;
+		}
+	}
 }
 
 
 void urTexture::drawInRect(CGRect rect) {
 	if(name) {	// it's an image
+		GLfloat  coordinates[] = { 0,_maxT, _maxS,_maxT, 0,0, _maxS,0};
 		GLfloat vertices[] = {  rect.origin.x, rect.origin.y, 0.0,
 			rect.origin.x + rect.size.width, rect.origin.y, 0.0,
 			rect.origin.x, rect.origin.y + rect.size.height, 0.0,
 		rect.origin.x + rect.size.width, rect.origin.y + rect.size.height, 0.0 };
 	
-		glBindTexture(GL_TEXTURE_2D, name);
-		glVertexPointer(3, GL_FLOAT, 0, vertices);
-	//	glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	}
-	if(font.bLoadedOk) {	// it's a text
-		font.drawString(str,rect.origin.x,rect.origin.y);
-	}
-}
-
-void urTexture::drawAtPoint(CGPoint point, bool tile) {
-	if(name) {	// it's an image
-		GLfloat         coordinates[] = {0.0f,1.0f,1.0f,1.0f,0.0f,0.0f,1.0f,0.0f};
-		GLfloat         vertices[] = {  point.x,                        point.y,        0.0,
-			width + point.x,        point.y,        0.0,
-			point.x,                        height  + point.y,      0.0,
-		width + point.x,        height  + point.y,      0.0 };
-
+		GLint saveName;
+		glGetIntegerv(GL_TEXTURE_BINDING_2D, &saveName);
 		glBindTexture(GL_TEXTURE_2D, name);
 		glVertexPointer(3, GL_FLOAT, 0, vertices);
 		glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glBindTexture(GL_TEXTURE_2D, saveName);
 	}
-	if(font.bLoadedOk) {	// it's a text
-		font.drawString(str,point.x,point.y);
+	if(font && font->bLoadedOk) {	// it's a text
+		font->drawString(str,rect.origin.x,rect.origin.y);
+	}
+}
+
+void urTexture::drawAtPoint(CGPoint point, bool tile) {
+	
+	if(name) {	// it's an image
+		GLfloat  coordinates[] = { 0,_maxT, _maxS,_maxT, 0,0, _maxS,0};
+		GLfloat         vertices[] = {  point.x,                        point.y,        0.0,
+			width + point.x,        point.y,        0.0,
+			point.x,                        height  + point.y,      0.0,
+		width + point.x,        height  + point.y,      0.0 };
+		
+		GLint saveName;
+		glGetIntegerv(GL_TEXTURE_BINDING_2D, &saveName);
+		glBindTexture(GL_TEXTURE_2D, name);
+		glVertexPointer(3, GL_FLOAT, 0, vertices);
+		glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glBindTexture(GL_TEXTURE_2D, saveName);
+	}
+	if(font && font->bLoadedOk) {	// it's a text
+		font->drawString(str,point.x,point.y+height*0.5);
 	}
 }
 

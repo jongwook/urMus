@@ -10,7 +10,7 @@ protected:
 	png_infop info_ptr;
 	png_uint_32 width;
 	png_uint_32 height;
-	int bit_depth, color_type, interlace_type;
+	int bit_depth, color_type, interlace_type, channels;
 	png_bytep buffer;
 public:
 	png_uint_32 getWidth() { return width; }
@@ -19,7 +19,8 @@ public:
 	int getColorType() { return color_type; }
 	int getInterlaceType() { return interlace_type; }
 	const void* getBuffer() { return buffer; }
-	urImage(char* file_name);
+	void resize(png_uint_32 width, png_uint_32 height);
+	urImage(const char* file_name);
 	~urImage(void);
 };
 

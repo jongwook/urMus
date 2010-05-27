@@ -1968,7 +1968,7 @@ int texture_SetTexture(lua_State* lua)
 			free(t->texturepath);
 		t->texturepath = (char*)malloc(strlen(texturename)+1);
 		strcpy(t->texturepath, texturename);
-		if(t->backgroundTex != NULL) [t->backgroundTex release]; // Antileak
+		if(t->backgroundTex != NULL) delete t->backgroundTex; // Antileak
 		t->backgroundTex = nil;
     instantiateTexture(t->region);
 	}
@@ -2370,7 +2370,7 @@ void ClearBrushTexture();
 int texture_ClearBrush(lua_State* lua)
 {
 	urAPI_Texture_t* t = checktexture(lua, 1);
-	[t->backgroundTex release];
+	delete t->backgroundTex;
 	t->backgroundTex = nil;
 	ClearBrushTexture();
 }

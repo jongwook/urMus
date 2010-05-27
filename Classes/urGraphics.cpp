@@ -689,15 +689,16 @@ void clearTexture(urTexture* texture, float r, float g, float b)
 void instantiateTexture(urAPI_Region_t* t)
 {
 	texturepathstr = [[NSString alloc] initWithUTF8String:t->texture->texturepath];
-//	NSString *filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:texturepathstr]; // Leak here, fix.
-	UIImage* textureimage = [UIImage imageNamed:texturepathstr];
+	NSString *filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:texturepathstr]; // Leak here, fix.
+//	UIImage* textureimage = [UIImage imageNamed:texturepathstr];
 //	UIImage* textureimage = [UIImage imageWithContentsOfFile:filePath];
-	if(textureimage)
+	urImage *image=new urImage([filePath UTF8String]);
+	if(image)
 	{
 		CGSize rectsize;
 		rectsize.width = t->width;
 		rectsize.height = t->height;
-		t->texture->backgroundTex = nil;//TODO//[[urTexture alloc] initWithImage:textureimage rectsize:rectsize];
+		t->texture->backgroundTex = new urTexture(image);//TODO//[[urTexture alloc] initWithImage:textureimage rectsize:rectsize];
 	}
 	[texturepathstr release];	
 }
@@ -718,10 +719,10 @@ UILineBreakMode tolinebreakmode(int wrap)
 	return UILineBreakModeWordWrap;
 }
 
-#include "urFont.h"
-urFont font;
 // Main drawing loop. This does everything but brew coffee.
 extern lua_State *lua;
+static urFont errorfont;
+static char fontPath[256]={0,};
 
 - (void)drawView {
   
@@ -769,6 +770,18 @@ extern lua_State *lua;
     
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Background color
     glClear(GL_COLOR_BUFFER_BIT);
+	
+	// get default font 
+	if(fontPath[0]=='\0') {
+		NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+		strncpy(fontPath,[[resourcePath stringByAppendingPathComponent:@"arial.ttf"] UTF8String],sizeof(fontPath)-1);
+	}
+	
+	// instantiate DPrint font
+	if (!errorfont.bLoadedOk) {
+		errorfont.loadFont(fontPath,14);
+	}
+	
 	
 	// Render all (visible and unclipped) regions on a given page.
 	
@@ -893,7 +906,7 @@ extern lua_State *lua;
 					
 					glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
 					//TODO//[t->texture->backgroundTex drawInRect:CGRectMake(t->left,t->bottom,t->width,t->height)];
-					
+					t->texture->backgroundTex->drawInRect(CGRectMake(t->left,t->bottom,t->width,t->height));
 					glEnable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
 				}
@@ -924,7 +937,7 @@ extern lua_State *lua;
 				if(t->textlabel->updatestring)
 				{
 					if(t->textlabel->textlabelTex)
-						;//TODO//[t->textlabel->textlabelTex dealloc];
+						delete t->textlabel->textlabelTex;//[t->textlabel->textlabelTex dealloc];
 					UITextAlignment align = UITextAlignmentCenter;
 					switch(t->textlabel->justifyh)
 					{
@@ -943,7 +956,8 @@ extern lua_State *lua;
 					t->textlabel->updatestring = false;
 					if(t->textlabel->drawshadow==false)
 					{
-						t->textlabel->textlabelTex = nil;//TODO//[[urTexture alloc] initWithString:textlabelstr
+						t->textlabel->textlabelTex = new urTexture([textlabelstr UTF8String],fontPath,t->textlabel->textheight,t->width,t->height);
+															//[[urTexture alloc] initWithString:textlabelstr
 															//				  dimensions:CGSizeMake(t->width, t->height) alignment:align
 															//				  fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)];
 					}
@@ -954,7 +968,8 @@ extern lua_State *lua;
 						shadowColors[1] = t->textlabel->shadowcolor[1];
 						shadowColors[2] = t->textlabel->shadowcolor[2];
 						shadowColors[3] = t->textlabel->shadowcolor[3];
-						t->textlabel->textlabelTex = nil; //TODO//[[urTexture alloc] initWithString:textlabelstr
+						t->textlabel->textlabelTex = new urTexture([textlabelstr UTF8String],fontPath,t->textlabel->textheight,t->width,t->height); 
+															//[[urTexture alloc] initWithString:textlabelstr
 															//				  dimensions:CGSizeMake(t->width, t->height) alignment:align
 															//					fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)
 															//				shadowOffset:CGSizeMake(t->textlabel->shadowoffset[0],t->textlabel->shadowoffset[1]) shadowBlur:t->textlabel->shadowblur shadowColor:t->textlabel->shadowcolor];
@@ -979,7 +994,7 @@ extern lua_State *lua;
 				glEnableClientState(GL_COLOR_ARRAY);
 				
 				int bottom = t->bottom;
-				int fontheight = nil;//TODO//[t->textlabel->textlabelTex fontblockHeight];
+				int fontheight = t->textlabel->textlabelTex->getHeight();//TODO//[t->textlabel->textlabelTex fontblockHeight];
 				switch(t->textlabel->justifyv)
 				{
 					case JUSTIFYV_MIDDLE:
@@ -994,6 +1009,7 @@ extern lua_State *lua;
 				}
 				
 				//TODO//[t->textlabel->textlabelTex drawAtPoint:CGPointMake(t->left,bottom) tile:true];
+				t->textlabel->textlabelTex->drawAtPoint(CGPointMake(t->left,bottom), true);
 				
 				// switch it back to GL_ONE for other types of images, rather than text because urTexture uses CG to load, which premultiplies alpha
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -1011,15 +1027,17 @@ extern lua_State *lua;
 	if (errorStrTex == nil)
 	{
 		newerror = false;
-		errorStrTex = nil;//TODO//[[urTexture alloc] initWithString:errorstr
+		errorStrTex = new urTexture([errorstr UTF8String],&errorfont,SCREEN_WIDTH,128);
+							//TODO//[[urTexture alloc] initWithString:errorstr
 							//			 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
 							//			   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap ];
 	}
 	else if(newerror)
 	{
-		[errorStrTex dealloc];
+		delete errorStrTex;//[errorStrTex dealloc];
 		newerror = false;
-		errorStrTex = nil;//TODO//[[urTexture alloc] initWithString:errorstr
+		errorStrTex = new urTexture([errorstr UTF8String],&errorfont,SCREEN_WIDTH,128);
+							//[[urTexture alloc] initWithString:errorstr
 							//			 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
 							//			   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap];
 	}
@@ -1033,21 +1051,12 @@ extern lua_State *lua;
 		squareColors[i] = 200;
 	glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
 	glEnableClientState(GL_COLOR_ARRAY);
-	[errorStrTex drawAtPoint:CGPointMake(0.0,
-									 bounds.size.height * 0.5f) tile:true];
-	
+	//[errorStrTex drawAtPoint:CGPointMake(0.0, bounds.size.height * 0.5f) tile:true];
+	errorStrTex->drawAtPoint(CGPointMake(0.0, bounds.size.height*0.5f), true);
+							 
 	// switch it back to GL_ONE for other types of images, rather than text because urTexture uses CG to load, which premultiplies alpha
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	
-#endif
-	
-	// urFont example
-#if 0
-	NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
-	NSString *filePath = [resourcePath stringByAppendingPathComponent:@"arial.ttf"];
-	const char* filestr = [filePath UTF8String];
-    font.loadFont(filestr, 20);
-	font.drawString("Hello World",100,100);
 #endif
 	
 	

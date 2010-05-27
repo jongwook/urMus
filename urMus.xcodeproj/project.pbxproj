@@ -706,12 +706,12 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				EAD08FB111988046004F1B0C /* urFont.cpp */,
 				EAD08FB211988046004F1B0C /* urFont.h */,
-				EAD08FB311988046004F1B0C /* urImage.cpp */,
+				EAD08FB111988046004F1B0C /* urFont.cpp */,
 				EAD08FB411988046004F1B0C /* urImage.h */,
-				EAD08FB511988046004F1B0C /* urTexture.cpp */,
+				EAD08FB311988046004F1B0C /* urImage.cpp */,
 				EAD08FB611988046004F1B0C /* urTexture.h */,
+				EAD08FB511988046004F1B0C /* urTexture.cpp */,
 				23C56098119295E200758BB9 /* mongoose.h */,
 				23C56099119295E200758BB9 /* mongoose.c */,
 				77B3D14A10C7192C00D5FB4B /* UIApplication+TVOut.m */,
