@@ -57,6 +57,7 @@ class urTexture
 protected:
 	GLuint name;
 	unsigned int width, height;
+	unsigned int texWidth, texHeight;
 	GLenum format;	// GL_RGB or GL_RGBA
 	urFont *font;
 	string str;

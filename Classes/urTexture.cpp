@@ -39,8 +39,6 @@ urTexture::urTexture(urImage *image)
 {
 	GLint saveName;
 	
-	const void* data=image->getBuffer();
-	
 	switch(image->getColorType()) {
 		case PNG_COLOR_TYPE_RGB:
 			format=GL_RGB;
@@ -52,24 +50,23 @@ urTexture::urTexture(urImage *image)
 
 	width=image->getWidth();
 	height=image->getHeight();
-	int newwidth=pow2roundup(width);
-	int newheight=pow2roundup(height);
-	//newheight=newwidth=MAX(newwidth,newheight);
-	_maxS=(GLfloat)width/newwidth;
-	_maxT=(GLfloat)height/newheight;
+	texWidth=pow2roundup(width);
+	texHeight=pow2roundup(height);
 	
-	width=newwidth;
-	height=newheight;
+	image->resize(texWidth, texHeight);
+	const void* data=image->getBuffer();
+	
+	_maxS=(GLfloat)width/texWidth;
+	_maxT=(GLfloat)height/texHeight;
+	
 
 	glGenTextures(1, &name);
 	glGetIntegerv(GL_TEXTURE_BINDING_2D, &saveName);
 	glBindTexture(GL_TEXTURE_2D, name);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, texWidth, texHeight, 0, format, GL_UNSIGNED_BYTE, data);
 	glBindTexture(GL_TEXTURE_2D, saveName);
 
-	this->width=width;
-	this->height=height;
 	this->format=format;
 	
 	this->font=NULL;
@@ -125,7 +122,8 @@ urTexture::~urTexture(void)
 
 void urTexture::drawInRect(CGRect rect) {
 	if(name) {	// it's an image
-		GLfloat  coordinates[] = { 0,_maxT, _maxS,_maxT, 0,0, _maxS,0};
+		//GLfloat  coordinates[] = { 0,_maxT, _maxS,_maxT, 0,0, _maxS,0};
+		//GLfloat coordinates[] = { 0,1, 1,1, 0,0, 1,0 };
 		GLfloat vertices[] = {  rect.origin.x, rect.origin.y, 0.0,
 			rect.origin.x + rect.size.width, rect.origin.y, 0.0,
 			rect.origin.x, rect.origin.y + rect.size.height, 0.0,
@@ -135,7 +133,7 @@ void urTexture::drawInRect(CGRect rect) {
 		glGetIntegerv(GL_TEXTURE_BINDING_2D, &saveName);
 		glBindTexture(GL_TEXTURE_2D, name);
 		glVertexPointer(3, GL_FLOAT, 0, vertices);
-		glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
+		//glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		glBindTexture(GL_TEXTURE_2D, saveName);
 	}
@@ -147,11 +145,11 @@ void urTexture::drawInRect(CGRect rect) {
 void urTexture::drawAtPoint(CGPoint point, bool tile) {
 	
 	if(name) {	// it's an image
-		GLfloat  coordinates[] = { 0,_maxT, _maxS,_maxT, 0,0, _maxS,0};
-		GLfloat         vertices[] = {  point.x,                        point.y,        0.0,
-			width + point.x,        point.y,        0.0,
-			point.x,                        height  + point.y,      0.0,
-		width + point.x,        height  + point.y,      0.0 };
+		GLfloat	coordinates[] = { 0,_maxT, _maxS,_maxT, 0,0, _maxS,0};
+		GLfloat	vertices[] = {  point.x,			point.y,			0.0,
+								width + point.x,	point.y,			0.0,
+								point.x,			height + point.y,	0.0,
+								width + point.x,	height + point.y,	0.0  };
 		
 		GLint saveName;
 		glGetIntegerv(GL_TEXTURE_BINDING_2D, &saveName);

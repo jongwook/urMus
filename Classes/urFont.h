@@ -142,7 +142,7 @@ class urFont{
 public:
 	urFont();
 	virtual ~urFont();
-		
+	
 	void		clone(urFont *copy);
 	void 		loadFont(string filename, int fontsize);
 	void 		loadFont(string filename, int fontsize, bool _bAntiAliased, bool _bFullCharacterSet, bool makeContours = false);

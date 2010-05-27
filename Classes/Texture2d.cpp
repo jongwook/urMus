@@ -191,6 +191,7 @@
 			i *= 2;
 		height = i;
 	}
+	
 	while((width > kMaxTextureSize) || (height > kMaxTextureSize)) {
 		width /= 2;
 		height /= 2;
