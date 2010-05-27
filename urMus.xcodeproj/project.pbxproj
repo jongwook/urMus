@@ -39,6 +39,7 @@
 		77ABBE4A1125E4CC00EB080C /* Plick.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77ABBE491125E4CC00EB080C /* Plick.wav */; };
 		77AC7A6D1081C37A0071ECDE /* beatbox-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77AC7A6C1081C37A0071ECDE /* beatbox-mono.wav */; };
 		77B3A84D114F056F0073CCCF /* TCPServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 77B3A84C114F056F0073CCCF /* TCPServer.mm */; };
+		77B3D14B10C7192C00D5FB4B /* UIApplication+TVOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B3D14A10C7192C00D5FB4B /* UIApplication+TVOut.m */; };
 		77B3D17D10C7196000D5FB4B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B3D17C10C7196000D5FB4B /* MediaPlayer.framework */; };
 		77B56D5D10894E49008931AC /* SKINI-msg.h in Resources */ = {isa = PBXBuildFile; fileRef = 77B56CDD10894E48008931AC /* SKINI-msg.h */; };
 		77B56D5F10894E49008931AC /* README in Resources */ = {isa = PBXBuildFile; fileRef = 77B56CF210894E48008931AC /* README */; };
@@ -95,7 +96,6 @@
 		77D61B4A10C80C170091DE81 /* Pink-Mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77D61B4210C80C170091DE81 /* Pink-Mono.wav */; };
 		77D61B4B10C80C170091DE81 /* Orange-Mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77D61B4310C80C170091DE81 /* Orange-Mono.wav */; };
 		77D61B4C10C80C170091DE81 /* Red-Mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77D61B4410C80C170091DE81 /* Red-Mono.wav */; };
-		77D9689E11A79AB900BD4F2D /* UIApplication+TVOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D9689D11A79AB900BD4F2D /* UIApplication+TVOut.m */; };
 		77F01C10112508CB007FD520 /* paddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 77F01C0C112508CB007FD520 /* paddle.png */; };
 		77F01C11112508CB007FD520 /* small-ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 77F01C0D112508CB007FD520 /* small-ball.png */; };
 		77F01C12112508CB007FD520 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 77F01C0E112508CB007FD520 /* ball.png */; };
@@ -340,6 +340,7 @@
 		77AC7A6C1081C37A0071ECDE /* beatbox-mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "beatbox-mono.wav"; path = "Sounds/beatbox-mono.wav"; sourceTree = "<group>"; };
 		77B3A84B114F056F0073CCCF /* TCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPServer.h; sourceTree = "<group>"; };
 		77B3A84C114F056F0073CCCF /* TCPServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TCPServer.mm; sourceTree = "<group>"; };
+		77B3D14A10C7192C00D5FB4B /* UIApplication+TVOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+TVOut.m"; sourceTree = "<group>"; };
 		77B3D17C10C7196000D5FB4B /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		77B56C8E10894E48008931AC /* ADSR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADSR.h; sourceTree = "<group>"; };
 		77B56C8F10894E48008931AC /* Asymp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Asymp.h; sourceTree = "<group>"; };
@@ -481,7 +482,6 @@
 		77D61B4210C80C170091DE81 /* Pink-Mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "Pink-Mono.wav"; path = "Sounds/Pink-Mono.wav"; sourceTree = "<group>"; };
 		77D61B4310C80C170091DE81 /* Orange-Mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "Orange-Mono.wav"; path = "Sounds/Orange-Mono.wav"; sourceTree = "<group>"; };
 		77D61B4410C80C170091DE81 /* Red-Mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "Red-Mono.wav"; path = "Sounds/Red-Mono.wav"; sourceTree = "<group>"; };
-		77D9689D11A79AB900BD4F2D /* UIApplication+TVOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+TVOut.m"; sourceTree = "<group>"; };
 		77F01C0C112508CB007FD520 /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = paddle.png; path = Textures/paddle.png; sourceTree = "<group>"; };
 		77F01C0D112508CB007FD520 /* small-ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "small-ball.png"; path = "Textures/small-ball.png"; sourceTree = "<group>"; };
 		77F01C0E112508CB007FD520 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ball.png; path = Textures/ball.png; sourceTree = "<group>"; };
@@ -498,6 +498,7 @@
 		77FB9272111BA8C30078AAC5 /* SandwichEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SandwichEventManager.m; path = Classes/Sandwich/SandwichEventManager.m; sourceTree = "<group>"; };
 		77FB9273111BA8C30078AAC5 /* SandwichEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SandwichEventManager.h; path = Classes/Sandwich/SandwichEventManager.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA3E2A1311AD9F4E00AF946C /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		EAA94A99119C718400DF76DF /* arial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = arial.ttf; sourceTree = "<group>"; };
 		EAA94AED119C77D800DF76DF /* urAPI.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = urAPI.cpp; sourceTree = "<group>"; };
 		EAA94AF8119C78E000DF76DF /* MachTimer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MachTimer.cpp; sourceTree = "<group>"; };
@@ -572,11 +573,11 @@
 		EAD08F6711987DBC004F1B0C /* pngwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwrite.c; path = Classes/libpng/pngwrite.c; sourceTree = "<group>"; };
 		EAD08F6811987DBC004F1B0C /* pngwtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwtran.c; path = Classes/libpng/pngwtran.c; sourceTree = "<group>"; };
 		EAD08F6911987DBC004F1B0C /* pngwutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwutil.c; path = Classes/libpng/pngwutil.c; sourceTree = "<group>"; };
-		EAD08FB111988046004F1B0C /* urFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = urFont.cpp; sourceTree = "<group>"; };
+		EAD08FB111988046004F1B0C /* urFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = urFont.cpp; sourceTree = "<group>"; };
 		EAD08FB211988046004F1B0C /* urFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = urFont.h; sourceTree = "<group>"; };
-		EAD08FB311988046004F1B0C /* urImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = urImage.cpp; sourceTree = "<group>"; };
+		EAD08FB311988046004F1B0C /* urImage.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = urImage.cpp; sourceTree = "<group>"; };
 		EAD08FB411988046004F1B0C /* urImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = urImage.h; sourceTree = "<group>"; };
-		EAD08FB511988046004F1B0C /* urTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = urTexture.cpp; sourceTree = "<group>"; };
+		EAD08FB511988046004F1B0C /* urTexture.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = urTexture.cpp; sourceTree = "<group>"; };
 		EAD08FB611988046004F1B0C /* urTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = urTexture.h; sourceTree = "<group>"; };
 		EAEACB72119CD13200EED0BF /* ADSR.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ADSR.cpp; path = src/ADSR.cpp; sourceTree = "<group>"; };
 		EAEACB73119CD13200EED0BF /* Asymp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Asymp.cpp; path = src/Asymp.cpp; sourceTree = "<group>"; };
@@ -705,18 +706,15 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-				EAD08FB111988046004F1B0C /* urFont.cpp */,
 				EAD08FB211988046004F1B0C /* urFont.h */,
-				EAD08FB311988046004F1B0C /* urImage.cpp */,
+				EAD08FB111988046004F1B0C /* urFont.cpp */,
 				EAD08FB411988046004F1B0C /* urImage.h */,
-				EAD08FB511988046004F1B0C /* urTexture.cpp */,
+				EAD08FB311988046004F1B0C /* urImage.cpp */,
 				EAD08FB611988046004F1B0C /* urTexture.h */,
-=======
-				77D9689D11A79AB900BD4F2D /* UIApplication+TVOut.m */,
->>>>>>> a202c54f97fa35eed634fd0ee3152f7fd04a69d3
+				EAD08FB511988046004F1B0C /* urTexture.cpp */,
 				23C56098119295E200758BB9 /* mongoose.h */,
 				23C56099119295E200758BB9 /* mongoose.c */,
+				77B3D14A10C7192C00D5FB4B /* UIApplication+TVOut.m */,
 				777E5AC71057F5EB007FD908 /* RIOAudioUnitLayer.h */,
 				777E5AC81057F5EB007FD908 /* RIOAudioUnitLayer.mm */,
 				1D3623240D0F684500981E51 /* urMusAppDelegate.h */,
@@ -737,6 +735,7 @@
 				EAA94AFA119C78E000DF76DF /* urSoundAtoms.cpp */,
 				23C561281192A56900758BB9 /* httpServer.h */,
 				23C561291192A56900758BB9 /* httpServer.c */,
+				EA3E2A1311AD9F4E00AF946C /* config.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1411,84 +1410,7 @@
 				1D3623260D0F684500981E51 /* urMusAppDelegate.mm in Sources */,
 				777E5AC91057F5EB007FD908 /* RIOAudioUnitLayer.mm in Sources */,
 				77C492FA105CAA1300B2BA88 /* urSound.cpp in Sources */,
-<<<<<<< HEAD
 				77B3D14B10C7192C00D5FB4B /* UIApplication+TVOut.m in Sources */,
-=======
-				77B56E3B10894FE7008931AC /* ADSR.mm in Sources */,
-				77B56E3C10894FE7008931AC /* Asymp.mm in Sources */,
-				77B56E3D10894FE7008931AC /* BandedWG.mm in Sources */,
-				77B56E3E10894FE7008931AC /* BeeThree.mm in Sources */,
-				77B56E3F10894FE7008931AC /* BiQuad.mm in Sources */,
-				77B56E4010894FE7008931AC /* Blit.mm in Sources */,
-				77B56E4110894FE7008931AC /* BlitSaw.mm in Sources */,
-				77B56E4210894FE7008931AC /* BlitSquare.mm in Sources */,
-				77B56E4310894FE7008931AC /* BlowBotl.mm in Sources */,
-				77B56E4410894FE7008931AC /* BlowHole.mm in Sources */,
-				77B56E4510894FE7008931AC /* Bowed.mm in Sources */,
-				77B56E4610894FE7008931AC /* Brass.mm in Sources */,
-				77B56E4710894FE7008931AC /* Chorus.mm in Sources */,
-				77B56E4810894FE7008931AC /* Clarinet.mm in Sources */,
-				77B56E4910894FE7008931AC /* Delay.mm in Sources */,
-				77B56E4A10894FE7008931AC /* DelayA.mm in Sources */,
-				77B56E4B10894FE7008931AC /* DelayL.mm in Sources */,
-				77B56E4C10894FE7008931AC /* Drummer.mm in Sources */,
-				77B56E4D10894FE7008931AC /* Echo.mm in Sources */,
-				77B56E4E10894FE7008931AC /* Envelope.mm in Sources */,
-				77B56E4F10894FE7008931AC /* FileLoop.mm in Sources */,
-				77B56E5010894FE7008931AC /* FileRead.mm in Sources */,
-				77B56E5110894FE7008931AC /* FileWrite.mm in Sources */,
-				77B56E5210894FE7008931AC /* FileWvIn.mm in Sources */,
-				77B56E5310894FE7008931AC /* FileWvOut.mm in Sources */,
-				77B56E5410894FE7008931AC /* Fir.mm in Sources */,
-				77B56E5510894FE7008931AC /* Flute.mm in Sources */,
-				77B56E5610894FE7008931AC /* FM.mm in Sources */,
-				77B56E5710894FE7008931AC /* FMVoices.mm in Sources */,
-				77B56E5810894FE7008931AC /* FormSwep.mm in Sources */,
-				77B56E5910894FE7008931AC /* Granulate.mm in Sources */,
-				77B56E5A10894FE7008931AC /* HevyMetl.mm in Sources */,
-				77B56E5B10894FE7008931AC /* Iir.mm in Sources */,
-				77B56E5E10894FE7008931AC /* JCRev.mm in Sources */,
-				77B56E5F10894FE7008931AC /* Mandolin.mm in Sources */,
-				77B56E6010894FE7008931AC /* Mesh2D.mm in Sources */,
-				77B56E6310894FE7008931AC /* Modal.mm in Sources */,
-				77B56E6410894FE7008931AC /* ModalBar.mm in Sources */,
-				77B56E6510894FE7008931AC /* Modulate.mm in Sources */,
-				77B56E6610894FE7008931AC /* Moog.mm in Sources */,
-				77B56E6810894FE7008931AC /* Noise.mm in Sources */,
-				77B56E6910894FE7008931AC /* NRev.mm in Sources */,
-				77B56E6A10894FE7008931AC /* OnePole.mm in Sources */,
-				77B56E6B10894FE7008931AC /* OneZero.mm in Sources */,
-				77B56E6C10894FE7008931AC /* PercFlut.mm in Sources */,
-				77B56E6D10894FE7008931AC /* Phonemes.mm in Sources */,
-				77B56E6E10894FE7008931AC /* PitShift.mm in Sources */,
-				77B56E6F10894FE7008931AC /* Plucked.mm in Sources */,
-				77B56E7010894FE7008931AC /* PluckTwo.mm in Sources */,
-				77B56E7110894FE7008931AC /* PoleZero.mm in Sources */,
-				77B56E7210894FE7008931AC /* PRCRev.mm in Sources */,
-				77B56E7310894FE7008931AC /* Resonate.mm in Sources */,
-				77B56E7410894FE7008931AC /* Rhodey.mm in Sources */,
-				77B56E7910894FE7008931AC /* Sampler.mm in Sources */,
-				77B56E7A10894FE7008931AC /* Saxofony.mm in Sources */,
-				77B56E7B10894FE7008931AC /* Shakers.mm in Sources */,
-				77B56E7C10894FE7008931AC /* Simple.mm in Sources */,
-				77B56E7D10894FE7008931AC /* SineWave.mm in Sources */,
-				77B56E7E10894FE7008931AC /* SingWave.mm in Sources */,
-				77B56E7F10894FE7008931AC /* Sitar.mm in Sources */,
-				77B56E8210894FE7008931AC /* Sphere.mm in Sources */,
-				77B56E8310894FE7008931AC /* StifKarp.mm in Sources */,
-				77B56E8410894FE7008931AC /* Stk.mm in Sources */,
-				77B56E8510894FE7008931AC /* TapDelay.mm in Sources */,
-				77B56E8910894FE7008931AC /* TubeBell.mm in Sources */,
-				77B56E8A10894FE7008931AC /* TwoPole.mm in Sources */,
-				77B56E8B10894FE7008931AC /* TwoZero.mm in Sources */,
-				77B56E8D10894FE7008931AC /* Voicer.mm in Sources */,
-				77B56E8E10894FE7008931AC /* VoicForm.mm in Sources */,
-				77B56E8F10894FE7008931AC /* Whistle.mm in Sources */,
-				77B56E9010894FE7008931AC /* Wurley.mm in Sources */,
-				77B56EE6108954C4008931AC /* urSTK.mm in Sources */,
-				771F1C3C109B7E10005069EC /* urSoundAtoms.mm in Sources */,
-				7743E38F10BB147D005F36BF /* lfs.mm in Sources */,
->>>>>>> a202c54f97fa35eed634fd0ee3152f7fd04a69d3
 				77FB9274111BA8C30078AAC5 /* UdpServerSocket.m in Sources */,
 				77FB9275111BA8C30078AAC5 /* UdpClientSocket.m in Sources */,
 				77FB9276111BA8C30078AAC5 /* SandwichUpdateListener.m in Sources */,
@@ -1496,7 +1418,6 @@
 				77B3A84D114F056F0073CCCF /* TCPServer.mm in Sources */,
 				23C5609A119295E200758BB9 /* mongoose.c in Sources */,
 				23C5612A1192A56900758BB9 /* httpServer.c in Sources */,
-<<<<<<< HEAD
 				EAD08F6A11987DBC004F1B0C /* png.c in Sources */,
 				EAD08F6B11987DBC004F1B0C /* pngerror.c in Sources */,
 				EAD08F6C11987DBC004F1B0C /* pngget.c in Sources */,
@@ -1661,9 +1582,6 @@
 				EAEACC42119CD18500EED0BF /* lvm.c in Sources */,
 				EAEACC43119CD18500EED0BF /* lzio.c in Sources */,
 				EAEACC44119CD18500EED0BF /* print.c in Sources */,
-=======
-				77D9689E11A79AB900BD4F2D /* UIApplication+TVOut.m in Sources */,
->>>>>>> a202c54f97fa35eed634fd0ee3152f7fd04a69d3
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

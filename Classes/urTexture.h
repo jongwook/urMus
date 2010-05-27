@@ -9,6 +9,7 @@
 #include "urImage.h"
 #include "urFont.h"
 
+#ifndef __APPLE_CC__
 
 typedef enum {
 	kTexture2DPixelFormat_Automatic = 0,
@@ -48,7 +49,7 @@ typedef enum {
    LineBreakModeMiddleTruncation,
 } LineBreakMode;
 
-
+#endif
 
 
 class urTexture
