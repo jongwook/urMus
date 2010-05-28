@@ -79,3 +79,15 @@ void urImage::resize(png_uint_32 newwidth, png_uint_32 newheight) {
 	delete [] buffer;
 	buffer=newbuf;
 }
+
+void urImage::flipPixels() {
+	for(int i=0;i<height;i++) {
+		png_bytep pixel=buffer + channels * (i * width);
+		for(int j=0;j<width;j++) {
+			png_byte temp=pixel[0];
+			pixel[0]=pixel[2];
+			pixel[2]=temp;
+			pixel += channels;
+		}
+	}
+}

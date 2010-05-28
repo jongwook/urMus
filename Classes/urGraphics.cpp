@@ -693,7 +693,7 @@ void instantiateTexture(urAPI_Region_t* t)
 //	UIImage* textureimage = [UIImage imageNamed:texturepathstr];
 //	UIImage* textureimage = [UIImage imageWithContentsOfFile:filePath];
 	urImage *image=new urImage([filePath UTF8String]);
-	if(image)
+	if(image->getBuffer())
 	{
 		CGSize rectsize;
 		rectsize.width = t->width;

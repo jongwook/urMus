@@ -39,12 +39,20 @@ urTexture::urTexture(urImage *image)
 {
 	GLint saveName;
 	
+	int internalFormat=1;
 	switch(image->getColorType()) {
 		case PNG_COLOR_TYPE_RGB:
 			format=GL_RGB;
+			internalFormat=GL_RGB;
 			break;
 		case PNG_COLOR_TYPE_RGBA:
 			format=GL_RGBA;
+			internalFormat=GL_RGBA;
+			break;
+		case PNG_COLOR_TYPE_BGRA:
+			format=GL_BGRA;
+			internalFormat=GL_RGBA;
+			//image->flipPixels();
 			break;
 	}
 
@@ -64,7 +72,7 @@ urTexture::urTexture(urImage *image)
 	glGetIntegerv(GL_TEXTURE_BINDING_2D, &saveName);
 	glBindTexture(GL_TEXTURE_2D, name);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, format, texWidth, texHeight, 0, format, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, texWidth, texHeight, 0, format, GL_UNSIGNED_BYTE, data);
 	glBindTexture(GL_TEXTURE_2D, saveName);
 
 	this->format=format;

@@ -20,6 +20,7 @@ public:
 	int getInterlaceType() { return interlace_type; }
 	const void* getBuffer() { return buffer; }
 	void resize(png_uint_32 width, png_uint_32 height);
+	void flipPixels();
 	urImage(const char* file_name);
 	~urImage(void);
 };

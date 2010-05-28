@@ -2324,9 +2324,8 @@ png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 void /* PRIVATE */
 png_handle_CgBI(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
-	png_byte buf[8];
-	png_read_data(png_ptr, buf, 8);
-
+	png_byte buf[8];	png_read_data(png_ptr, buf, 8);
+	png_ptr->using_CgBI_extension=1;
 }
 #endif
 
