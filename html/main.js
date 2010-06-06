@@ -150,6 +150,15 @@ $(document).ready(function() {
       error: function(xhr, opts) { msg('error',xhr.responseText); }
     });
   });
+  
+  $('#reindent').click(function() {
+    cm.reindent();
+  });
+  
+  $('#extend_box').click(function() {
+    var box=$(".CodeMirror-wrapping")
+    box[0].style.height=(parseInt(box[0].style.height)+100)+"px";
+  });
           
   new AjaxUpload('file_upload', {
     action: '/upload_file',

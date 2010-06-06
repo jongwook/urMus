@@ -23,6 +23,11 @@ extern "C" {
 
 // This enables video projector output. It's not official API hence not safe for app store.
 //#define PROJECTOR_VIDEO
+//#define NEW_PROJECTOR_VIDEO
+
+#ifdef NEW_PROJECTOR_VIDEO
+#import "UIApplication+ScreenMirroring.h"
+#endif
 
 #ifdef SANDWICH_SUPPORT
 #import "SandwichUpdateListener.h"
@@ -36,6 +41,7 @@ extern "C" {
 // Make EAGLview global so lua interface can grab it without breaking a leg over IMP
 EAGLView* g_glView;
 
+#define EARLY_LAUNCH
 extern NSString* errorstr;
 extern bool newerror;
 
@@ -56,6 +62,11 @@ extern bool newerror;
 #ifdef PROJECTOR_VIDEO
 	[application startTVOut]; // This enables that the video data is send to the AV out for projection (it's a mirror)
 #endif
+
+#ifdef NEW_PROJECTOR_VIDEO
+//	[[UIApplication sharedApplication] setupScreenMirroringOfMainWindow:mainWindow framesPerSecond:20];
+	[application setupScreenMirroringOfMainWindow:window framesPerSecond:20];
+#endif
 	
 #ifdef SANDWICH_SUPPORT
 	// init SandwichUpdateListener
@@ -75,6 +86,7 @@ extern bool newerror;
 	
 	[glView startAnimation];
 
+#ifdef EARLY_LAUNCH
 	NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
 	NSString *filePath = [resourcePath stringByAppendingPathComponent:@"urMus.lua"];
 	NSArray *paths;
@@ -83,19 +95,22 @@ extern bool newerror;
 	if ([paths count] > 0)
 		documentPath = [paths objectAtIndex:0];
 		
-	const char* filestr = [filePath UTF8String];
-
 	// start off http server
+#define HTTP_EDITING
+#ifdef HTTP_EDITING
 	http_start([resourcePath UTF8String],
 			   [documentPath UTF8String]);
+#endif
 	
+	const char* filestr = [filePath UTF8String];
+
 	if(luaL_dofile(lua, filestr)!=0)
 	{
 		const char* error = lua_tostring(lua, -1);
 		errorstr = [[NSString alloc] initWithCString:error ]; // DPrinting errors for now
 		newerror = true;
 	}
-	
+#endif	
 }
 
 #ifdef SANDWICH_SUPPORT
