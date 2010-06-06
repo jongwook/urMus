@@ -41,6 +41,7 @@ extern "C" {
 // Make EAGLview global so lua interface can grab it without breaking a leg over IMP
 EAGLView* g_glView;
 
+#define EARLY_LAUNCH
 extern NSString* errorstr;
 extern bool newerror;
 
@@ -85,6 +86,7 @@ extern bool newerror;
 	
 	[glView startAnimation];
 
+#ifdef EARLY_LAUNCH
 	NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
 	NSString *filePath = [resourcePath stringByAppendingPathComponent:@"urMus.lua"];
 	NSArray *paths;
@@ -93,19 +95,22 @@ extern bool newerror;
 	if ([paths count] > 0)
 		documentPath = [paths objectAtIndex:0];
 		
-	const char* filestr = [filePath UTF8String];
-
 	// start off http server
+#define HTTP_EDITING
+#ifdef HTTP_EDITING
 	http_start([resourcePath UTF8String],
 			   [documentPath UTF8String]);
+#endif
 	
+	const char* filestr = [filePath UTF8String];
+
 	if(luaL_dofile(lua, filestr)!=0)
 	{
 		const char* error = lua_tostring(lua, -1);
 		errorstr = [[NSString alloc] initWithCString:error ]; // DPrinting errors for now
 		newerror = true;
 	}
-	
+#endif	
 }
 
 #ifdef SANDWICH_SUPPORT
