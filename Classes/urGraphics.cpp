@@ -803,12 +803,7 @@ static char fontPath[256]={0,};
 		NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
 		strncpy(fontPath,[[resourcePath stringByAppendingPathComponent:@"arial.ttf"] UTF8String],sizeof(fontPath)-1);
 	}
-	
-	// instantiate DPrint font
-	if (!errorfont.bLoadedOk) {
-		errorfont.loadFont(fontPath,14);
-	}
-	
+		
 	
 	// Render all (visible and unclipped) regions on a given page.
 	
@@ -1054,7 +1049,7 @@ static char fontPath[256]={0,};
 	if (errorStrTex == nil)
 	{
 		newerror = false;
-		errorStrTex = new urTexture([errorstr UTF8String],&errorfont,SCREEN_WIDTH,128);
+		errorStrTex = new urTexture([errorstr UTF8String],fontPath,20,SCREEN_WIDTH,128);
 							//TODO//[[urTexture alloc] initWithString:errorstr
 							//			 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
 							//			   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap ];
@@ -1063,7 +1058,7 @@ static char fontPath[256]={0,};
 	{
 		delete errorStrTex;//[errorStrTex dealloc];
 		newerror = false;
-		errorStrTex = new urTexture([errorstr UTF8String],&errorfont,SCREEN_WIDTH,128);
+		errorStrTex = new urTexture([errorstr UTF8String],fontPath,20,SCREEN_WIDTH,128);
 							//[[urTexture alloc] initWithString:errorstr
 							//			 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
 							//			   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap];

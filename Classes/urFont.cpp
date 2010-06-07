@@ -600,6 +600,16 @@ int urFont::ofNextPow2 ( int a )
 	return rval;
 }
 
+float urFont::getLineWidth(const char *line) {
+	float width=0;
+	for(int i=0;line[i];i++) {
+		int cy = (unsigned char)line[i] - NUM_CHARACTER_TO_START;
+		if(cy >= 0 && cy < nCharacters)
+			width+=cps[cy].setWidth;
+	}
+	return width;
+}
+
 //-----------------------------------------------------------
 void urFont::drawChar(int c, float x, float y) {
 	if (!bLoadedOk){

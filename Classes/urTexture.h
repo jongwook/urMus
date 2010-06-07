@@ -16,10 +16,10 @@ typedef enum {
 } Texture2DPixelFormat;
 
 typedef enum {
-   TextAlignmentLeft,
-   TextAlignmentCenter,
-   TextAlignmentRight,
-} TextAlignment;
+   UITextAlignmentLeft,
+   UITextAlignmentCenter,
+   UITextAlignmentRight,
+} UITextAlignment;
 
 typedef struct tagCGPoint {
 	float x;
@@ -63,11 +63,22 @@ protected:
 	string str;
 	GLfloat _maxS, _maxT;	
 	bool ownfont;
+	vector<string> lines;
+	vector<float> widths;
+	UITextAlignment alignment;
+	UILineBreakMode linebreakmode;
+	CGSize shadowOffset;
+	GLfloat shadowBlur;
+	GLfloat shadowColor[4];
+	
+	void renderString(CGRect rect);
+	void drawString(CGRect rect);
 public:
 	urTexture(const void *data, GLenum format, unsigned int width, unsigned int height);
 	urTexture(urImage *image);
-	urTexture(const char *str, urFont *font, unsigned int width, unsigned int height);
-	urTexture(const char *str, const char *fontname, unsigned int size, unsigned int width, unsigned int height);
+	urTexture(const char *str, const char *fontname, unsigned int size, unsigned int width, unsigned int height,
+			  UITextAlignment alignment=UITextAlignmentCenter, UILineBreakMode mode=UILineBreakModeWordWrap,
+			  CGSize shadowOffset=CGSizeMake(0,0), GLfloat shadowBlur=0.0f, GLfloat shadowColor[]=NULL);
 	~urTexture(void);
 
 	GLuint getName() { return name; }

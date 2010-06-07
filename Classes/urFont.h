@@ -152,6 +152,7 @@ public:
 	bool 		bFullCharacterSet;
 
 	float 		getLineHeight() {return lineHeight;}
+	float		getLineWidth(const char *line);
 	void 		setLineHeight(float height) { lineHeight = height; }
 	
 	void 		drawString(string s, float x, float y);
