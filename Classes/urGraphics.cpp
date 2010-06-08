@@ -748,7 +748,7 @@ UILineBreakMode tolinebreakmode(int wrap)
 
 // Main drawing loop. This does everything but brew coffee.
 extern lua_State *lua;
-static urFont errorfont;
+static urFont fpsfont;
 static char fontPath[256]={0,};
 
 - (void)drawView {
@@ -801,7 +801,7 @@ static char fontPath[256]={0,};
 	// get default font 
 	if(fontPath[0]=='\0') {
 		NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
-		strncpy(fontPath,[[resourcePath stringByAppendingPathComponent:@"arial.ttf"] UTF8String],sizeof(fontPath)-1);
+		strncpy(fontPath,[[resourcePath stringByAppendingPathComponent:@"Tahoma.ttf"] UTF8String],sizeof(fontPath)-1);
 	}
 		
 	
@@ -990,7 +990,8 @@ static char fontPath[256]={0,};
 						shadowColors[1] = t->textlabel->shadowcolor[1];
 						shadowColors[2] = t->textlabel->shadowcolor[2];
 						shadowColors[3] = t->textlabel->shadowcolor[3];
-						t->textlabel->textlabelTex = new urTexture([textlabelstr UTF8String],fontPath,t->textlabel->textheight,t->width,t->height); 
+						t->textlabel->textlabelTex = new urTexture([textlabelstr UTF8String],fontPath,t->textlabel->textheight,t->width,t->height,align,tolinebreakmode(t->textlabel->wrap),
+																   CGSizeMake(t->textlabel->shadowoffset[0],t->textlabel->shadowoffset[1]),t->textlabel->shadowblur,t->textlabel->shadowcolor); 
 															//[[urTexture alloc] initWithString:textlabelstr
 															//				  dimensions:CGSizeMake(t->width, t->height) alignment:align
 															//					fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)
@@ -1063,7 +1064,6 @@ static char fontPath[256]={0,};
 							//			 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
 							//			   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap];
 	}
-	
 	// text will need blending
 	glEnable(GL_BLEND);
 	
@@ -1075,7 +1075,20 @@ static char fontPath[256]={0,};
 	glEnableClientState(GL_COLOR_ARRAY);
 	//[errorStrTex drawAtPoint:CGPointMake(0.0, bounds.size.height * 0.5f) tile:true];
 	errorStrTex->drawAtPoint(CGPointMake(0.0, bounds.size.height*0.5f), true);
-							 
+	
+	
+	if(!fpsfont.bLoadedOk)
+		fpsfont.loadFont(fontPath,20);
+	char fpsstr[16];
+	static int prevfps[16];
+	static int fpspos=0;
+	prevfps[fpspos]=(1.0f/elapsedtime);
+	fpspos=(fpspos+1)%16;
+	int sumfps=0;
+	for(int i=0;i<16;i++) sumfps+=prevfps[i];
+	sprintf(fpsstr,"%d",sumfps/16);
+	fpsfont.drawString(fpsstr,10,SCREEN_HEIGHT-50);
+		
 	// switch it back to GL_ONE for other types of images, rather than text because urTexture uses CG to load, which premultiplies alpha
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	

@@ -105,7 +105,8 @@
 		77FB9275111BA8C30078AAC5 /* UdpClientSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FB926D111BA8C30078AAC5 /* UdpClientSocket.m */; };
 		77FB9276111BA8C30078AAC5 /* SandwichUpdateListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FB926F111BA8C30078AAC5 /* SandwichUpdateListener.m */; };
 		77FB9277111BA8C30078AAC5 /* SandwichEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FB9272111BA8C30078AAC5 /* SandwichEventManager.m */; };
-		EAA94A9A119C718400DF76DF /* arial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EAA94A99119C718400DF76DF /* arial.ttf */; };
+		EA040F7811BDF797003B4056 /* Arial Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA040F7711BDF797003B4056 /* Arial Bold.ttf */; };
+		EA040FF111BE0148003B4056 /* Tahoma.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA040FF011BE0148003B4056 /* Tahoma.ttf */; };
 		EAA94AEE119C77D800DF76DF /* urAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EAA94AED119C77D800DF76DF /* urAPI.cpp */; };
 		EAA94AFC119C78E000DF76DF /* MachTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EAA94AF8119C78E000DF76DF /* MachTimer.cpp */; };
 		EAA94AFD119C78E000DF76DF /* Texture2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EAA94AF9119C78E000DF76DF /* Texture2d.cpp */; };
@@ -498,8 +499,9 @@
 		77FB9272111BA8C30078AAC5 /* SandwichEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SandwichEventManager.m; path = Classes/Sandwich/SandwichEventManager.m; sourceTree = "<group>"; };
 		77FB9273111BA8C30078AAC5 /* SandwichEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SandwichEventManager.h; path = Classes/Sandwich/SandwichEventManager.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA040F7711BDF797003B4056 /* Arial Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Arial Bold.ttf"; sourceTree = "<group>"; };
+		EA040FF011BE0148003B4056 /* Tahoma.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tahoma.ttf; sourceTree = "<group>"; };
 		EA3E2A1311AD9F4E00AF946C /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		EAA94A99119C718400DF76DF /* arial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = arial.ttf; sourceTree = "<group>"; };
 		EAA94AED119C77D800DF76DF /* urAPI.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = urAPI.cpp; sourceTree = "<group>"; };
 		EAA94AF8119C78E000DF76DF /* MachTimer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MachTimer.cpp; sourceTree = "<group>"; };
 		EAA94AF9119C78E000DF76DF /* Texture2d.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Texture2d.cpp; sourceTree = "<group>"; };
@@ -784,7 +786,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				EAA94A99119C718400DF76DF /* arial.ttf */,
+				EA040FF011BE0148003B4056 /* Tahoma.ttf */,
+				EA040F7711BDF797003B4056 /* Arial Bold.ttf */,
 				77F043D71123C28B00CB8C95 /* MainWindow.xib */,
 				77A1A6DB10ABD49D004A7C47 /* Icon.png */,
 				77A1A6DC10ABD49D004A7C47 /* Default.png */,
@@ -1395,7 +1398,8 @@
 				77B9FC821194AF12006D5007 /* cloud_bg.jpg in Resources */,
 				77B9FCB71194AF8F006D5007 /* o-alpha.png in Resources */,
 				77B9FCB91194AFB8006D5007 /* x-alpha.png in Resources */,
-				EAA94A9A119C718400DF76DF /* arial.ttf in Resources */,
+				EA040F7811BDF797003B4056 /* Arial Bold.ttf in Resources */,
+				EA040FF111BE0148003B4056 /* Tahoma.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

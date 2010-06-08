@@ -2318,7 +2318,7 @@ png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 }
 #endif
 
-
+int DEF_WBITS=15;
 #ifdef PNG_READ_CgBI_SUPPORTED
 /* Note: this does not correctly handle chunks that are > 64K under DOS */
 void /* PRIVATE */
@@ -2326,6 +2326,7 @@ png_handle_CgBI(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
 	png_byte buf[8];	png_read_data(png_ptr, buf, 8);
 	png_ptr->using_CgBI_extension=1;
+	DEF_WBITS=-15;
 }
 #endif
 
