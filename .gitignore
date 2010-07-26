@@ -17,4 +17,11 @@ urMus.xcodeproj/*.mode2v3
 
 # osx noise
 .DS_Store
+**/.DS_Store
 profile
+
+# for android
+SystemDependent/Android/bin
+SystemDependent/Android/libs
+SystemDependent/Android/obj
+
