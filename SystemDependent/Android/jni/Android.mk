@@ -19,11 +19,11 @@ include $(CLEAR_VARS)
 LOCAL_MODULE    := urMus
 
 LOCAL_SRC_FILES := urMus.c \
-#	mongoose.c \
-#	httpServer.c \
-#	urImage.cpp \
-#	urTexture.cpp \
-#	urFont.cpp \
+	../../../src/mongoose.c \
+	../../../src/httpServer.c \
+	../../../src/urImage.cpp \
+	../../../src/urTexture.cpp \
+	../../../src/urFont.cpp \
 
 LOCAL_LDLIBS	:= -llog -ldl -lGLESv1_CM
 
