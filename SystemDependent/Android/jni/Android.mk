@@ -64,68 +64,68 @@ LOCAL_CFLAGS += -I../../../Classes/lua-5.1.4/src/
 	
 # libpng files
 LOCAL_SRC_FILES += \
-	libpng/png.c \
-	libpng/pngerror.c \
-	libpng/pngget.c \
-	libpng/pngmem.c \
-	libpng/pngpread.c \
-	libpng/pngread.c \
-	libpng/pngrio.c \
-	libpng/pngrtran.c \
-	libpng/pngrutil.c \
-	libpng/pngset.c \
-	libpng/pngtrans.c \
-	libpng/pngwio.c \
-	libpng/pngwrite.c \
-	libpng/pngwtran.c \
-	libpng/pngwutil.c 
+	../../../src/lib/libpng/png.c \
+	../../../src/lib/libpng/pngerror.c \
+	../../../src/lib/libpng/pngget.c \
+	../../../src/lib/libpng/pngmem.c \
+	../../../src/lib/libpng/pngpread.c \
+	../../../src/lib/libpng/pngread.c \
+	../../../src/lib/libpng/pngrio.c \
+	../../../src/lib/libpng/pngrtran.c \
+	../../../src/lib/libpng/pngrutil.c \
+	../../../src/lib/libpng/pngset.c \
+	../../../src/lib/libpng/pngtrans.c \
+	../../../src/lib/libpng/pngwio.c \
+	../../../src/lib/libpng/pngwrite.c \
+	../../../src/lib/libpng/pngwtran.c \
+	../../../src/lib/libpng/pngwutil.c 
 	
-LOCAL_CFLAGS += -Ilibpng/
+LOCAL_CFLAGS += -I../../../src/lib/libpng/
 	
 # zlib files
 LOCAL_SRC_FILES += \
-	zlib/adler32.c \
-	zlib/compress.c \
-	zlib/crc32.c \
-	zlib/deflate.c \
-	zlib/gzclose.c \
-	zlib/gzlib.c \
-	zlib/gzread.c \
-	zlib/gzwrite.c \
-	zlib/infback.c \
-	zlib/inffast.c \
-	zlib/inflate.c \
-	zlib/inftrees.c \
-	zlib/trees.c \
-	zlib/uncompr.c \
-	zlib/zutil.c 
+	../../../src/lib/zlib/adler32.c \
+	../../../src/lib/zlib/compress.c \
+	../../../src/lib/zlib/crc32.c \
+	../../../src/lib/zlib/deflate.c \
+	../../../src/lib/zlib/gzclose.c \
+	../../../src/lib/zlib/gzlib.c \
+	../../../src/lib/zlib/gzread.c \
+	../../../src/lib/zlib/gzwrite.c \
+	../../../src/lib/zlib/infback.c \
+	../../../src/lib/zlib/inffast.c \
+	../../../src/lib/zlib/inflate.c \
+	../../../src/lib/zlib/inftrees.c \
+	../../../src/lib/zlib/trees.c \
+	../../../src/lib/zlib/uncompr.c \
+	../../../src/lib/zlib/zutil.c 
 	
 # Freetype files
 LOCAL_SRC_FILES += \
-	Freetype/autofit/autofit.c \
-	Freetype/base/ftbase.c \
-	Freetype/bdf/bdf.c \
-	Freetype/cache/ftcache.c \
-	Freetype/cff/cff.c \
-	Freetype/cid/type1cid.c \
-	Freetype/gxvalid/gxvalid.c \
-	Freetype/gzip/ftgzip.c \
-	Freetype/lzw/ftlzw.c \
-	Freetype/otvalid/otvalid.c \
-	Freetype/pcf/pcf.c \
-	Freetype/pfr/pfr.c \
-	Freetype/psaux/psaux.c \
-	Freetype/pshinter/pshinter.c \
-	Freetype/psnames/psnames.c \
-	Freetype/raster/raster.c \
-	Freetype/sfnt/sfnt.c \
-	Freetype/smooth/smooth.c \
-	Freetype/truetype/truetype.c \
-	Freetype/type1/type1.c \
-	Freetype/type42/type42.c \
-	Freetype/winfonts/winfnt.c
+	../../../src/lib/Freetype/autofit/autofit.c \
+	../../../src/lib/Freetype/base/ftbase.c \
+	../../../src/lib/Freetype/bdf/bdf.c \
+	../../../src/lib/Freetype/cache/ftcache.c \
+	../../../src/lib/Freetype/cff/cff.c \
+	../../../src/lib/Freetype/cid/type1cid.c \
+	../../../src/lib/Freetype/gxvalid/gxvalid.c \
+	../../../src/lib/Freetype/gzip/ftgzip.c \
+	../../../src/lib/Freetype/lzw/ftlzw.c \
+	../../../src/lib/Freetype/otvalid/otvalid.c \
+	../../../src/lib/Freetype/pcf/pcf.c \
+	../../../src/lib/Freetype/pfr/pfr.c \
+	../../../src/lib/Freetype/psaux/psaux.c \
+	../../../src/lib/Freetype/pshinter/pshinter.c \
+	../../../src/lib/Freetype/psnames/psnames.c \
+	../../../src/lib/Freetype/raster/raster.c \
+	../../../src/lib/Freetype/sfnt/sfnt.c \
+	../../../src/lib/Freetype/smooth/smooth.c \
+	../../../src/lib/Freetype/truetype/truetype.c \
+	../../../src/lib/Freetype/type1/type1.c \
+	../../../src/lib/Freetype/type42/type42.c \
+	../../../src/lib/Freetype/winfonts/winfnt.c
 	
-LOCAL_CFLAGS += -IFreetype/include/
+LOCAL_CFLAGS += -I../../../src/lib/Freetype/include/
 
 
 # STK files
@@ -208,39 +208,39 @@ LOCAL_CFLAGS += -I../../../Classes/stk-4.4.1/include/
 # STLport files
 
 LOCAL_SRC_FILES += \
-	STLport/src/allocators.cpp \
-	STLport/src/bitset.cpp \
-	STLport/src/c_locale.c \
-	STLport/src/codecvt.cpp \
-	STLport/src/collate.cpp \
-	STLport/src/complex.cpp \
-	STLport/src/complex_io.cpp \
-	STLport/src/complex_trig.cpp \
-	STLport/src/ctype.cpp \
-	STLport/src/cxa.c \
-	STLport/src/dll_main.cpp \
-	STLport/src/facets_byname.cpp \
-	STLport/src/fstream.cpp \
-	STLport/src/ios.cpp \
-	STLport/src/iostream.cpp \
-	STLport/src/istream.cpp \
-	STLport/src/locale_catalog.cpp \
-	STLport/src/locale_impl.cpp \
-	STLport/src/messages.cpp \
-	STLport/src/monetary.cpp \
-	STLport/src/num_get.cpp \
-	STLport/src/num_get_float.cpp \
-	STLport/src/num_put.cpp \
-	STLport/src/num_put_float.cpp \
-	STLport/src/numpunct.cpp \
-	STLport/src/ostream.cpp \
-	STLport/src/sstream.cpp \
-	STLport/src/stdio_streambuf.cpp \
-	STLport/src/string.cpp \
-	STLport/src/strstream.cpp \
-	STLport/src/time_facets.cpp 
+	../../../src/lib/STLport/src/allocators.cpp \
+	../../../src/lib/STLport/src/bitset.cpp \
+	../../../src/lib/STLport/src/c_locale.c \
+	../../../src/lib/STLport/src/codecvt.cpp \
+	../../../src/lib/STLport/src/collate.cpp \
+	../../../src/lib/STLport/src/complex.cpp \
+	../../../src/lib/STLport/src/complex_io.cpp \
+	../../../src/lib/STLport/src/complex_trig.cpp \
+	../../../src/lib/STLport/src/ctype.cpp \
+	../../../src/lib/STLport/src/cxa.c \
+	../../../src/lib/STLport/src/dll_main.cpp \
+	../../../src/lib/STLport/src/facets_byname.cpp \
+	../../../src/lib/STLport/src/fstream.cpp \
+	../../../src/lib/STLport/src/ios.cpp \
+	../../../src/lib/STLport/src/iostream.cpp \
+	../../../src/lib/STLport/src/istream.cpp \
+	../../../src/lib/STLport/src/locale_catalog.cpp \
+	../../../src/lib/STLport/src/locale_impl.cpp \
+	../../../src/lib/STLport/src/messages.cpp \
+	../../../src/lib/STLport/src/monetary.cpp \
+	../../../src/lib/STLport/src/num_get.cpp \
+	../../../src/lib/STLport/src/num_get_float.cpp \
+	../../../src/lib/STLport/src/num_put.cpp \
+	../../../src/lib/STLport/src/num_put_float.cpp \
+	../../../src/lib/STLport/src/numpunct.cpp \
+	../../../src/lib/STLport/src/ostream.cpp \
+	../../../src/lib/STLport/src/sstream.cpp \
+	../../../src/lib/STLport/src/stdio_streambuf.cpp \
+	../../../src/lib/STLport/src/string.cpp \
+	../../../src/lib/STLport/src/strstream.cpp \
+	../../../src/lib/STLport/src/time_facets.cpp 
 
-LOCAL_CFLAGS += -ISTLport/stlport/ \
+LOCAL_CFLAGS += -I../../../src/lib/STLport/stlport/ \
 	-DANDROID \
 	-DOS_ANDROID \
 	-D__LITTLE_ENDIAN__ 
