@@ -44,7 +44,15 @@
 #include <limits.h>
 #include <stddef.h>
 #include <stdio.h>
-
+#ifdef ANDROID
+#include <android/log.h>
+#define LOG_TAG "urMus"
+#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
+#else
+#define LOGI(...)
+#define LOGE(...)
+#endif
 #if defined(_WIN32)		/* Windows specific #includes and #defines */
 #define	_WIN32_WINNT	0x0400	/* To make it link in VS2005 */
 #include <windows.h>
@@ -458,6 +466,7 @@ cry(struct mg_connection *conn, const char *fmt, ...)
 	va_start(ap, fmt);
 	(void) vsnprintf(buf, sizeof(buf), fmt, ap);
 	conn->ctx->log_callback(conn, &conn->request_info, buf);
+	LOGE("mongoose cries : %s",buf);
 	va_end(ap);
 }
 
@@ -1729,7 +1738,7 @@ mg_open_listening_port(struct mg_context *ctx, const char *str, struct usa *usa)
 	usa->u.sin.sin_family		= AF_INET;
 	usa->u.sin.sin_port		= htons((uint16_t) port);
 
-	if ((sock = socket(PF_INET, SOCK_STREAM, 6)) != INVALID_SOCKET &&
+	if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) != INVALID_SOCKET &&
 	    setsockopt(sock, SOL_SOCKET, SO_REUSEADDR,
 	    (char *) &on, sizeof(on)) == 0 &&
 	    /* ignore SIGPIPEs. This happens when transferring wav files for some reason

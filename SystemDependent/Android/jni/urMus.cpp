@@ -2,8 +2,7 @@
 
 #include <jni.h>
 #include <android/log.h>
-#define LOG_TAG "GLJNI gl_code.cpp"
-
+#define LOG_TAG "urMus"
 #define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 #define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 
@@ -14,6 +13,7 @@
 
 #include <stdlib.h>
 #include <math.h>
+#include "../../../src/httpServer.h"
 
 GLuint texture;
 GLfloat background;
@@ -139,11 +139,18 @@ void create_texture()
     glTexEnvx(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 }
 
+extern "C" {
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_init(JNIEnv * env, jobject obj,  jint width, jint height);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_step(JNIEnv * env, jobject obj);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_changeBackground(JNIEnv * env, jobject obj);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobject obj);
+}
+
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_init(JNIEnv * env, jobject obj,  jint width, jint height)
 {
     init_scene(width, height);
     create_texture();
-
+	
 }
 
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_step(JNIEnv * env, jobject obj)
@@ -180,4 +187,21 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_step(JNIEnv * env, jobject obj
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_changeBackground(JNIEnv * env, jobject obj)
 {
     background = 1.0f - background;
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobject obj)
+{
+	LOGI("Starting Server....\n");
+	jclass cls = env->GetObjectClass(obj);
+	jmethodID getFilesDir = env->GetMethodID(cls, "getFilesDir", "()Ljava/io/File;");
+	jobject dirobj = env->CallObjectMethod(obj,getFilesDir);
+	jclass dir = env->GetObjectClass(dirobj);
+	jmethodID getStoragePath = env->GetMethodID(dir, "getAbsolutePath", "()Ljava/lang/String;");
+	jstring path=(jstring)env->CallObjectMethod(dirobj, getStoragePath);
+	const char *pathstr=env->GetStringUTFChars(path, 0);
+	LOGI("the path : %s\n",pathstr);
+	char webRoot[512]="";
+	sprintf(webRoot,"%s/html",pathstr);
+	http_start(webRoot,pathstr);
+	env->ReleaseStringUTFChars(path, pathstr);
 }

@@ -25,6 +25,7 @@ public class urMus extends Activity
 		mView.setFocusableInTouchMode(true);
 		setContentView(mView);
 		install();
+		startServer();
     }
 
     @Override protected void onPause() {
@@ -40,7 +41,8 @@ public class urMus extends Activity
 	public static native void init(int width, int height);
 	public static native void step();
 	public static native void changeBackground();
-
+	public native void startServer();
+	
 	public void install() {
 		// get assets manager
 		AssetManager assets = getAssets();

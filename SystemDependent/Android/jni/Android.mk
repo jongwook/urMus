@@ -18,7 +18,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE    := urMus
 
-LOCAL_SRC_FILES := urMus.c \
+LOCAL_SRC_FILES := urMus.cpp \
 	../../../src/mongoose.c \
 	../../../src/httpServer.c \
 	../../../src/urImage.cpp \
