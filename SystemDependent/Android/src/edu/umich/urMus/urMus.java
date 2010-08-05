@@ -50,7 +50,7 @@ public class urMus extends Activity
 		Log.i(TAG,"Storage Path : " + storagePath);
 		
 		// source directories in assets directory
-		String sources[]={"html","html/js","html/css","Sounds","Textures","urMus-Lua"};
+		String sources[]={"html","html/js","html/js/jplayer","html/css","Sounds","Textures","urMus-Lua"};
 		for(String source : sources) {
 			Log.i(TAG,"traversing "+source);
 			
