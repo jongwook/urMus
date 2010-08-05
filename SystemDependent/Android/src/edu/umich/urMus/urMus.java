@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.util.Log;
 import android.content.res.AssetManager;
-import android.content.res.AssetFileDescriptor;
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class urMus extends Activity
 {
@@ -41,28 +42,49 @@ public class urMus extends Activity
 	public static native void changeBackground();
 
 	public void install() {
+		// get assets manager
 		AssetManager assets = getAssets();
+		
+		// storage path : /data/data/edu.umich.urMus/files
 		String storagePath=getFilesDir().getAbsolutePath();
 		Log.i(TAG,"Storage Path : " + storagePath);
+		
 		// source directories in assets directory
 		String sources[]={"html","html/js","html/css","Sounds","Textures","urMus-Lua"};
 		for(String source : sources) {
 			Log.i(TAG,"traversing "+source);
+			
 			String[] files = null;
 			try {
 				files = assets.list(source);
 			} catch (IOException e) {
-				Log.e(TAG, e.getMessage());
+				Log.e(TAG, "error while traversing " + source + " : " +e.getMessage());
+				continue;
 			}
+			File destDir=new File(storagePath+"/"+source);
+			destDir.mkdirs();
+			byte buf[]=new byte[512];
 			if(files!=null) {
 				for(String file : files) {
-					String filepath=source+"/"+file;
-					Log.i(TAG,"opening : "+filepath);
+					String srcPath=source+"/"+file;
+					String destPath=storagePath+"/"+srcPath;
+					Log.i(TAG,"opening : "+srcPath);
 					try {
-						InputStream input=assets.open(filepath,AssetManager.ACCESS_STREAMING);
-						int cnt=0, data;
-						while((data=input.read())!=-1) cnt++;
-						Log.i(TAG, "File size : "+cnt);
+						File dest=new File(destPath);
+						if(dest.isFile()) {
+							Log.i(TAG,srcPath+" already exists, skipping");
+							continue;
+						}
+						InputStream input=assets.open(srcPath,AssetManager.ACCESS_STREAMING);
+						FileOutputStream output=new FileOutputStream(dest);
+						int total=0;
+						while(true) {
+							int len=input.read(buf);
+							if(len==-1) break;
+							output.write(buf,0,len);
+							total+=len;
+						}
+						Log.i(TAG, total + "bytes written");
 					} catch (IOException e) {
 						Log.e(TAG, e.getMessage());
 					}
