@@ -87,8 +87,10 @@ NSMutableArray *ActiveTouches;              ///< Used to keep track of all curre
 struct urDragTouch
 {
 	urAPI_Region_t* dragregion;
-	UITouch* touch1;
-	UITouch* touch2;
+	int touch1;
+	int touch2;
+//	UITouch* touch1;
+//	UITouch* touch2;
 	float left;
 	float top;
 	float right;
@@ -97,7 +99,7 @@ struct urDragTouch
 	float dragheight;
 	bool active;
 	bool flagged;
-	urDragTouch() { active = false; flagged = false; }
+	urDragTouch() { active = false; flagged = false; touch1 = -1; touch2 = -1;}
 };
 
 typedef struct urDragTouch urDragTouch_t;
@@ -115,13 +117,21 @@ int FindDragRegion(urAPI_Region_t*region)
 	return -1;
 }
 
-void AddDragRegion(int idx, UITouch* t)
+void AddDragRegion(int idx, int t)
+{
+	if(dragtouches[idx].touch1 == -1 && dragtouches[idx].touch2!=t)
+		dragtouches[idx].touch1 = t;
+	else if(dragtouches[idx].touch2 == -1 && dragtouches[idx].touch1!=t)
+		dragtouches[idx].touch2 = t;
+}
+
+/*void AddDragRegion(int idx, UITouch* t)
 {
 	if(dragtouches[idx].touch1 == NULL && dragtouches[idx].touch2!=t)
 		dragtouches[idx].touch1 = t;
 	else if(dragtouches[idx].touch2 == NULL && dragtouches[idx].touch1!=t)
 		dragtouches[idx].touch2 = t;
-}
+}*/
 
 void ClearAllDragFlags()
 {
@@ -141,7 +151,58 @@ int FindAvailableDragTouch()
 	return -1;
 }
 
-int FindDoubleDragTouch(UITouch* t1, UITouch* t2)
+
+UITouch* UITTrans[MAX_FINGERS];
+
+void InitUITouchTranslation()
+{
+	for(int i=0; i< MAX_FINGERS; i++)
+	{
+		UITTrans[i] = NULL;
+	}
+}
+
+int UITouch2UTID(UITouch* t)
+{
+	for(int i=0; i<MAX_FINGERS;i++)
+		if( UITTrans[i] == t) return i;
+	
+	return -1;
+}
+
+UITouch* UTID2UITouch(int t)
+{
+	return UITTrans[t];
+}
+
+int AddUITouch(UITouch* t)
+{
+	bool found = false;
+	int n = -1;
+	for(int i=0; i< MAX_FINGERS; i++)
+	{
+		if(UITTrans[i] == t) found = true;
+		if(n == -1 && UITTrans[i] == NULL) n = i;
+	}
+	
+	if(found == false && n != -1)
+		UITTrans[n] = t;
+	
+	return n;
+}
+
+void RemoveUTID(int t)
+{
+	UITTrans[t] = NULL;
+}
+
+void RemoveUITouchUTID(UITouch* t)
+{
+	for(int i=0; i<MAX_FINGERS;i++)
+		if( UITTrans[i] == t) UITTrans[i] = NULL;
+}
+
+int FindDoubleDragTouch(int t1, int t2)
 {
 	for(int i=0; i< MAX_DRAGS; i++)
 		if(dragtouches[i].active && ((dragtouches[i].touch1 == t1 && dragtouches[i].touch2 == t2) || (dragtouches[i].touch1 == t2 && dragtouches[i].touch2 == t1)))
@@ -151,15 +212,40 @@ int FindDoubleDragTouch(UITouch* t1, UITouch* t2)
 	return -1;
 }
 
-int FindSingleDragTouch(UITouch* t)
+
+/*int FindDoubleDragTouch(UITouch* t1, UITouch* t2)
 {
 	for(int i=0; i< MAX_DRAGS; i++)
-		if((dragtouches[i].active && dragtouches[i].touch1 == t /* && dragtouches[i].touch2 == NULL*/) || (/*dragtouches[i].touch1 == NULL &&*/ dragtouches[i].touch2 == t))
+		if(dragtouches[i].active && ((dragtouches[i].touch1 == t1 && dragtouches[i].touch2 == t2) || (dragtouches[i].touch1 == t2 && dragtouches[i].touch2 == t1)))
 		{
 			return i;
 		}
 	return -1;
+}*/
+
+int FindSingleDragTouch(int t)
+{
+	if(t>=0)
+	{
+		for(int i=0; i< MAX_DRAGS; i++)
+			if((dragtouches[i].active && dragtouches[i].touch1 == t /* && dragtouches[i].touch2 == NULL*/) || (/*dragtouches[i].touch1 == NULL &&*/ dragtouches[i].touch2 == t))
+			{
+				return i;
+			}
+	}
+	return -1;
 }
+
+/*
+int FindSingleDragTouch(UITouch* t)
+{
+	for(int i=0; i< MAX_DRAGS; i++)
+		if((dragtouches[i].active && dragtouches[i].touch1 == t) || (dragtouches[i].touch2 == t))
+		{
+			return i;
+		}
+	return -1;
+}*/
 
 float cursorpositionx[MAX_FINGERS];
 float cursorpositiony[MAX_FINGERS];
@@ -1215,6 +1301,7 @@ CGFloat distanceBetweenPoints(CGPoint first, CGPoint second)
 	return sqrt(deltax*deltax + deltay*deltay);
 }
 
+/*
 int NumHitMatches(urAPI_Region_t* hitregion[], int max, int idx, int repeat)
 {
 	int count = 0;
@@ -1223,6 +1310,258 @@ int NumHitMatches(urAPI_Region_t* hitregion[], int max, int idx, int repeat)
 			count++;
 
 }
+*/
+
+// Platform independent stuff
+
+urAPI_Region_t* hitregion[MAX_FINGERS];
+
+void onTouchDownParse(int t, int numTaps, float posx, float posy)
+{
+	if(t>=0)
+	{
+		hitregion[t] = NULL;
+		cursorpositionx[t] = posx;
+		cursorpositiony[t] = posy;
+		
+		hitregion[t] = findRegionHit(posx, SCREEN_HEIGHT-posy);
+		if(hitregion[t]!=nil)
+		{
+			// A double tap.
+			if (numTaps == 2 && hitregion[t]->OnDoubleTap) 
+			{
+				callScript(hitregion[t]->OnDoubleTap, hitregion[t]);
+				//					callScript(hitregion[t]->OnTouchUp, hitregion[t]);
+			}
+			else if (numTaps == 3 && false)
+			{
+				// Tripple Tap NYI
+			}
+			else if (numTaps == 1)
+				callScript(hitregion[t]->OnTouchDown, hitregion[t]);
+			else {
+				callScript(hitregion[t]->OnTouchDown, hitregion[t]);
+				callScript(hitregion[t]->OnTouchUp, hitregion[t]);
+			}
+		}
+	}
+}
+
+int arg = 0;
+void onTouchArgInit()
+{
+	arg = 0;
+}
+
+void onTouchMoveUpdate(int t, int t2, float oposx, float oposy, float posx, float posy)
+{
+	if(t2 >=0)
+	{
+		cursorscrollspeedx[t2] = posx - oposx;
+		cursorscrollspeedy[t2] = posy - oposy;
+		cursorpositionx[t2] = posx;
+		cursorpositiony[t2] = posy;
+		argmoved[arg] = t;
+		argcoordx[arg] = posx;
+		argcoordy[arg] = SCREEN_HEIGHT-posy;
+		arg2coordx[arg] = oposx;
+		arg2coordy[arg] = SCREEN_HEIGHT-oposy;
+		arg++;
+	}
+}
+
+void onTouchEnds(int numTaps, float oposx, float oposy, float posx, float posy)
+{
+	urAPI_Region_t* hitregion = findRegionHit(posx, SCREEN_HEIGHT-posy);
+	if(hitregion && numTaps <= 1)
+	{
+		callScript(hitregion->OnTouchUp, hitregion);
+		callAllOnLeaveRegions(posx, SCREEN_HEIGHT-posy);
+	}
+	else
+	{
+		argcoordx[arg] = posx;
+		argcoordy[arg] = SCREEN_HEIGHT-posy;
+		arg2coordx[arg] = oposx;
+		arg2coordy[arg] = SCREEN_HEIGHT-oposy;
+		arg++;
+	}
+}
+
+
+void ClampRegion(urAPI_Region_t*region)
+{
+	if(region->left < 0) region->left = 0;
+	if(region->bottom < 0) region->bottom = 0;
+	if(region->width > SCREEN_WIDTH) region->width = SCREEN_WIDTH;
+	if(region->height > SCREEN_HEIGHT) region->height = SCREEN_HEIGHT;
+	if(region->left+region->width > SCREEN_WIDTH) region->left = SCREEN_WIDTH-region->width;
+	if(region->bottom+region->height > SCREEN_HEIGHT) region->bottom = SCREEN_HEIGHT-region->height;
+}
+
+
+void onTouchDoubleDragUpdate(int t, int dragidx, float pos1x, float pos1y, float pos2x, float pos2y)
+{
+	if(t>=0)
+	{
+		float dx = cursorscrollspeedx[t];
+		float dy = -(cursorscrollspeedy[t]);
+		if( dx !=0 || dy != 0)
+		{
+			urAPI_Region_t* dragregion = dragtouches[dragidx].dragregion;
+			dragregion->left += dx;
+			dragregion->bottom += dy;
+			float cursorpositionx2 = pos2x;
+			float cursorpositiony2 = pos2y;
+			if(dragregion->isResizable)
+			{
+				float deltanewwidth = fabs(cursorpositionx2-pos1x);
+				float deltanewheight = fabs(cursorpositiony2-pos1y);
+				dragregion->width = dragtouches[dragidx].dragwidth + deltanewwidth;
+				dragregion->height = dragtouches[dragidx].dragheight + deltanewheight;
+			}
+			dragregion->right = dragregion->left + dragregion->width;
+			dragregion->top = dragregion->bottom + dragregion->height;
+			if(dragregion->isClamped) ClampRegion(dragregion);
+			callScript(dragregion->OnSizeChanged, dragregion);
+		}
+	}
+}
+
+bool testDoubleDragStart(int t1, int t2)
+{
+	if(hitregion[t1] != NULL && hitregion[t1] == hitregion[t2] && hitregion[t1]->isMovable && hitregion[t1]->isResizable) // Pair of fingers on draggable region?
+		return true;
+	else
+		return false;
+}
+
+void doTouchDoubleDragStart(int t1,int t2,int touch1, int touch2)
+{
+	if(t1>=0 && t2>=0)
+	{
+		hitregion[t1]->isDragged = true; // YAYA
+		hitregion[t1]->isResized = true;
+		int dragidx = FindAvailableDragTouch();
+		dragtouches[dragidx].dragregion = hitregion[t1];
+		dragtouches[dragidx].touch1 = touch1; //UITouch2UTID([[touches allObjects] objectAtIndex:t1]);
+		dragtouches[dragidx].touch2 = touch2; //UITouch2UTID([[touches allObjects] objectAtIndex:t2]);
+		dragtouches[dragidx].dragwidth = hitregion[t1]->width-fabs(cursorpositionx[t2]-cursorpositionx[t1]);
+		dragtouches[dragidx].dragheight = hitregion[t1]->height-fabs(cursorpositiony[t2]-cursorpositiony[t1]);
+		dragtouches[dragidx].active = true;
+	}
+}
+
+bool testSingleDragStart(int t)
+{
+	if(hitregion[t]!=nil && hitregion[t]->isMovable)
+		return true;
+	else 
+		return false;
+}
+
+bool getSingleDoubleTouchConversionID(int t)
+{
+	int dragidx = FindDragRegion(hitregion[t]);
+	if(dragidx == -1)
+		return -1;
+	else 
+		return dragtouches[dragidx].touch1;
+}
+
+void doTouchSingleDragStart(int t, int touch1, float pos1x, float pos1y, float pos2x, float pos2y)
+{
+	hitregion[t]->isDragged = true; // YAYA
+	int dragidx = FindDragRegion(hitregion[t]);
+	if(dragidx == -1)
+	{
+		dragidx = FindAvailableDragTouch();
+		dragtouches[dragidx].dragregion = hitregion[t];
+		dragtouches[dragidx].touch1 = touch1;
+		dragtouches[dragidx].touch2 = -1;
+		dragtouches[dragidx].active = true;
+	}
+	else
+	{
+		AddDragRegion(dragidx,touch1);
+		if(dragtouches[dragidx].touch2 != -1)
+		{
+			dragtouches[dragidx].dragwidth = dragtouches[dragidx].dragregion->width-fabs(pos2x-pos1x);
+			dragtouches[dragidx].dragheight = dragtouches[dragidx].dragregion->height-fabs(pos2y-pos1y);
+		}
+	}
+}
+
+void onTouchSingleDragUpdate(int t, int dragidx)
+{
+	if(t>=0 && dragidx>=0)
+	{
+		float dx = cursorscrollspeedx[t];
+		float dy = -(cursorscrollspeedy[t]);
+		if( dx !=0 || dy != 0)
+		{
+			urAPI_Region_t* dragregion = dragtouches[dragidx].dragregion;
+			dragregion->left += dx;
+			dragregion->bottom += dy;
+			dragregion->right += dx;
+			dragregion->top += dy;
+		}
+	}
+}
+
+void onTouchScrollUpdate(int t)
+{
+	urAPI_Region_t* scrollregion = findRegionXScrolled(cursorpositionx[t],SCREEN_HEIGHT-cursorpositiony[t],cursorscrollspeedx[t]);
+	if(scrollregion != nil)
+	{
+		callScriptWith1Args(scrollregion->OnHorizontalScroll, scrollregion, cursorscrollspeedx[t]);
+	}
+	scrollregion = findRegionYScrolled(cursorpositionx[t],SCREEN_HEIGHT-cursorpositiony[t],-cursorscrollspeedy[t]);
+	if(scrollregion != nil)
+	{
+		callScriptWith1Args(scrollregion->OnVerticalScroll, scrollregion, -cursorscrollspeedy[t]);
+	}
+}
+
+void onTouchDragEnd(int t,int touch, float posx, float posy)
+{
+	if(touch >=0 && t>=0)
+	{
+		
+		cursorpositionx[t] = posx;
+		cursorpositiony[t] = posy;
+
+		int dragidx = FindSingleDragTouch(touch);
+		
+		if(dragidx != -1)
+		{
+			if(dragtouches[dragidx].touch1 == touch)
+			{
+				RemoveUTID(dragtouches[dragidx].touch1);
+				dragtouches[dragidx].touch1 = -1;
+			}
+			if(dragtouches[dragidx].touch2 == touch)
+			{
+				RemoveUTID(dragtouches[dragidx].touch2);
+				dragtouches[dragidx].touch2 = -1;
+			}
+			if(	dragtouches[dragidx].touch1 == -1 && dragtouches[dragidx].touch2 == -1)
+			{
+				dragtouches[dragidx].active = false;
+				dragtouches[dragidx].dragregion->isDragged = false;
+				callScript(dragtouches[dragidx].dragregion->OnDragStop, dragtouches[dragidx].dragregion);
+			}
+			else if(dragtouches[dragidx].touch2 != -1)
+			{
+				RemoveUTID(dragtouches[dragidx].touch1);
+				dragtouches[dragidx].touch1 = dragtouches[dragidx].touch2;
+				dragtouches[dragidx].touch2 = -1;
+			}
+			dragtouches[dragidx].dragregion->isResized = false;
+		}
+	}
+}
+
 
 // Handles the start of a touch
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -1250,45 +1589,13 @@ int NumHitMatches(urAPI_Region_t* hitregion[], int max, int idx, int repeat)
 		callAllTouchSources(position.x/(float)HALF_SCREEN_WIDTH-1.0, 1.0-position.y/(float)HALF_SCREEN_HEIGHT,t);
 	}
 	
-	urAPI_Region_t* hitregion[MAX_FINGERS];
 	for(int t=0; t< numTouches; t++)
 	{
-		hitregion[t] = NULL;
 		UITouch *touch = [[touches allObjects] objectAtIndex:t];
 		NSUInteger numTaps = [touch tapCount];
-		UITouchPhase phase = [touch phase];
 		CGPoint position = [touch locationInView:self];
-		cursorpositionx[t] = position.x;
-		cursorpositiony[t] = position.y;
-		
-		if(phase == UITouchPhaseBegan) // Hope this works ...
-		{
-			hitregion[t] = findRegionHit(position.x, SCREEN_HEIGHT-position.y);
-			if(hitregion[t]!=nil)
-			{
-				// A double tap.
-				if (numTaps == 2 && hitregion[t]->OnDoubleTap) 
-				{
-					callScript(hitregion[t]->OnDoubleTap, hitregion[t]);
-//					callScript(hitregion[t]->OnTouchUp, hitregion[t]);
-				}
-				else if (numTaps == 3 && false)
-				{
-					// Tripple Tap NYI
-				}
-				else if (numTaps == 1)
-					callScript(hitregion[t]->OnTouchDown, hitregion[t]);
-				else {
-					callScript(hitregion[t]->OnTouchDown, hitregion[t]);
-					callScript(hitregion[t]->OnTouchUp, hitregion[t]);
-				}
 
-			}
-		}
-		else
-		{
-			int a = 0;
-		}
+		onTouchDownParse(t, numTaps, position.x, position.y);
 	}
 	
 	// Find two-finger drags
@@ -1296,17 +1603,12 @@ int NumHitMatches(urAPI_Region_t* hitregion[], int max, int idx, int repeat)
 	{
 		for(int t2 = t1+1; t2<numTouches; t2++)
 		{
-			if(hitregion[t1] != NULL && hitregion[t1] == hitregion[t2] && hitregion[t1]->isMovable && hitregion[t1]->isResizable) // Pair of fingers on draggable region?
+			if(testDoubleDragStart(t1,t2))
 			{
-				hitregion[t1]->isDragged = true; // YAYA
-				hitregion[t1]->isResized = true;
-				int dragidx = FindAvailableDragTouch();
-				dragtouches[dragidx].dragregion = hitregion[t1];
-				dragtouches[dragidx].touch1 = [[touches allObjects] objectAtIndex:t1];
-				dragtouches[dragidx].touch2 = [[touches allObjects] objectAtIndex:t2];
-				dragtouches[dragidx].dragwidth = hitregion[t1]->width-fabs(cursorpositionx[t2]-cursorpositionx[t1]);
-				dragtouches[dragidx].dragheight = hitregion[t1]->height-fabs(cursorpositiony[t2]-cursorpositiony[t1]);
-				dragtouches[dragidx].active = true;
+				int touch1 = AddUITouch([[touches allObjects] objectAtIndex:t1]);
+				int touch2 = AddUITouch([[touches allObjects] objectAtIndex:t2]);
+
+				doTouchDoubleDragStart(t1,t2,touch1, touch2);
 			}
 		}
 	}
@@ -1314,41 +1616,22 @@ int NumHitMatches(urAPI_Region_t* hitregion[], int max, int idx, int repeat)
 	// Find single finger drags (not already classified as two-finger ones.
 	for(int t = 0; t<numTouches; t++)
 	{
-		if(hitregion[t]!=nil && hitregion[t]->isMovable)
+		if(testSingleDragStart(t))
 		{
-			hitregion[t]->isDragged = true; // YAYA
-			int dragidx = FindDragRegion(hitregion[t]);
-			if(dragidx == -1)
+			int touch1 = AddUITouch([[touches allObjects] objectAtIndex:t]);
+			CGPoint position1 = [[[touches allObjects] objectAtIndex:t] locationInView:self];
+			CGPoint position2;
+
+			int touch2 = getSingleDoubleTouchConversionID(t);
+			
+			if(touch2 != -1)
 			{
-				dragidx = FindAvailableDragTouch();
-				dragtouches[dragidx].dragregion = hitregion[t];
-				dragtouches[dragidx].touch1 = [[touches allObjects] objectAtIndex:t];
-				dragtouches[dragidx].touch2 = NULL;
-				dragtouches[dragidx].active = true;
+				position2 = [UTID2UITouch(touch2) locationInView:self];
 			}
-			else
-			{
-				AddDragRegion(dragidx,[[touches allObjects] objectAtIndex:t]);
-				if(dragtouches[dragidx].touch2 != NULL)
-				{
-					CGPoint position1 = [dragtouches[dragidx].touch1 locationInView:self];
-					CGPoint position2 = [dragtouches[dragidx].touch2 locationInView:self];
-					dragtouches[dragidx].dragwidth = dragtouches[dragidx].dragregion->width-fabs(position2.x-position1.x);
-					dragtouches[dragidx].dragheight = dragtouches[dragidx].dragregion->height-fabs(position2.y-position1.y);
-				}
-			}
+				
+			doTouchSingleDragStart(t, touch1, position1.x, position1.y, position2.x, position2.y);
 		}
 	}		
-}
-
-void ClampRegion(urAPI_Region_t*region)
-{
-	if(region->left < 0) region->left = 0;
-	if(region->bottom < 0) region->bottom = 0;
-	if(region->width > SCREEN_WIDTH) region->width = SCREEN_WIDTH;
-	if(region->height > SCREEN_HEIGHT) region->height = SCREEN_HEIGHT;
-	if(region->left+region->width > SCREEN_WIDTH) region->left = SCREEN_WIDTH-region->width;
-	if(region->bottom+region->height > SCREEN_HEIGHT) region->bottom = SCREEN_HEIGHT-region->height;
 }
 
 // Handles the continuation of a touch.
@@ -1372,8 +1655,7 @@ void ClampRegion(urAPI_Region_t*region)
 		callAllTouchSources(position.x/(float)HALF_SCREEN_WIDTH-1.0, 1.0-position.y/(float)HALF_SCREEN_HEIGHT,t);
 	}
 
-//	urAPI_Region_t* hitregion[MAX_FINGERS];
-	int arg = 0;
+	onTouchArgInit();
 	for(int t=0; t< numTouches; t++)
 	{
 		UITouch *touch = [[touches allObjects] objectAtIndex:t];
@@ -1392,16 +1674,7 @@ void ClampRegion(urAPI_Region_t*region)
 					t2=t;
 				}
 			}	
-			cursorscrollspeedx[t2] = position.x - oldposition.x;
-			cursorscrollspeedy[t2] = position.y - oldposition.y;
-			cursorpositionx[t2] = position.x;
-			cursorpositiony[t2] = position.y;
-			argmoved[arg] = t;
-			argcoordx[arg] = position.x;
-			argcoordy[arg] = SCREEN_HEIGHT-position.y;
-			arg2coordx[arg] = oldposition.x;
-			arg2coordy[arg] = SCREEN_HEIGHT-oldposition.y;
-			arg++;
+			onTouchMoveUpdate(t, t2, oldposition.x, oldposition.y, position.x, position.y);
 		}
 		else
 		{
@@ -1412,61 +1685,25 @@ void ClampRegion(urAPI_Region_t*region)
 	for(int i=0; i < arg; i++)
 	{
 		int t = argmoved[i];
-		int dragidx = FindSingleDragTouch([[touches allObjects] objectAtIndex:t]);
+		int dragidx = FindSingleDragTouch(UITouch2UTID([[touches allObjects] objectAtIndex:t]));
 		if(dragidx != -1)
 		{
-			if(dragtouches[dragidx].touch2 != NULL) // Double Touch here.
+			if(dragtouches[dragidx].touch2 != -1) // Double Touch here.
 			{
-				float dx = cursorscrollspeedx[t];
-				float dy = -(cursorscrollspeedy[t]);
-				if( dx !=0 || dy != 0)
-				{
-					urAPI_Region_t* dragregion = dragtouches[dragidx].dragregion;
-					dragregion->left += dx;
-					dragregion->bottom += dy;
-					CGPoint position1 = [dragtouches[dragidx].touch1 locationInView:self];
-					CGPoint position2 = [dragtouches[dragidx].touch2 locationInView:self];
-					float cursorpositionx2 = position2.x;
-					float cursorpositiony2 = position2.y;
-					if(dragregion->isResizable)
-					{
-						float deltanewwidth = fabs(cursorpositionx2-position1.x);
-						float deltanewheight = fabs(cursorpositiony2-position1.y);
-						dragregion->width = dragtouches[dragidx].dragwidth + deltanewwidth;
-						dragregion->height = dragtouches[dragidx].dragheight + deltanewheight;
-					}
-					dragregion->right = dragregion->left + dragregion->width;
-					dragregion->top = dragregion->bottom + dragregion->height;
-					if(dragregion->isClamped) ClampRegion(dragregion);
-					callScript(dragregion->OnSizeChanged, dragregion);
-				}
+				CGPoint position1 = [UTID2UITouch(dragtouches[dragidx].touch1) locationInView:self];
+				CGPoint position2 = [UTID2UITouch(dragtouches[dragidx].touch2) locationInView:self];
+				
+				onTouchDoubleDragUpdate(t, dragidx, position1.x, position1.y, position2.x, position2.y);
+				
 			}
 			else
 			{
-				float dx = cursorscrollspeedx[t];
-				float dy = -(cursorscrollspeedy[t]);
-				if( dx !=0 || dy != 0)
-				{
-					urAPI_Region_t* dragregion = dragtouches[dragidx].dragregion;
-					dragregion->left += dx;
-					dragregion->bottom += dy;
-					dragregion->right += dx;
-					dragregion->top += dy;
-				}
+				onTouchSingleDragUpdate(t, dragidx);
 			}
 		}
 		else 
 		{
-			urAPI_Region_t* scrollregion = findRegionXScrolled(cursorpositionx[t],SCREEN_HEIGHT-cursorpositiony[t],cursorscrollspeedx[t]);
-			if(scrollregion != nil)
-			{
-				callScriptWith1Args(scrollregion->OnHorizontalScroll, scrollregion, cursorscrollspeedx[t]);
-			}
-			scrollregion = findRegionYScrolled(cursorpositionx[t],SCREEN_HEIGHT-cursorpositiony[t],-cursorscrollspeedy[t]);
-			if(scrollregion != nil)
-			{
-				callScriptWith1Args(scrollregion->OnVerticalScroll, scrollregion, -cursorscrollspeedy[t]);
-			}
+			onTouchScrollUpdate(t);
 		}
 	}
 	
@@ -1493,55 +1730,21 @@ void ClampRegion(urAPI_Region_t*region)
 		callAllTouchSources(position.x/(float)HALF_SCREEN_WIDTH-1.0, 1.0-position.y/(float)HALF_SCREEN_HEIGHT,t);
 	}
 	
-	int arg = 0;
+	onTouchArgInit();
+	
 	for(int t=0; t< numTouches; t++)
 	{
-		UITouch *touch = [[touches allObjects] objectAtIndex:t];
-		UITouchPhase phase = [touch phase];
-		CGPoint position = [touch locationInView:self];
-		cursorpositionx[t] = position.x;
-		cursorpositiony[t] = position.y;
+		UITouch *touchip = [[touches allObjects] objectAtIndex:t];
+		int touch = UITouch2UTID(touchip);
+		UITouchPhase phase = [touchip phase];
+		CGPoint position = [touchip locationInView:self];
 
 		if(phase == UITouchPhaseEnded)		{
-			
-			int dragidx = FindSingleDragTouch(touch);
-			if(dragidx != -1)
-			{
-				if(dragtouches[dragidx].touch1 == touch)
-					dragtouches[dragidx].touch1 = NULL;
-				if(dragtouches[dragidx].touch2 == touch)
-					dragtouches[dragidx].touch2 = NULL;
-				if(	dragtouches[dragidx].touch1 == NULL && dragtouches[dragidx].touch2 == NULL)
-				{
-					dragtouches[dragidx].active = false;
-					dragtouches[dragidx].dragregion->isDragged = false;
-					callScript(dragtouches[dragidx].dragregion->OnDragStop, dragtouches[dragidx].dragregion);
-				}
-				else if(dragtouches[dragidx].touch2 != NULL)
-				{
-					dragtouches[dragidx].touch1 = dragtouches[dragidx].touch2;
-					dragtouches[dragidx].touch2 = NULL;
-				}
-				dragtouches[dragidx].dragregion->isResized = false;
-			}
-			
-			CGPoint oldposition = [touch previousLocationInView:self];
-			urAPI_Region_t* hitregion = findRegionHit(position.x, SCREEN_HEIGHT-position.y);
-			NSUInteger numTaps = [touch tapCount];
-			if(hitregion && numTaps <= 1)
-			{
-				callScript(hitregion->OnTouchUp, hitregion);
-				callAllOnLeaveRegions(position.x, SCREEN_HEIGHT-position.y);
-			}
-			else
-			{
-				argcoordx[arg] = position.x;
-				argcoordy[arg] = SCREEN_HEIGHT-position.y;
-				arg2coordx[arg] = oldposition.x;
-				arg2coordy[arg] = SCREEN_HEIGHT-oldposition.y;
-				arg++;
-				
-			}
+
+			onTouchDragEnd(t,touch,position.x,position.y);
+			CGPoint oldposition = [touchip previousLocationInView:self];
+			NSUInteger numTaps = [touchip tapCount];
+			onTouchEnds(numTaps, oldposition.x, oldposition.y, position.x, position.y);
 		}
 		else
 		{

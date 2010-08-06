@@ -22,11 +22,14 @@
 		7700C06C104B2DA70025D43A /* rightarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 7700C06A104B2DA70025D43A /* rightarrow.png */; };
 		7706EBAD1044E0E200E7D656 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7706EBAC1044E0E200E7D656 /* CoreLocation.framework */; };
 		770FD84B10AB51CF004B0967 /* flatbutton-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 770FD84A10AB51CF004B0967 /* flatbutton-64.png */; };
+		7710413D11FD1B4F00BB9F19 /* UIApplication+ScreenMirroring.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7710413C11FD1B4F00BB9F19 /* UIApplication+ScreenMirroring.mm */; };
 		771DC9B411B051BB00880F72 /* urBounce.lua in Sources */ = {isa = PBXBuildFile; fileRef = 771DC9B311B051BB00880F72 /* urBounce.lua */; };
 		771DC9DC11B0523E00880F72 /* urBounce.lua in Resources */ = {isa = PBXBuildFile; fileRef = 771DC9B311B051BB00880F72 /* urBounce.lua */; };
 		771F1C3C109B7E10005069EC /* urSoundAtoms.mm in Sources */ = {isa = PBXBuildFile; fileRef = 771F1C3B109B7E10005069EC /* urSoundAtoms.mm */; };
 		772030E1108E479B001BE7A1 /* piano.png in Resources */ = {isa = PBXBuildFile; fileRef = 772030E0108E479B001BE7A1 /* piano.png */; };
 		772CCAD1111F92C700E932EE /* Ornament1.png in Resources */ = {isa = PBXBuildFile; fileRef = 772CCAD0111F92C700E932EE /* Ornament1.png */; };
+		7737230E120A1C9D003AEE57 /* urDistance.lua in Sources */ = {isa = PBXBuildFile; fileRef = 7737230D120A1C9D003AEE57 /* urDistance.lua */; };
+		7737230F120A1CA6003AEE57 /* urDistance.lua in Resources */ = {isa = PBXBuildFile; fileRef = 7737230D120A1C9D003AEE57 /* urDistance.lua */; };
 		773D287910CF32A10090E189 /* sleighbells.wav in Resources */ = {isa = PBXBuildFile; fileRef = 773D287810CF32A10090E189 /* sleighbells.wav */; };
 		7743E38F10BB147D005F36BF /* lfs.c in Sources */ = {isa = PBXBuildFile; fileRef = 7743E38E10BB147D005F36BF /* lfs.c */; };
 		7777E3221165CC480013B337 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7777E3211165CC480013B337 /* MainWindow-iPad.xib */; };
@@ -245,11 +248,14 @@
 		7700C06A104B2DA70025D43A /* rightarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rightarrow.png; path = Textures/rightarrow.png; sourceTree = "<group>"; };
 		7706EBAC1044E0E200E7D656 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		770FD84A10AB51CF004B0967 /* flatbutton-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "flatbutton-64.png"; path = "Textures/flatbutton-64.png"; sourceTree = "<group>"; };
+		7710413B11FD1B4F00BB9F19 /* UIApplication+ScreenMirroring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+ScreenMirroring.h"; sourceTree = "<group>"; };
+		7710413C11FD1B4F00BB9F19 /* UIApplication+ScreenMirroring.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIApplication+ScreenMirroring.mm"; sourceTree = "<group>"; };
 		771DC9B311B051BB00880F72 /* urBounce.lua */ = {isa = PBXFileReference; fileEncoding = 12; lastKnownFileType = sourcecode.lua; name = urBounce.lua; path = "urMus-Lua/urBounce.lua"; sourceTree = "<group>"; };
 		771F1C3A109B7E10005069EC /* urSoundAtoms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = urSoundAtoms.h; sourceTree = "<group>"; };
 		771F1C3B109B7E10005069EC /* urSoundAtoms.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = urSoundAtoms.mm; sourceTree = "<group>"; };
 		772030E0108E479B001BE7A1 /* piano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = piano.png; path = Textures/piano.png; sourceTree = "<group>"; };
 		772CCAD0111F92C700E932EE /* Ornament1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Ornament1.png; path = Textures/Ornament1.png; sourceTree = "<group>"; };
+		7737230D120A1C9D003AEE57 /* urDistance.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lua; name = urDistance.lua; path = "urMus-Lua/urDistance.lua"; sourceTree = "<group>"; };
 		773D287810CF32A10090E189 /* sleighbells.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = sleighbells.wav; path = Sounds/sleighbells.wav; sourceTree = "<group>"; };
 		7743E38D10BB147D005F36BF /* lfs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lfs.h; path = "Classes/lua-5.1.4/src/lfs.h"; sourceTree = "<group>"; };
 		7743E38E10BB147D005F36BF /* lfs.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = lfs.c; path = "Classes/lua-5.1.4/src/lfs.c"; sourceTree = "<group>"; };
@@ -587,6 +593,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7710413B11FD1B4F00BB9F19 /* UIApplication+ScreenMirroring.h */,
+				7710413C11FD1B4F00BB9F19 /* UIApplication+ScreenMirroring.mm */,
 				77D9689D11A79AB900BD4F2D /* UIApplication+TVOut.m */,
 				23C56098119295E200758BB9 /* mongoose.h */,
 				23C56099119295E200758BB9 /* mongoose.c */,
@@ -971,6 +979,7 @@
 				77B9FC7C1194AF12006D5007 /* urWidget.lua */,
 				771DC9B311B051BB00880F72 /* urBounce.lua */,
 				77E7B87811DBD0D000398FBD /* urMetro.lua */,
+				7737230D120A1C9D003AEE57 /* urDistance.lua */,
 			);
 			name = "urMus-lua";
 			sourceTree = "<group>";
@@ -1103,6 +1112,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7737230F120A1CA6003AEE57 /* urDistance.lua in Resources */,
 				77E7B88211DBD14300398FBD /* urMetro.lua in Resources */,
 				EA6DC0E811DBCDEA00E1E13E /* urTuner.lua in Resources */,
 				771DC9DC11B0523E00880F72 /* urBounce.lua in Resources */,
@@ -1319,6 +1329,8 @@
 				77D9689E11A79AB900BD4F2D /* UIApplication+TVOut.m in Sources */,
 				771DC9B411B051BB00880F72 /* urBounce.lua in Sources */,
 				77E7B87911DBD0D000398FBD /* urMetro.lua in Sources */,
+				7710413D11FD1B4F00BB9F19 /* UIApplication+ScreenMirroring.mm in Sources */,
+				7737230E120A1C9D003AEE57 /* urDistance.lua in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1378,6 +1390,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos4.0;
@@ -1393,6 +1409,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos4.0;

@@ -16,6 +16,7 @@
 // This enables video projector output. It's not official API hence not safe for app store.
 //#define PROJECTOR_VIDEO
 //#define NEW_PROJECTOR_VIDEO
+#define FINAL_PROJECTOR_VIDEO
 
 #ifdef NEW_PROJECTOR_VIDEO
 #import "UIApplication+ScreenMirroring.h"
@@ -30,6 +31,13 @@
 @synthesize window;
 @synthesize glView;
 
+#ifdef FINAL_PROJECTOR_VIDEO
+//@synthesize deviceWindow;
+@synthesize externalWindow;
+@synthesize glView2;
+#endif
+
+
 // Make EAGLview global so lua interface can grab it without breaking a leg over IMP
 EAGLView* g_glView;
 
@@ -40,6 +48,32 @@ extern bool newerror;
 //------------------------------------------------------------------------------
 // Application controls
 //------------------------------------------------------------------------------
+
+#ifdef FINAL_PROJECTOR_VIDEO
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	UIScreenMode *desiredMode = [screenModes objectAtIndex:buttonIndex];
+//	[self log:[NSString stringWithFormat:@"Setting mode: %@", desiredMode]];
+	externalScreen.currentMode = desiredMode;
+	
+//	[self log:@"Assigning externalWindow to externalScreen."];
+	externalWindow = [[UIWindow alloc] init];
+//	[externalWindow addSubview:g_glView];
+	externalWindow.screen = externalScreen;
+	
+	[screenModes release];
+	[externalScreen release];
+	
+	CGRect rect = CGRectZero;
+	rect.size = desiredMode.size;
+	externalWindow.frame = rect;
+	externalWindow.clipsToBounds = YES;
+	
+//	[self log:@"Displaying externalWindow on externalScreen."];
+	externalWindow.hidden = NO;
+	[externalWindow makeKeyAndVisible];
+}
+#endif
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
     
@@ -57,7 +91,37 @@ extern bool newerror;
 
 #ifdef NEW_PROJECTOR_VIDEO
 //	[[UIApplication sharedApplication] setupScreenMirroringOfMainWindow:mainWindow framesPerSecond:20];
-	[application setupScreenMirroringOfMainWindow:window framesPerSecond:20];
+//	[application setupScreenMirroringOfMainWindow:window framesPerSecond:20];
+	[application setupScreenMirroring];
+#endif
+	
+#ifdef FINAL_PROJECTOR_VIDEO
+	// Check for external screen.
+	if ([[UIScreen screens] count] > 1) {
+//		[self log:@"Found an external screen."];
+		
+		// Internal display is 0, external is 1.
+		externalScreen = [[[UIScreen screens] objectAtIndex:1] retain];
+//		[self log:[NSString stringWithFormat:@"External screen: %@", externalScreen]];
+		
+		screenModes = [externalScreen.availableModes retain];
+//		[self log:[NSString stringWithFormat:@"Available modes: %@", screenModes]];
+		
+		// Allow user to choose from available screen-modes (pixel-sizes).
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"External Display Size" 
+														 message:@"Choose a size for the external display." 
+														delegate:self 
+											   cancelButtonTitle:nil 
+											   otherButtonTitles:nil] autorelease];
+		for (UIScreenMode *mode in screenModes) {
+			CGSize modeScreenSize = mode.size;
+			[alert addButtonWithTitle:[NSString stringWithFormat:@"%.0f x %.0f pixels", modeScreenSize.width, modeScreenSize.height]];
+		}
+		[alert show];
+		
+	} else {
+//		[self log:@"External screen not found."];
+	}
 #endif
 	
 #ifdef SANDWICH_SUPPORT

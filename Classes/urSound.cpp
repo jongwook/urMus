@@ -535,7 +535,7 @@ bool ursObject::IsPulledIn(int idx, urSoundOut* out)
 		return false;
 	
 	urSoundPullIn* finder = firstpullin[idx];
-	for(;finder->out != out && finder != NULL; finder = finder->next)
+	for(;finder != NULL && finder->out != out; finder = finder->next)
 	{
 	}
 	if(finder != NULL && finder->out == out)
@@ -905,6 +905,38 @@ void urs_SetupObjects()
 	object->AddOut("WaveForm", "TimeSeries", Tuner_Tick, Tuner_Out, NULL);
 	object->AddIn("In", "TimeSeries", Tuner_In);
 	object->SetCouple(0,0);
+	urmanipulatorobjectlist.Append(object);
+	
+	object = new ursObject("3-Dist", ThreeDist_Constructor, ThreeDist_Destructor,4,1);
+	object->AddOut("WaveForm", "TimeSeries", ThreeDist_Tick, ThreeDist_Out, NULL);
+	object->AddIn("In1", "TimeSeries", ThreeDist_In1);
+	object->AddIn("In2", "TimeSeries", ThreeDist_In2);
+	object->AddIn("In3", "TimeSeries", ThreeDist_In3);
+	object->AddIn("Train", "TimeSeries", ThreeDist_Train);
+	urmanipulatorobjectlist.Append(object);
+	
+	object = new ursObject("Min", Min_Constructor, Min_Destructor,2,1);
+	object->AddOut("WaveForm", "TimeSeries", Min_Tick, Min_Out, NULL);
+	object->AddIn("In1", "TimeSeries", Min_In1);
+	object->AddIn("In2", "TimeSeries", Min_In2);
+	urmanipulatorobjectlist.Append(object);
+
+	object = new ursObject("Max", Max_Constructor, Max_Destructor,2,1);
+	object->AddOut("WaveForm", "TimeSeries", Max_Tick, Max_Out, NULL);
+	object->AddIn("In1", "TimeSeries", Max_In1);
+	object->AddIn("In2", "TimeSeries", Max_In2);
+	urmanipulatorobjectlist.Append(object);
+	
+	object = new ursObject("MinS", MinS_Constructor, MinS_Destructor,2,1);
+	object->AddOut("WaveForm", "TimeSeries", MinS_Tick, MinS_Out, NULL);
+	object->AddIn("In1", "TimeSeries", MinS_In1);
+	object->AddIn("In2", "TimeSeries", MinS_In2);
+	urmanipulatorobjectlist.Append(object);
+	
+	object = new ursObject("MaxS", MaxS_Constructor, MaxS_Destructor,2,1);
+	object->AddOut("WaveForm", "TimeSeries", MaxS_Tick, MaxS_Out, NULL);
+	object->AddIn("In1", "TimeSeries", MaxS_In1);
+	object->AddIn("In2", "TimeSeries", MaxS_In2);
 	urmanipulatorobjectlist.Append(object);
 	
 	
@@ -1913,7 +1945,7 @@ void Tuner_Destructor(ursObject* gself)
 {
 	Tuner_Data* self = (Tuner_Data*)gself->objectdata;
 	delete [] self->buffer;
-	delete (Avg_Data*)self;
+	delete (Tuner_Data*)self;
 }
 
 double Tuner_Tick(ursObject* gself)
@@ -1967,4 +1999,319 @@ void Tuner_In(ursObject* gself, double indata)
 		//gself->CallAllPushOuts(mantissa);
 		self->lastout=(0.29225+moved*12*0.01041);
 	}
+}
+
+// k-means (k = 3)
+
+void* ThreeDist_Constructor()
+{
+	ThreeDist_Data* self = new ThreeDist_Data;
+	self->mean1 = -1;
+	self->mean2 = 0;
+	self->mean3 = 1;
+	
+	self->train = false;
+	return (void*)self;
+}
+
+void ThreeDist_Destructor(ursObject* gself)
+{
+	ThreeDist_Data* self = (ThreeDist_Data*)gself->objectdata;
+	delete self;
+}
+
+double ThreeDist_Tick(ursObject* gself)
+{
+	ThreeDist_Data* self = (ThreeDist_Data*)gself->objectdata;
+	gself->FeedAllPullIns();
+	double dist1 = self->mean1-self->in1;
+	double dist2 = self->mean2-self->in2;
+	double dist3 = self->mean3-self->in3;
+	double out = sqrt(dist1*dist1+dist2*dist2+dist3*dist3)/3.0;
+	self->lastout = out;
+	return self->lastout;
+}
+
+double ThreeDist_Out(ursObject* gself)
+{
+	ThreeDist_Data* self = (ThreeDist_Data*)gself->objectdata;
+	return self->lastout;
+}
+
+void ThreeDist_In1(ursObject* gself, double indata)
+{
+	ThreeDist_Data* self = (ThreeDist_Data*)gself->objectdata;
+	if(self->train == false)
+	{
+		self->in1 = indata;
+		double dist1 = self->mean1-self->in1;
+		double dist2 = self->mean2-self->in2;
+		double dist3 = self->mean3-self->in3;
+		double out = sqrt(dist1*dist1+dist2*dist2+dist3*dist3);
+		gself->CallAllPushOuts(out);
+	}
+	else
+		self->mean1 = indata;
+}
+
+void ThreeDist_In2(ursObject* gself, double indata)
+{
+	ThreeDist_Data* self = (ThreeDist_Data*)gself->objectdata;
+	if(self->train == false)
+	{
+		self->in2 = indata;
+		double dist1 = self->mean1-self->in1;
+		double dist2 = self->mean2-self->in2;
+		double dist3 = self->mean3-self->in3;
+		double out = sqrt(dist1*dist1+dist2*dist2+dist3*dist3);
+		gself->CallAllPushOuts(out);
+	}
+	else
+		self->mean2 = indata;
+}
+
+void ThreeDist_In3(ursObject* gself, double indata)
+{
+	ThreeDist_Data* self = (ThreeDist_Data*)gself->objectdata;
+	if(self->train == false)
+	{
+		self->in3 = indata;
+		double dist1 = self->mean1-self->in1;
+		double dist2 = self->mean2-self->in2;
+		double dist3 = self->mean3-self->in3;
+		double out = sqrt(dist1*dist1+dist2*dist2+dist3*dist3);
+		gself->CallAllPushOuts(out);
+	}
+	else
+		self->mean3 = indata;
+}
+
+void ThreeDist_Train(ursObject* gself, double indata)
+{
+	ThreeDist_Data* self = (ThreeDist_Data*)gself->objectdata;
+	if(indata >0.0)
+		self->train = true;
+	else
+		self->train = false;
+}
+
+// -- Binary comparators
+
+void* Min_Constructor()
+{
+	Comp_Data* self = new Comp_Data;
+	self->lastin1 = 0.0;
+	self->lastin2 = 0.0;
+	return (void*)self;
+}
+
+void Min_Destructor(ursObject* gself)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	delete self;
+}
+
+double Min_Tick(ursObject* gself)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	gself->FeedAllPullIns();
+	self->lastout = fmin(self->lastin1, self->lastin2);
+	return self->lastout;
+}
+
+double Min_Out(ursObject* gself)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	return self->lastout;
+}
+
+void Min_In1(ursObject* gself, double indata)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	self->lastin1 = indata;
+	double out = fmin(self->lastin1, self->lastin2);
+	gself->CallAllPushOuts(out);
+}
+
+void Min_In2(ursObject* gself, double indata)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	self->lastin2 = indata;
+	double out = fmin(self->lastin1, self->lastin2);
+	gself->CallAllPushOuts(out);
+}
+
+
+void* Max_Constructor()
+{
+	Comp_Data* self = new Comp_Data;
+	self->lastin1 = 0.0;
+	self->lastin2 = 0.0;
+	return (void*)self;
+}
+
+void Max_Destructor(ursObject* gself)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	delete self;
+}
+
+double Max_Tick(ursObject* gself)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	gself->FeedAllPullIns();
+	self->lastout = fmax(self->lastin1, self->lastin2);
+	return self->lastout;
+}
+
+double Max_Out(ursObject* gself)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	return self->lastout;
+}
+
+void Max_In1(ursObject* gself, double indata)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	self->lastin1 = indata;
+	double out = fmax(self->lastin1, self->lastin2);
+	gself->CallAllPushOuts(out);
+}
+
+void Max_In2(ursObject* gself, double indata)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	self->lastin2 = indata;
+	double out = fmax(self->lastin1, self->lastin2);
+	gself->CallAllPushOuts(out);
+}
+
+
+void* MinS_Constructor()
+{
+	Comp_Data* self = new Comp_Data;
+	self->lastin1 = 0.0;
+	self->lastin2 = 0.0;
+	return (void*)self;
+}
+
+void MinS_Destructor(ursObject* gself)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	delete self;
+}
+
+double MinS_Tick(ursObject* gself)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	gself->FeedAllPullIns();
+	float res = fmin(self->lastin1, self->lastin2);
+	
+	if(res == self->lastin1)
+		self->lastout = -1.0;
+	else
+		self->lastout = 1.0;
+	
+	return self->lastout;
+}
+
+double MinS_Out(ursObject* gself)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	return self->lastout;
+}
+
+void MinS_In1(ursObject* gself, double indata)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	self->lastin1 = indata;
+	float res = fmin(self->lastin1, self->lastin2);
+	float out;
+	
+	if(res == self->lastin1)
+		out = -1.0;
+	else
+		out = 1.0;
+	
+	gself->CallAllPushOuts(out);
+}
+
+void MinS_In2(ursObject* gself, double indata)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	self->lastin2 = indata;
+	float res = fmin(self->lastin1, self->lastin2);
+	float out;
+	
+	if(res == self->lastin1)
+		out = -1.0;
+	else
+		out = 1.0;
+	
+	gself->CallAllPushOuts(out);
+}
+
+
+void* MaxS_Constructor()
+{
+	Comp_Data* self = new Comp_Data;
+	self->lastin1 = 0.0;
+	self->lastin2 = 0.0;
+	return (void*)self;
+}
+
+void MaxS_Destructor(ursObject* gself)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	delete self;
+}
+
+double MaxS_Tick(ursObject* gself)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	gself->FeedAllPullIns();
+	float res = fmax(self->lastin1, self->lastin2);
+	
+	if(res == self->lastin1)
+		self->lastout = -1.0;
+	else
+		self->lastout = 1.0;
+	
+	return self->lastout;
+}
+
+double MaxS_Out(ursObject* gself)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	return self->lastout;
+}
+
+void MaxS_In1(ursObject* gself, double indata)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	self->lastin1 = indata;
+	float res = fmax(self->lastin1, self->lastin2);
+	float out;
+	
+	if(res == self->lastin1)
+		out = -1.0;
+	else
+		out = 1.0;
+	
+	gself->CallAllPushOuts(out);
+}
+
+void MaxS_In2(ursObject* gself, double indata)
+{
+	Comp_Data* self = (Comp_Data*)gself->objectdata;
+	self->lastin2 = indata;
+	float res = fmax(self->lastin1, self->lastin2);
+	float out;
+	
+	if(res == self->lastin1)
+		out = -1.0;
+	else
+		out = 1.0;
+	
+	gself->CallAllPushOuts(out);
 }

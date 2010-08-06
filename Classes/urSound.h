@@ -301,6 +301,27 @@ struct Tuner_Data
 	Tuner_Data() { inpos = 0; outpos = 0; bufferlen = 0; }
 };
 
+struct ThreeDist_Data
+{
+	float lastout;
+	float in1;
+	float in2;
+	float in3;
+	float mean1;
+	float mean2;
+	float mean3;
+	bool train;
+	ThreeDist_Data() { in1 = in2 = in3 = 0; mean1 = -1; mean2 = 0; mean3 = 1; train = false; }
+};
+
+struct Comp_Data
+{
+	float lastout;
+	float lastin1;
+	float lastin2;
+	Comp_Data() { lastin1 = lastin2 = 0; }
+};
+
 class ursSinkList
 {
 public:
@@ -429,6 +450,43 @@ void Tuner_Destructor(ursObject* gself);
 double Tuner_Tick(ursObject* gself);
 double Tuner_Out(ursObject* gself);
 void Tuner_In(ursObject* gself, double indata);
+
+void* ThreeDist_Constructor();
+void ThreeDist_Destructor(ursObject* gself);
+double ThreeDist_Tick(ursObject* gself);
+double ThreeDist_Out(ursObject* gself);
+void ThreeDist_In1(ursObject* gself, double indata);
+void ThreeDist_In2(ursObject* gself, double indata);
+void ThreeDist_In3(ursObject* gself, double indata);
+void ThreeDist_Train(ursObject* gself, double indata);
+
+void* Min_Constructor();
+void Min_Destructor(ursObject* gself);
+double Min_Tick(ursObject* gself);
+double Min_Out(ursObject* gself);
+void Min_In1(ursObject* gself, double indata);
+void Min_In2(ursObject* gself, double indata);
+
+void* Max_Constructor();
+void Max_Destructor(ursObject* gself);
+double Max_Tick(ursObject* gself);
+double Max_Out(ursObject* gself);
+void Max_In1(ursObject* gself, double indata);
+void Max_In2(ursObject* gself, double indata);
+
+void* MinS_Constructor();
+void MinS_Destructor(ursObject* gself);
+double MinS_Tick(ursObject* gself);
+double MinS_Out(ursObject* gself);
+void MinS_In1(ursObject* gself, double indata);
+void MinS_In2(ursObject* gself, double indata);
+
+void* MaxS_Constructor();
+void MaxS_Destructor(ursObject* gself);
+double MaxS_Tick(ursObject* gself);
+double MaxS_Out(ursObject* gself);
+void MaxS_In1(ursObject* gself, double indata);
+void MaxS_In2(ursObject* gself, double indata);
 
 
 void urs_SetupObjects();

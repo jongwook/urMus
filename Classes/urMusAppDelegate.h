@@ -22,8 +22,16 @@
 #endif
     UIWindow *window;
     EAGLView *glView;
+
+	UIWindow *externalWindow;
+	EAGLView *glView2;
+	NSArray *screenModes;
+	UIScreen *externalScreen;
 }
 
+//@property (nonatomic, retain) IBOutlet UIWindow *deviceWindow;
+@property (nonatomic, retain) IBOutlet UIWindow *externalWindow;
+@property (nonatomic, retain) IBOutlet EAGLView *glView2;	
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet EAGLView *glView;
 
