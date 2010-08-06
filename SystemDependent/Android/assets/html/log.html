@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <title>urMus Log</title>
+    <script src="jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+
+var since=0;
+var last="";
+
+function updateLog() {
+	$.ajax({
+      type: 'GET',
+      url: '/getlog?since='+since,
+      success: function(data,status,xhr) { 
+	    last=data.replace(/\n/g,"<br />");
+	    document.getElementById("log").innerHTML+=last;
+		since=xhr.getResponseHeader("Pragma");
+		document.body.scrollTop=document.body.scrollHeight
+        setTimeout("updateLog()",100);
+	  },
+      error: function() {
+		alert("Network Error! Reload this page");
+      }
+    });
+}
+
+$(function (){
+	document.title+=" : " + document.location.hostname;
+	setTimeout("updateLog()",100);
+});
+
+
+	</script>
+  </head>
+  <body>
+    <div id="log">
+	</div>
+  </body>
+</html>
