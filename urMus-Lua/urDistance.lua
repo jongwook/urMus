@@ -7,7 +7,7 @@ local random = math.random
 
 local vis = _G["FBVis"]
 
-local mx = { random(0,320),random(0,320)}
+local mx = {random(0,320),random(0,320)}
 local my = {random(0,480),random(0,480)}
 local maxset = 2
 local setcount = 1
@@ -27,20 +27,22 @@ function Paint(self)
 
 	self.texture:Clear(255,255,255)
 	
+	self.texture:SetBrushSize(3)
+	
 	local visout = vis:Get()
 
 	if visout < 0.0 then
-		self.texture:SetBrushColor(0,255,0,255)
+		self.texture:SetBrushColor(0,255,0,200)
 	else
-		self.texture:SetBrushColor(128,0,0,255)
+		self.texture:SetBrushColor(128,0,0,150)
 	end
 	local r = sqrt((mx[1]-x)*(mx[1]-x) + (my[1]-y)*(my[1]-y))
 	self.texture:Ellipse( mx[1], my[1], r, r)
 
 	if visout >= 0.0 then
-		self.texture:SetBrushColor(0,255,0,255)
+		self.texture:SetBrushColor(0,255,0,200)
 	else
-		self.texture:SetBrushColor(128,0,0,255)
+		self.texture:SetBrushColor(128,0,0,150)
 	end
 	r = sqrt((mx[2]-x)*(mx[2]-x) + (my[2]-y)*(my[2]-y))
 	self.texture:Ellipse( mx[2], my[2], r, r)
