@@ -191,7 +191,6 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_changeBackground(JNIEnv * env,
 
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobject obj)
 {
-	LOGI("Starting Server....\n");
 	jclass cls = env->GetObjectClass(obj);
 	jmethodID getFilesDir = env->GetMethodID(cls, "getFilesDir", "()Ljava/io/File;");
 	jobject dirobj = env->CallObjectMethod(obj,getFilesDir);
@@ -199,9 +198,8 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobj
 	jmethodID getStoragePath = env->GetMethodID(dir, "getAbsolutePath", "()Ljava/lang/String;");
 	jstring path=(jstring)env->CallObjectMethod(dirobj, getStoragePath);
 	const char *pathstr=env->GetStringUTFChars(path, 0);
-	LOGI("the path : %s\n",pathstr);
-	char webRoot[512]="";
-	sprintf(webRoot,"%s/html",pathstr);
-	http_start(webRoot,pathstr);
+	LOGI("Internal storage path : %s\n",pathstr);
+	LOGI("Starting Server....\n");
+	http_start(pathstr,pathstr);
 	env->ReleaseStringUTFChars(path, pathstr);
 }

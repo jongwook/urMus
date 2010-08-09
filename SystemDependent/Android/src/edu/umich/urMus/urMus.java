@@ -52,24 +52,31 @@ public class urMus extends Activity
 		Log.i(TAG,"Storage Path : " + storagePath);
 		
 		// source directories in assets directory
-		String sources[]={"html","html/js","html/js/jplayer","html/css","Sounds","Textures","urMus-Lua"};
-		for(String source : sources) {
-			Log.i(TAG,"traversing "+source);
+		String sources[][]={
+			{"html","html"},
+			{"html/js","html/js"},
+			{"html/js/jplayer","html/js/jplayer"},
+			{"html/css","html/css"},
+			{"Sounds","."},
+			{"Textures","."},
+			{"urMus-Lua","."} };
+		for(String [] source : sources) {
+			Log.i(TAG,"traversing "+source[0]);
 			
 			String[] files = null;
 			try {
-				files = assets.list(source);
+				files = assets.list(source[0]);
 			} catch (IOException e) {
 				Log.e(TAG, "error while traversing " + source + " : " +e.getMessage());
 				continue;
 			}
-			File destDir=new File(storagePath+"/"+source);
+			File destDir=new File(storagePath+"/"+source[1]);
 			destDir.mkdirs();
 			byte buf[]=new byte[512];
 			if(files!=null) {
 				for(String file : files) {
-					String srcPath=source+"/"+file;
-					String destPath=storagePath+"/"+srcPath;
+					String srcPath=source[0]+"/"+file;
+					String destPath=storagePath+"/"+source[1]+"/"+file;
 					Log.i(TAG,"opening : "+srcPath);
 					try {
 						File dest=new File(destPath);
