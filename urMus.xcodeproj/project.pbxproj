@@ -25,7 +25,7 @@
 		7710413D11FD1B4F00BB9F19 /* UIApplication+ScreenMirroring.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7710413C11FD1B4F00BB9F19 /* UIApplication+ScreenMirroring.mm */; };
 		771DC9B411B051BB00880F72 /* urBounce.lua in Sources */ = {isa = PBXBuildFile; fileRef = 771DC9B311B051BB00880F72 /* urBounce.lua */; };
 		771DC9DC11B0523E00880F72 /* urBounce.lua in Resources */ = {isa = PBXBuildFile; fileRef = 771DC9B311B051BB00880F72 /* urBounce.lua */; };
-		771F1C3C109B7E10005069EC /* urSoundAtoms.mm in Sources */ = {isa = PBXBuildFile; fileRef = 771F1C3B109B7E10005069EC /* urSoundAtoms.mm */; };
+		771F1C3C109B7E10005069EC /* urSoundAtoms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 771F1C3B109B7E10005069EC /* urSoundAtoms.cpp */; };
 		772030E1108E479B001BE7A1 /* piano.png in Resources */ = {isa = PBXBuildFile; fileRef = 772030E0108E479B001BE7A1 /* piano.png */; };
 		772CCAD1111F92C700E932EE /* Ornament1.png in Resources */ = {isa = PBXBuildFile; fileRef = 772CCAD0111F92C700E932EE /* Ornament1.png */; };
 		7737230E120A1C9D003AEE57 /* urDistance.lua in Sources */ = {isa = PBXBuildFile; fileRef = 7737230D120A1C9D003AEE57 /* urDistance.lua */; };
@@ -252,7 +252,7 @@
 		7710413C11FD1B4F00BB9F19 /* UIApplication+ScreenMirroring.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIApplication+ScreenMirroring.mm"; sourceTree = "<group>"; };
 		771DC9B311B051BB00880F72 /* urBounce.lua */ = {isa = PBXFileReference; fileEncoding = 12; lastKnownFileType = sourcecode.lua; name = urBounce.lua; path = "urMus-Lua/urBounce.lua"; sourceTree = "<group>"; };
 		771F1C3A109B7E10005069EC /* urSoundAtoms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = urSoundAtoms.h; sourceTree = "<group>"; };
-		771F1C3B109B7E10005069EC /* urSoundAtoms.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = urSoundAtoms.mm; sourceTree = "<group>"; };
+		771F1C3B109B7E10005069EC /* urSoundAtoms.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = urSoundAtoms.cpp; sourceTree = "<group>"; };
 		772030E0108E479B001BE7A1 /* piano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = piano.png; path = Textures/piano.png; sourceTree = "<group>"; };
 		772CCAD0111F92C700E932EE /* Ornament1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Ornament1.png; path = Textures/Ornament1.png; sourceTree = "<group>"; };
 		7737230D120A1C9D003AEE57 /* urDistance.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lua; name = urDistance.lua; path = "urMus-Lua/urDistance.lua"; sourceTree = "<group>"; };
@@ -615,7 +615,7 @@
 				77B56EE4108954C4008931AC /* urSTK.h */,
 				77B56EE5108954C4008931AC /* urSTK.cpp */,
 				771F1C3A109B7E10005069EC /* urSoundAtoms.h */,
-				771F1C3B109B7E10005069EC /* urSoundAtoms.mm */,
+				771F1C3B109B7E10005069EC /* urSoundAtoms.cpp */,
 				23C561281192A56900758BB9 /* httpServer.h */,
 				23C561291192A56900758BB9 /* httpServer.c */,
 			);
@@ -1317,7 +1317,7 @@
 				77B56E8F10894FE7008931AC /* Whistle.cpp in Sources */,
 				77B56E9010894FE7008931AC /* Wurley.cpp in Sources */,
 				77B56EE6108954C4008931AC /* urSTK.cpp in Sources */,
-				771F1C3C109B7E10005069EC /* urSoundAtoms.mm in Sources */,
+				771F1C3C109B7E10005069EC /* urSoundAtoms.cpp in Sources */,
 				7743E38F10BB147D005F36BF /* lfs.c in Sources */,
 				77FB9274111BA8C30078AAC5 /* UdpServerSocket.m in Sources */,
 				77FB9275111BA8C30078AAC5 /* UdpClientSocket.m in Sources */,
