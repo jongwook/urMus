@@ -103,6 +103,7 @@ typedef struct urAPI_Region
 		// internals
 		struct urAPI_Region* prev; // Chained list of Regions
 		struct urAPI_Region* next;
+		int page;
 		// actual data
 		struct urAPI_Region* parent;
 		struct urAPI_Region* firstchild;

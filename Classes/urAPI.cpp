@@ -1680,9 +1680,63 @@ int region_Raise(lua_State* lua)
 	return 0;
 }
 
+void removeRegion(urAPI_Region_t* region)
+{
+	int currentPage = region->page;
+	
+	if(firstRegion[currentPage] == region)
+		firstRegion[currentPage] = region->next;
+
+	if(region->prev != NULL)
+		region->prev->next = region->next;
+
+	if(region->next != NULL)
+		region->next->prev = region->prev;
+
+	if(lastRegion[currentPage] == region)
+		lastRegion[currentPage] = region->prev;
+	
+	numRegions[currentPage]--;
+}
+
+void freeTexture(urAPI_Texture_t* texture)
+{
+	if(texture->backgroundTex!= NULL)
+		delete texture->backgroundTex;
+//	free(texture); // GC should take care of this ... maybe
+}
+
+void freeTextLabel(urAPI_TextLabel_t* textlabel)
+{
+	if(textlabel->textlabelTex != NULL)
+		delete textlabel->textlabelTex;
+//	delete textlabel; // GC should take care of this ... maybe
+}
+
+void freeRegion(urAPI_Region_t* region)
+{
+	removeChild(region->parent, region);
+	removeRegion(region);
+	if(region->texture != NULL)
+		freeTexture(region->texture);
+	if(region->textlabel != NULL)
+		freeTextLabel(region->textlabel);
+	delete region;
+}
+
+int region_Free(lua_State* lua)
+{
+	urAPI_Region_t* region = checkregion(lua,1);
+
+	freeRegion(region);
+}
+
 int l_FreeAllRegions(lua_State* lua)
 {
-	for(urAPI_Region_t* t=firstRegion[currentPage]; t != nil; t=t->next)
+	urAPI_Region_t* t=lastRegion[currentPage];
+	urAPI_Region_t* p;
+	
+	while(t != nil)
 	{
 		t->isVisible = false;
 		t->isShown = false;
@@ -1697,6 +1751,12 @@ int l_FreeAllRegions(lua_State* lua)
 		t->isResized = false;
 		t->isClamped = false;
 		t->isClipping = false;
+		
+		p=t->prev;
+		
+		freeRegion(t);
+
+		t = p;
 	}
 	return 0;
 }
@@ -2891,6 +2951,13 @@ static const struct luaL_reg textlabelfuncs [] =
 	{NULL, NULL}
 };
 
+int texture_gc(lua_State* lua)
+{
+	urAPI_Texture_t* region = checktexture(lua,1);
+	int a = 0;
+	return 0;
+}
+
 static const struct luaL_reg texturefuncs [] =
 {
 	{"SetTexture", texture_SetTexture},
@@ -2922,6 +2989,7 @@ static const struct luaL_reg texturefuncs [] =
 	{"SetTiling", texture_SetTiling},
 	{"Width", texture_Width},
 	{"Height", texture_Height},
+//	{"__gc",       texture_gc},
 	{NULL, NULL}
 };
 
@@ -3160,6 +3228,7 @@ static int l_Region(lua_State *lua)
 	myregion->point = NULL;
 	myregion->relativePoint = NULL;
 	myregion->relativeRegion = NULL;
+	myregion->page = currentPage;
 	
 	if(firstRegion[currentPage] == nil) // first region ever
 	{
