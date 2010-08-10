@@ -3,11 +3,14 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:gravity="center_vertical|center_horizontal"
     >
 <TextView  
+    android:id="@+id/text_view"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="Hello World, urMus"
+    android:text="Loading urMus\n..."
+    android:gravity="center_horizontal"
     />
 </LinearLayout>
 
