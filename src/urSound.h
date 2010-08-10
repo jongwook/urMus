@@ -10,7 +10,8 @@
 #ifndef __URSOUND_H__
 #define __URSOUND_H__
 
-#include <CoreFoundation/CoreFoundation.h>
+//#include <CoreFoundation/CoreFoundation.h>
+#include "config.h"
 
 #define URSOUND_BUFFERSIZE 256
 #define URS_OBJHISTORY URSOUND_BUFFERSIZE

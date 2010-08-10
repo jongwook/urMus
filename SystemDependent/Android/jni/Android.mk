@@ -24,6 +24,10 @@ LOCAL_SRC_FILES := urMus.cpp \
 	../../../src/urImage.cpp \
 	../../../src/urTexture.cpp \
 	../../../src/urFont.cpp \
+	../../../src/urSound.cpp \
+	../../../src/urSoundAtoms.cpp \
+	../../../src/urSTK.cpp \
+
 
 LOCAL_LDLIBS	:= -llog -ldl -lGLESv1_CM
 

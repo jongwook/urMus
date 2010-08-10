@@ -8,7 +8,7 @@
  */
 
 #include "urSound.h"
-#include "RIOAudioUnitLayer.h"
+//#include "RIOAudioUnitLayer.h"
 #include "urSTK.h"
 #include "urSoundAtoms.h"
 
@@ -1055,7 +1055,7 @@ void Net_Send(float data);
 void Net_In(ursObject* gself, double in)
 {
 	netindata = in;
-	Net_Send(netindata);
+	//TODO//Net_Send(netindata);
 }
 
 void Drain_In(ursObject* gself, double in)
@@ -1359,7 +1359,7 @@ void Sample_AddFile(ursObject* gself, const char* filename)
 		self->samplebuffer = (SInt16**)malloc(sizeof(SInt16*));
 	else
 		self->samplebuffer = (SInt16**)realloc(self->samplebuffer, sizeof(SInt16*)*self->numsamples);
-	self->samplebuffer[self->numsamples-1] = (SInt16*)LoadAudioFileData(filename, &self->len[self->numsamples-1], &frate);
+	self->samplebuffer[self->numsamples-1] = 0;//TODO//(SInt16*)LoadAudioFileData(filename, &self->len[self->numsamples-1], &frate);
 	self->len[self->numsamples-1] = self->len[self->numsamples-1]-1;
 	self->rate = 48000.0/frate;
 }
@@ -1457,7 +1457,7 @@ void* Sleigh_Constructor()
 {
 	UInt32 frate;
 	Sleigh_Data* self = new Sleigh_Data;
-	self->Sleighbuffer[0] = (SInt16* )LoadAudioFileData("sleighbells.wav", &self->len[0], &frate);
+	self->Sleighbuffer[0] = 0;//TODO//(SInt16* )LoadAudioFileData("sleighbells.wav", &self->len[0], &frate);
 	self->activeSleigh = 0;
 	self->len[0] = self->len[0]-1;
 	self->rate = 48000.0/frate;
