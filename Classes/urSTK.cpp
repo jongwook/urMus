@@ -859,7 +859,7 @@ void Clarinet_SetFrequency(ursObject* gself, double indata)
 
 void* Delay_Constructor()
 {
-	Delay* self = new Delay(22.0);
+	Delay* self = new Delay(22.0,4*48000+1);
 	return (void*)self;
 }
 
@@ -897,14 +897,14 @@ void Delay_In(ursObject* gself, double indata)
 void Delay_SetDelay(ursObject* gself, double indata)
 {
 	Delay* self = (Delay*)gself->objectdata;
-	self->setDelay(indata);
+	self->setDelay(norm2Delay(indata));
 }
 
 // Interface - DelayA
 
 void* DelayA_Constructor()
 {
-	DelayA* self = new DelayA(22.0);
+	DelayA* self = new DelayA(22.0,4*48000+1);
 	return (void*)self;
 }
 
@@ -942,14 +942,14 @@ void DelayA_In(ursObject* gself, double indata)
 void DelayA_SetDelay(ursObject* gself, double indata)
 {
 	DelayA* self = (DelayA*)gself->objectdata;
-	self->setDelay(indata);
+	self->setDelay(norm2Delay(indata));
 }
 
 // Interface - DelayL
 
 void* DelayL_Constructor()
 {
-	DelayL* self = new DelayL(22.0);
+	DelayL* self = new DelayL(22.0,4*48000+1);
 	return (void*)self;
 }
 
@@ -987,7 +987,7 @@ void DelayL_In(ursObject* gself, double indata)
 void DelayL_SetDelay(ursObject* gself, double indata)
 {
 	DelayL* self = (DelayL*)gself->objectdata;
-	self->setDelay(indata);
+	self->setDelay(norm2Delay(indata));
 }
 
 // Interface - Echo

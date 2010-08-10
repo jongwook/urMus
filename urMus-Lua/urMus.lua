@@ -237,7 +237,7 @@ function CreateSettings()
 			end
 		end
 	end
-
+	
 	for row = 1, maxrow do
 		for col = 2,backdropanchor[row].count do
 			local thisregion = rowregions[row][col]
@@ -248,7 +248,7 @@ function CreateSettings()
 				else
 					settingdata.grid[row][col].pushlink = nil
 				end
-				if thisregion.flowbox:IsPulled(0,inregion.flowbox,0) then
+				if thisregion.flowbox:IsPulled(thisregion.innr,inregion.flowbox,inregion.outnr) then
 					settingdata.grid[row][col].pulllink = 1
 				else
 					settingdata.grid[row][col].pulllink = nil					
@@ -406,7 +406,6 @@ function ActivateSettings()
 			end
 		end
 	end
-	
 	RefreshRowIndices(1)
 
     ShowNotification("Loaded")

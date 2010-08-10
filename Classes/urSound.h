@@ -17,6 +17,7 @@
 
 double norm2Freq(double norm);
 double norm2RevTime(double norm);
+double norm2Delay(double norm);
 double norm2RevSamples(double a,double sr); 
 double norm2RevSamples(double norm);
 inline double csaporm(double norm);

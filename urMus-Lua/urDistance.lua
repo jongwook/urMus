@@ -15,7 +15,7 @@ local setcount = 1
 for i=1,maxset do
 	local pushflowbox = _G["FBPush"]
 	if pushflowbox.instances and pushflowbox.instances[3*i-2] and pushflowbox.instances[3*i-1] and pushflowbox.instances[3*i] then
-		pushflowbox.instances[3*i-2]:Push(-1.0)
+		pushflowbox.instances[3*i-2]:Push(1.0)
 		pushflowbox.instances[3*i-1]:Push((mx[i]-160.0)/160.0)
 		pushflowbox.instances[3*i]:Push((my[i]-240.0)/240.0)
 	end

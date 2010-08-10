@@ -27,6 +27,12 @@ double norm2RevTime(double norm)
 	return (norm+1.0)*2.0+0.15;
 }
 
+// This converts a normed value into a canonical delay time. We range it to up to 4 seconds. 0ms is minimum.
+double norm2Delay(double norm)
+{
+	return (norm+1.0)*2.0*48000.0;
+}
+
 // Same as above but taking time in samples
 double norm2RevSamples(double norm, double SR)
 {
