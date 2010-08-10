@@ -299,6 +299,12 @@ http_stop(void)
 #if 1
 
 #ifdef TARGET_ANDROID
+const char*
+http_ip_address(void)
+{
+	//TODO// get ip address, refer to i-jetty source
+	return "127.0.0.1";
+}
 #else
 #include <ifaddrs.h>
 const char*

@@ -115,6 +115,8 @@ typedef unsigned int UInt32;
 typedef signed short SInt16;
 typedef unsigned short UInt16;
 
+#define MAX(x,y) (((x)>(y))?(x):(y))
+
 
 #endif
 

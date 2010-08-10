@@ -16,14 +16,8 @@ extern "C" {
 
 #include <stdio.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 #include "lua.h"
 #include "lauxlib.h"
-#ifdef __cplusplus
-}
-#endif 
  
 const char *http_ip_address(void);
 const char *http_ip_port(void);

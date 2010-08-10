@@ -6,15 +6,12 @@
 //  Copyright Georg Essl 2009. All rights reserved. See LICENSE.txt for license details.
 //
 
-#import <QuartzCore/QuartzCore.h>
-#import <OpenGLES/EAGLDrawable.h>
-
-#import "urGraphics.h"
-#import "urAPI.h"
-//#import "Texture2d.h"
-#import "MachTimer.h"
-#import "urSound.h"
-#import "httpServer.h"
+#include "urGraphics.h"
+#include "urAPI.h"
+#include "urTexture.h"
+//#include "MachTimer.h"
+#include "urSound.h"
+#include "httpServer.h"
 
 #ifdef SANDWICH_SUPPORT
 static float pressure[4] = {0,0,0,0};
@@ -27,6 +24,8 @@ extern urAPI_Region_t* firstRegion[];
 extern urAPI_Region_t* lastRegion[];
 
 extern urAPI_Region_t* UIParent;
+
+#ifdef TARGET_IPHONE
 
 MachTimer* mytimer;
 
@@ -76,19 +75,25 @@ MachTimer* mytimer;
     return [CAEAGLLayer class];
 }
 
+#endif // TARGET_IPHONE
+
 static const double ACCELEROMETER_RATE = 0.030;
 static const int ACCELEROMETER_SCALE = 256;
 static const int HEADING_SCALE = 256;
 static const int LOCATION_SCALE = 256;
 
+#ifdef TARGET_IPHONE
 // Tracking All touches
 NSMutableArray *ActiveTouches;              ///< Used to keep track of all current touches.
+#endif
 
 struct urDragTouch
 {
 	urAPI_Region_t* dragregion;
-	UITouch* touch1;
-	UITouch* touch2;
+	int touch1;
+	int touch2;
+//	UITouch* touch1;
+//	UITouch* touch2;
 	float left;
 	float top;
 	float right;
@@ -97,7 +102,7 @@ struct urDragTouch
 	float dragheight;
 	bool active;
 	bool flagged;
-	urDragTouch() { active = false; flagged = false; }
+	urDragTouch() { active = false; flagged = false; touch1 = -1; touch2 = -1;}
 };
 
 typedef struct urDragTouch urDragTouch_t;
@@ -115,13 +120,21 @@ int FindDragRegion(urAPI_Region_t*region)
 	return -1;
 }
 
-void AddDragRegion(int idx, UITouch* t)
+void AddDragRegion(int idx, int t)
+{
+	if(dragtouches[idx].touch1 == -1 && dragtouches[idx].touch2!=t)
+		dragtouches[idx].touch1 = t;
+	else if(dragtouches[idx].touch2 == -1 && dragtouches[idx].touch1!=t)
+		dragtouches[idx].touch2 = t;
+}
+
+/*void AddDragRegion(int idx, UITouch* t)
 {
 	if(dragtouches[idx].touch1 == NULL && dragtouches[idx].touch2!=t)
 		dragtouches[idx].touch1 = t;
 	else if(dragtouches[idx].touch2 == NULL && dragtouches[idx].touch1!=t)
 		dragtouches[idx].touch2 = t;
-}
+}*/
 
 void ClearAllDragFlags()
 {
@@ -141,7 +154,59 @@ int FindAvailableDragTouch()
 	return -1;
 }
 
-int FindDoubleDragTouch(UITouch* t1, UITouch* t2)
+#ifdef TARGET_IPHONE
+UITouch* UITTrans[MAX_FINGERS];
+
+void InitUITouchTranslation()
+{
+	for(int i=0; i< MAX_FINGERS; i++)
+	{
+		UITTrans[i] = NULL;
+	}
+}
+
+int UITouch2UTID(UITouch* t)
+{
+	for(int i=0; i<MAX_FINGERS;i++)
+		if( UITTrans[i] == t) return i;
+	
+	return -1;
+}
+
+UITouch* UTID2UITouch(int t)
+{
+	return UITTrans[t];
+}
+
+int AddUITouch(UITouch* t)
+{
+	bool found = false;
+	int n = -1;
+	for(int i=0; i< MAX_FINGERS; i++)
+	{
+		if(UITTrans[i] == t) found = true;
+		if(n == -1 && UITTrans[i] == NULL) n = i;
+	}
+	
+	if(found == false && n != -1)
+		UITTrans[n] = t;
+	
+	return n;
+}
+
+void RemoveUTID(int t)
+{
+	UITTrans[t] = NULL;
+}
+
+void RemoveUITouchUTID(UITouch* t)
+{
+	for(int i=0; i<MAX_FINGERS;i++)
+		if( UITTrans[i] == t) UITTrans[i] = NULL;
+}
+#endif //TARGET_IPHONE
+
+int FindDoubleDragTouch(int t1, int t2)
 {
 	for(int i=0; i< MAX_DRAGS; i++)
 		if(dragtouches[i].active && ((dragtouches[i].touch1 == t1 && dragtouches[i].touch2 == t2) || (dragtouches[i].touch1 == t2 && dragtouches[i].touch2 == t1)))
@@ -151,15 +216,40 @@ int FindDoubleDragTouch(UITouch* t1, UITouch* t2)
 	return -1;
 }
 
-int FindSingleDragTouch(UITouch* t)
+
+/*int FindDoubleDragTouch(UITouch* t1, UITouch* t2)
 {
 	for(int i=0; i< MAX_DRAGS; i++)
-		if((dragtouches[i].active && dragtouches[i].touch1 == t /* && dragtouches[i].touch2 == NULL*/) || (/*dragtouches[i].touch1 == NULL &&*/ dragtouches[i].touch2 == t))
+		if(dragtouches[i].active && ((dragtouches[i].touch1 == t1 && dragtouches[i].touch2 == t2) || (dragtouches[i].touch1 == t2 && dragtouches[i].touch2 == t1)))
 		{
 			return i;
 		}
 	return -1;
+}*/
+
+int FindSingleDragTouch(int t)
+{
+	if(t>=0)
+	{
+		for(int i=0; i< MAX_DRAGS; i++)
+			if((dragtouches[i].active && dragtouches[i].touch1 == t /* && dragtouches[i].touch2 == NULL*/) || (/*dragtouches[i].touch1 == NULL &&*/ dragtouches[i].touch2 == t))
+			{
+				return i;
+			}
+	}
+	return -1;
 }
+
+/*
+int FindSingleDragTouch(UITouch* t)
+{
+	for(int i=0; i< MAX_DRAGS; i++)
+		if((dragtouches[i].active && dragtouches[i].touch1 == t) || (dragtouches[i].touch2 == t))
+		{
+			return i;
+		}
+	return -1;
+}*/
 
 float cursorpositionx[MAX_FINGERS];
 float cursorpositiony[MAX_FINGERS];
@@ -177,13 +267,14 @@ float arg2coordy[MAX_FINGERS];
 // This is the texture to hold DPrint and lua error messages.
 urTexture       *errorStrTex = nil;
 
-NSString *errorstr = @"";
+string errorstr = "";
 bool newerror = true;
 
 //#define LATE_LAUNCH
 // Main drawing loop. This does everything but brew coffee.
 extern lua_State *lua;
 
+#ifdef TARGET_IPHONE
 - (void)awakeFromNib
 {
 	// Hide top navigation bar
@@ -331,6 +422,7 @@ extern lua_State *lua;
 	self.multipleTouchEnabled = YES;
     return self;
 }
+#endif //TARGET_IPHONE
 
 // Hard-wired screen dimension constants. This will soon be system-dependent variable!
 int SCREEN_WIDTH = 320;
@@ -346,9 +438,9 @@ int HALF_SCREEN_HEIGHT = 240;
 #undef DEBUG_TOUCH
 
 // Various texture font strongs
-NSString *textlabelstr = @"";
-NSString *fontname = @"";
-NSString *texturepathstr; // = @"Ship.png";
+string textlabelstr = "";
+string fontname = "";
+string texturepathstr; // = @"Ship.png";
 
 // Below is modeled after GLPaint
 
@@ -457,7 +549,7 @@ void drawPointToTexture(urAPI_Texture_t *texture, float x, float y)
 
 int prepareBrushedLine(float startx, float starty, float endx, float endy, int vertexCount, int vertexMax, GLfloat* vertexBuffer)
 {
-	NSUInteger	count, i;
+	unsigned int	count, i;
 
 	//Add points to the buffer so there are drawing points every X pixels
 	count = MAX(ceilf(sqrtf((endx - startx) * (endx - startx) + (endy - starty) * (endy - starty)) / kBrushPixelStep), 1);
@@ -524,8 +616,8 @@ void drawQuadToTexture(urAPI_Texture_t *texture, float x1, float y1, float x2, f
 	{
 		
 		static GLfloat*		vertexBuffer = NULL;
-		static NSUInteger	vertexMax = sqrt(SCREEN_HEIGHT*SCREEN_HEIGHT+SCREEN_WIDTH*SCREEN_WIDTH); //577; // Sqrt(480^2+320^2)
-		NSUInteger			vertexCount = 0,
+		static unsigned int	vertexMax = sqrt((float)SCREEN_HEIGHT*SCREEN_HEIGHT+SCREEN_WIDTH*SCREEN_WIDTH); //577; // Sqrt(480^2+320^2)
+		unsigned int		vertexCount = 0,
 		count,
 		i;
 		
@@ -595,8 +687,8 @@ void drawEllipseToTexture(urAPI_Texture_t *texture, float x, float y, float w, f
 	{
 		
 		static GLfloat*		vertexBuffer = NULL;
-		static NSUInteger	vertexMax = sqrt(SCREEN_HEIGHT*SCREEN_HEIGHT+SCREEN_WIDTH*SCREEN_WIDTH); //577; // Sqrt(480^2+320^2)
-		NSUInteger			i;
+		static unsigned int	vertexMax = sqrt((float)SCREEN_HEIGHT*SCREEN_HEIGHT+SCREEN_WIDTH*SCREEN_WIDTH); //577; // Sqrt(480^2+320^2)
+		unsigned int		i;
 		
 		GLfloat vertices[720];
 		
@@ -659,8 +751,8 @@ void drawLineToTexture(urAPI_Texture_t *texture, float startx, float starty, flo
 	{
 
 		static GLfloat*		vertexBuffer = NULL;
-		static NSUInteger	vertexMax = sqrt(SCREEN_HEIGHT*SCREEN_HEIGHT+SCREEN_WIDTH*SCREEN_WIDTH); //577; // Sqrt(480^2+320^2)
-		NSUInteger			vertexCount = 0,
+		static unsigned int	vertexMax = sqrt((float)SCREEN_HEIGHT*SCREEN_HEIGHT+SCREEN_WIDTH*SCREEN_WIDTH); //577; // Sqrt(480^2+320^2)
+		unsigned int		vertexCount = 0,
 		count,
 		i;
 		
@@ -694,7 +786,7 @@ void drawLineToTexture(urAPI_Texture_t *texture, float startx, float starty, flo
 
 // Clear a texture with a given RGB color
 
-void clearTexture(urTexture* texture, float r, float g, float b)
+void clearTexture(urTexture* texture, float r, float g, float b, float a)
 {
 	if(textureFrameBuffer == -1)
 		CreateFrameBuffer();
@@ -705,7 +797,7 @@ void clearTexture(urTexture* texture, float r, float g, float b)
 	
 //	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
 	
-	glClearColor(r, g, b, 1.0);
+	glClearColor(r, g, b, a);
 	glClear(GL_COLOR_BUFFER_BIT);
 	// unbind frame buffer
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
@@ -715,19 +807,24 @@ void clearTexture(urTexture* texture, float r, float g, float b)
 
 void instantiateTexture(urAPI_Region_t* t)
 {
-	texturepathstr = [[NSString alloc] initWithUTF8String:t->texture->texturepath];
-	NSString *filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:texturepathstr]; // Leak here, fix.
+	texturepathstr = t->texture->texturepath;
+//	NSString *filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:texturepathstr]; // Leak here, fix.
 //	UIImage* textureimage = [UIImage imageNamed:texturepathstr];
-//	UIImage* textureimage = [UIImage imageWithContentsOfFile:filePath];
-	urImage *image=new urImage([filePath UTF8String]);
-	if(image->getBuffer())
+//	UIImage* textureimage = [UIImage imageWithContentsOfFile:texturepathstr];
+	urImage *textureimage = new urImage(texturepathstr.c_str());
+//	if(textureimage==NULL)
+//		textureimage = [UIImage imageNamed:texturepathstr];
+	
+	if(textureimage)
 	{
 		CGSize rectsize;
 		rectsize.width = t->width;
 		rectsize.height = t->height;
-		t->texture->backgroundTex = new urTexture(image);//TODO//[[urTexture alloc] initWithImage:textureimage rectsize:rectsize];
+		t->texture->backgroundTex = 0; //TODO//[[urTexture alloc] initWithImage:textureimage rectsize:rectsize];
+		t->texture->width = textureimage->getWidth();
+		t->texture->height = textureimage->getHeight();
 	}
-	[texturepathstr release];	
+//	[texturepathstr release];	
 }
 
 // Convert line break modes to UILineBreakMode enums
@@ -746,11 +843,7 @@ UILineBreakMode tolinebreakmode(int wrap)
 	return UILineBreakModeWordWrap;
 }
 
-// Main drawing loop. This does everything but brew coffee.
-extern lua_State *lua;
-static urFont fpsfont;
-static char fontPath[256]={0,};
-
+#ifdef TARGET_IPHONE
 - (void)drawView {
   
   // eval http buffer
@@ -763,7 +856,9 @@ static char fontPath[256]={0,};
 	callAllOnUpdate(elapsedtime); // Call lua APIs OnUpdates when we render a new region. We do this first so that stuff can still be drawn for this region.
 	
 	CGRect  bounds = [self bounds];
-	
+#else //TARGET_IPHONE
+void drawView() {
+#endif //TARGET_IPHONE
     // Replace the implementation of this method to do your own custom drawing
     GLfloat squareVertices[] = {
         -0.5f, -0.5f,
@@ -782,6 +877,7 @@ static char fontPath[256]={0,};
 		0.0, 0.0, 0.0, 50.0
 	};
     
+#ifdef TARGET_IPHONE
     [EAGLContext setCurrentContext:context];
     
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -797,17 +893,8 @@ static char fontPath[256]={0,};
     
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Background color
     glClear(GL_COLOR_BUFFER_BIT);
-	
-	// get default font 
-	if(fontPath[0]=='\0') {
-		NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
-		strncpy(fontPath,[[resourcePath stringByAppendingPathComponent:@"Tahoma.ttf"] UTF8String],sizeof(fontPath)-1);
-	}
-		
-	
+#endif // TARGET_IPHONE
 	// Render all (visible and unclipped) regions on a given page.
-	
-	
 	
 	for(urAPI_Region_t* t=firstRegion[currentPage]; t != nil; t=t->next)
 	{
@@ -918,17 +1005,26 @@ static char fontPath[256]={0,};
 				if(t->texture->backgroundTex)
 				{
 					glEnable(GL_TEXTURE_2D);
+
 					glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 					GLfloat  coordinates[] = {  t->texture->texcoords[0],          t->texture->texcoords[1],
 						t->texture->texcoords[2],  t->texture->texcoords[3],
 						t->texture->texcoords[4],              t->texture->texcoords[5],
 					t->texture->texcoords[6],  t->texture->texcoords[7]  };
-					
-					
-					
+
 					glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
 					//TODO//[t->texture->backgroundTex drawInRect:CGRectMake(t->left,t->bottom,t->width,t->height)];
-					t->texture->backgroundTex->drawInRect(CGRectMake(t->left,t->bottom,t->width,t->height));
+					
+					if(t->texture->isTiled)
+					{
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);					
+					}
+					else {
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);					
+					}
+					
 					glEnable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
 				}
@@ -942,7 +1038,7 @@ static char fontPath[256]={0,};
 					glEnable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
 				}
-				// switch it back to GL_ONE for other types of images, rather than text because urTexture uses CG to load, which premultiplies alpha
+				// switch it back to GL_ONE for other types of images, rather than text because Texture2D uses CG to load, which premultiplies alpha
 				glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 			}
 			else
@@ -959,7 +1055,7 @@ static char fontPath[256]={0,};
 				if(t->textlabel->updatestring)
 				{
 					if(t->textlabel->textlabelTex)
-						delete t->textlabel->textlabelTex;//[t->textlabel->textlabelTex dealloc];
+						delete t->textlabel->textlabelTex; //[t->textlabel->textlabelTex dealloc];
 					UITextAlignment align = UITextAlignmentCenter;
 					switch(t->textlabel->justifyh)
 					{
@@ -973,15 +1069,14 @@ static char fontPath[256]={0,};
 							align = UITextAlignmentRight;
 							break;
 					}
-					textlabelstr = [[NSString alloc] initWithUTF8String:t->textlabel->text]; // Leak here. Fix.
-					fontname = [[NSString alloc] initWithUTF8String:t->textlabel->font];
+					textlabelstr = t->textlabel->text; // Leak here. Fix.
+					fontname = t->textlabel->font;
 					t->textlabel->updatestring = false;
 					if(t->textlabel->drawshadow==false)
 					{
-						t->textlabel->textlabelTex = new urTexture([textlabelstr UTF8String],fontPath,t->textlabel->textheight,t->width,t->height);
-															//[[urTexture alloc] initWithString:textlabelstr
-															//				  dimensions:CGSizeMake(t->width, t->height) alignment:align
-															//				  fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)];
+						t->textlabel->textlabelTex = 0;//TODO//[[urTexture alloc] initWithString:textlabelstr
+																//			  dimensions:CGSizeMake(t->width, t->height) alignment:align
+																//			  fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)];
 					}
 					else
 					{
@@ -990,21 +1085,19 @@ static char fontPath[256]={0,};
 						shadowColors[1] = t->textlabel->shadowcolor[1];
 						shadowColors[2] = t->textlabel->shadowcolor[2];
 						shadowColors[3] = t->textlabel->shadowcolor[3];
-						t->textlabel->textlabelTex = new urTexture([textlabelstr UTF8String],fontPath,t->textlabel->textheight,t->width,t->height,align,tolinebreakmode(t->textlabel->wrap),
-																   CGSizeMake(t->textlabel->shadowoffset[0],t->textlabel->shadowoffset[1]),t->textlabel->shadowblur,t->textlabel->shadowcolor); 
-															//[[urTexture alloc] initWithString:textlabelstr
-															//				  dimensions:CGSizeMake(t->width, t->height) alignment:align
-															//					fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)
-															//				shadowOffset:CGSizeMake(t->textlabel->shadowoffset[0],t->textlabel->shadowoffset[1]) shadowBlur:t->textlabel->shadowblur shadowColor:t->textlabel->shadowcolor];
+						t->textlabel->textlabelTex = 0;//TODO//[[urTexture alloc] initWithString:textlabelstr
+																//			  dimensions:CGSizeMake(t->width, t->height) alignment:align
+																//				fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)
+																//			shadowOffset:CGSizeMake(t->textlabel->shadowoffset[0],t->textlabel->shadowoffset[1]) shadowBlur:t->textlabel->shadowblur shadowColor:t->textlabel->shadowcolor];
 					}
-					[fontname release];
-					[textlabelstr release];
+					//[fontname release];
+					//[textlabelstr release];
 				}
 				
 				// text will need blending
 				glEnable(GL_BLEND);
 				
-				// text from urTexture uses A8 tex format, so needs GL_SRC_ALPHA
+				// text from Texture2D uses A8 tex format, so needs GL_SRC_ALPHA
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				for(int i=0;i<4;i++) // default regions are white
 				{
@@ -1017,7 +1110,7 @@ static char fontPath[256]={0,};
 				glEnableClientState(GL_COLOR_ARRAY);
 				
 				int bottom = t->bottom;
-				int fontheight = t->textlabel->textlabelTex->getHeight();//TODO//[t->textlabel->textlabelTex fontblockHeight];
+				int fontheight = t->textlabel->textlabelTex->getHeight(); // NYI fontblockheight
 				switch(t->textlabel->justifyv)
 				{
 					case JUSTIFYV_MIDDLE:
@@ -1031,10 +1124,13 @@ static char fontPath[256]={0,};
 						break;
 				}
 				
-				//TODO//[t->textlabel->textlabelTex drawAtPoint:CGPointMake(t->left,bottom) tile:true];
-				t->textlabel->textlabelTex->drawAtPoint(CGPointMake(t->left,bottom), true);
+				glPushMatrix();
+				glTranslatef(t->left+t->width/2, bottom+t->height/2, 0);
+				glRotatef(t->textlabel->rotation, 0.0f, 0.0f, 1.0f);
+				//TODO//[t->textlabel->textlabelTex drawAtPoint:CGPointMake(-t->width/2, -t->height/2) tile:true];
+				glPopMatrix();
 				
-				// switch it back to GL_ONE for other types of images, rather than text because urTexture uses CG to load, which premultiplies alpha
+				// switch it back to GL_ONE for other types of images, rather than text because Texture2D uses CG to load, which premultiplies alpha
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			}
 		}
@@ -1050,55 +1146,44 @@ static char fontPath[256]={0,};
 	if (errorStrTex == nil)
 	{
 		newerror = false;
-		errorStrTex = new urTexture([errorstr UTF8String],fontPath,20,SCREEN_WIDTH,128);
-							//TODO//[[urTexture alloc] initWithString:errorstr
+		errorStrTex = 0;//TODO//[[urTexture alloc] initWithString:errorstr
 							//			 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
 							//			   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap ];
 	}
 	else if(newerror)
 	{
-		delete errorStrTex;//[errorStrTex dealloc];
+		delete errorStrTex;
 		newerror = false;
-		errorStrTex = new urTexture([errorstr UTF8String],fontPath,20,SCREEN_WIDTH,128);
-							//[[urTexture alloc] initWithString:errorstr
-							//			 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
-							//			   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap];
+		errorStrTex = 0;//TODO//[[urTexture alloc] initWithString:errorstr
+								//		 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
+								//		   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap];
 	}
+	
 	// text will need blending
 	glEnable(GL_BLEND);
 	
-	// text from urTexture uses A8 tex format, so needs GL_SRC_ALPHA
+	// text from Texture2D uses A8 tex format, so needs GL_SRC_ALPHA
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	for(int i=0;i<16;i++) // default regions are white
 		squareColors[i] = 200;
 	glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
 	glEnableClientState(GL_COLOR_ARRAY);
-	//[errorStrTex drawAtPoint:CGPointMake(0.0, bounds.size.height * 0.5f) tile:true];
-	errorStrTex->drawAtPoint(CGPointMake(0.0, bounds.size.height*0.5f), true);
+	//TODO//[errorStrTex drawAtPoint:CGPointMake(0.0,
+			//						 bounds.size.height * 0.5f) tile:true];
 	
-	
-	if(!fpsfont.bLoadedOk)
-		fpsfont.loadFont(fontPath,20);
-	char fpsstr[16];
-	static int prevfps[16];
-	static int fpspos=0;
-	prevfps[fpspos]=(1.0f/elapsedtime);
-	fpspos=(fpspos+1)%16;
-	int sumfps=0;
-	for(int i=0;i<16;i++) sumfps+=prevfps[i];
-	sprintf(fpsstr,"%d",sumfps/16);
-	fpsfont.drawString(fpsstr,10,SCREEN_HEIGHT-50);
-		
-	// switch it back to GL_ONE for other types of images, rather than text because urTexture uses CG to load, which premultiplies alpha
+	// switch it back to GL_ONE for other types of images, rather than text because Texture2D uses CG to load, which premultiplies alpha
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	
 #endif
 	
 	
+#ifdef TARGET_IPHONE	
     glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
-    [context presentRenderbuffer:GL_RENDERBUFFER_OES];
+#endif // TARGET_IPHONE
+//    [context presentRenderbuffer:GL_RENDERBUFFER_OES];
 }
 
+#ifdef TARGET_IPHONE
 - (void)layoutSubviews {
     [EAGLContext setCurrentContext:context];
     [self destroyFramebuffer];
@@ -1220,7 +1305,8 @@ static char fontPath[256]={0,};
 #pragma mark
 
 #define NR_FINGERS 2
-
+#endif //TARGET_IPHONE
+	
 CGFloat distanceBetweenPoints(CGPoint first, CGPoint second)
 {
 	CGFloat deltax = second.x-first.x;
@@ -1228,6 +1314,7 @@ CGFloat distanceBetweenPoints(CGPoint first, CGPoint second)
 	return sqrt(deltax*deltax + deltay*deltay);
 }
 
+/*
 int NumHitMatches(urAPI_Region_t* hitregion[], int max, int idx, int repeat)
 {
 	int count = 0;
@@ -1236,7 +1323,265 @@ int NumHitMatches(urAPI_Region_t* hitregion[], int max, int idx, int repeat)
 			count++;
 
 }
+*/
 
+// Platform independent stuff
+
+urAPI_Region_t* hitregion[MAX_FINGERS];
+
+void onTouchDownParse(int t, int numTaps, float posx, float posy)
+{
+	if(t>=0)
+	{
+		hitregion[t] = NULL;
+		cursorpositionx[t] = posx;
+		cursorpositiony[t] = posy;
+		
+		hitregion[t] = findRegionHit(posx, SCREEN_HEIGHT-posy);
+		if(hitregion[t]!=nil)
+		{
+			// A double tap.
+			if (numTaps == 2 && hitregion[t]->OnDoubleTap) 
+			{
+				callScript(hitregion[t]->OnDoubleTap, hitregion[t]);
+				//					callScript(hitregion[t]->OnTouchUp, hitregion[t]);
+			}
+			else if (numTaps == 3 && false)
+			{
+				// Tripple Tap NYI
+			}
+			else if (numTaps == 1)
+				callScript(hitregion[t]->OnTouchDown, hitregion[t]);
+			else {
+				callScript(hitregion[t]->OnTouchDown, hitregion[t]);
+				callScript(hitregion[t]->OnTouchUp, hitregion[t]);
+			}
+		}
+	}
+}
+
+int arg = 0;
+void onTouchArgInit()
+{
+	arg = 0;
+}
+
+void onTouchMoveUpdate(int t, int t2, float oposx, float oposy, float posx, float posy)
+{
+	if(t2 >=0)
+	{
+		cursorscrollspeedx[t2] = posx - oposx;
+		cursorscrollspeedy[t2] = posy - oposy;
+		cursorpositionx[t2] = posx;
+		cursorpositiony[t2] = posy;
+		argmoved[arg] = t;
+		argcoordx[arg] = posx;
+		argcoordy[arg] = SCREEN_HEIGHT-posy;
+		arg2coordx[arg] = oposx;
+		arg2coordy[arg] = SCREEN_HEIGHT-oposy;
+		arg++;
+	}
+}
+
+void onTouchEnds(int numTaps, float oposx, float oposy, float posx, float posy)
+{
+	urAPI_Region_t* hitregion = findRegionHit(posx, SCREEN_HEIGHT-posy);
+	if(hitregion && numTaps <= 1)
+	{
+		callScript(hitregion->OnTouchUp, hitregion);
+		callAllOnLeaveRegions(posx, SCREEN_HEIGHT-posy);
+	}
+	else
+	{
+		argcoordx[arg] = posx;
+		argcoordy[arg] = SCREEN_HEIGHT-posy;
+		arg2coordx[arg] = oposx;
+		arg2coordy[arg] = SCREEN_HEIGHT-oposy;
+		arg++;
+	}
+}
+
+
+void ClampRegion(urAPI_Region_t*region)
+{
+	if(region->left < 0) region->left = 0;
+	if(region->bottom < 0) region->bottom = 0;
+	if(region->width > SCREEN_WIDTH) region->width = SCREEN_WIDTH;
+	if(region->height > SCREEN_HEIGHT) region->height = SCREEN_HEIGHT;
+	if(region->left+region->width > SCREEN_WIDTH) region->left = SCREEN_WIDTH-region->width;
+	if(region->bottom+region->height > SCREEN_HEIGHT) region->bottom = SCREEN_HEIGHT-region->height;
+}
+
+
+void onTouchDoubleDragUpdate(int t, int dragidx, float pos1x, float pos1y, float pos2x, float pos2y)
+{
+	if(t>=0)
+	{
+		float dx = cursorscrollspeedx[t];
+		float dy = -(cursorscrollspeedy[t]);
+		if( dx !=0 || dy != 0)
+		{
+			urAPI_Region_t* dragregion = dragtouches[dragidx].dragregion;
+			dragregion->left += dx;
+			dragregion->bottom += dy;
+			float cursorpositionx2 = pos2x;
+			float cursorpositiony2 = pos2y;
+			if(dragregion->isResizable)
+			{
+				float deltanewwidth = fabs(cursorpositionx2-pos1x);
+				float deltanewheight = fabs(cursorpositiony2-pos1y);
+				dragregion->width = dragtouches[dragidx].dragwidth + deltanewwidth;
+				dragregion->height = dragtouches[dragidx].dragheight + deltanewheight;
+			}
+			dragregion->right = dragregion->left + dragregion->width;
+			dragregion->top = dragregion->bottom + dragregion->height;
+			if(dragregion->isClamped) ClampRegion(dragregion);
+			callScript(dragregion->OnSizeChanged, dragregion);
+		}
+	}
+}
+
+bool testDoubleDragStart(int t1, int t2)
+{
+	if(hitregion[t1] != NULL && hitregion[t1] == hitregion[t2] && hitregion[t1]->isMovable && hitregion[t1]->isResizable) // Pair of fingers on draggable region?
+		return true;
+	else
+		return false;
+}
+
+void doTouchDoubleDragStart(int t1,int t2,int touch1, int touch2)
+{
+	if(t1>=0 && t2>=0)
+	{
+		hitregion[t1]->isDragged = true; // YAYA
+		hitregion[t1]->isResized = true;
+		int dragidx = FindAvailableDragTouch();
+		dragtouches[dragidx].dragregion = hitregion[t1];
+		dragtouches[dragidx].touch1 = touch1; //UITouch2UTID([[touches allObjects] objectAtIndex:t1]);
+		dragtouches[dragidx].touch2 = touch2; //UITouch2UTID([[touches allObjects] objectAtIndex:t2]);
+		dragtouches[dragidx].dragwidth = hitregion[t1]->width-fabs(cursorpositionx[t2]-cursorpositionx[t1]);
+		dragtouches[dragidx].dragheight = hitregion[t1]->height-fabs(cursorpositiony[t2]-cursorpositiony[t1]);
+		dragtouches[dragidx].active = true;
+	}
+}
+
+bool testSingleDragStart(int t)
+{
+	if(hitregion[t]!=nil && hitregion[t]->isMovable)
+		return true;
+	else 
+		return false;
+}
+
+bool getSingleDoubleTouchConversionID(int t)
+{
+	int dragidx = FindDragRegion(hitregion[t]);
+	if(dragidx == -1)
+		return -1;
+	else 
+		return dragtouches[dragidx].touch1;
+}
+
+void doTouchSingleDragStart(int t, int touch1, float pos1x, float pos1y, float pos2x, float pos2y)
+{
+	hitregion[t]->isDragged = true; // YAYA
+	int dragidx = FindDragRegion(hitregion[t]);
+	if(dragidx == -1)
+	{
+		dragidx = FindAvailableDragTouch();
+		dragtouches[dragidx].dragregion = hitregion[t];
+		dragtouches[dragidx].touch1 = touch1;
+		dragtouches[dragidx].touch2 = -1;
+		dragtouches[dragidx].active = true;
+	}
+	else
+	{
+		AddDragRegion(dragidx,touch1);
+		if(dragtouches[dragidx].touch2 != -1)
+		{
+			dragtouches[dragidx].dragwidth = dragtouches[dragidx].dragregion->width-fabs(pos2x-pos1x);
+			dragtouches[dragidx].dragheight = dragtouches[dragidx].dragregion->height-fabs(pos2y-pos1y);
+		}
+	}
+}
+
+void onTouchSingleDragUpdate(int t, int dragidx)
+{
+	if(t>=0 && dragidx>=0)
+	{
+		float dx = cursorscrollspeedx[t];
+		float dy = -(cursorscrollspeedy[t]);
+		if( dx !=0 || dy != 0)
+		{
+			urAPI_Region_t* dragregion = dragtouches[dragidx].dragregion;
+			dragregion->left += dx;
+			dragregion->bottom += dy;
+			dragregion->right += dx;
+			dragregion->top += dy;
+		}
+	}
+}
+
+void onTouchScrollUpdate(int t)
+{
+	urAPI_Region_t* scrollregion = findRegionXScrolled(cursorpositionx[t],SCREEN_HEIGHT-cursorpositiony[t],cursorscrollspeedx[t]);
+	if(scrollregion != nil)
+	{
+		callScriptWith1Args(scrollregion->OnHorizontalScroll, scrollregion, cursorscrollspeedx[t]);
+	}
+	scrollregion = findRegionYScrolled(cursorpositionx[t],SCREEN_HEIGHT-cursorpositiony[t],-cursorscrollspeedy[t]);
+	if(scrollregion != nil)
+	{
+		callScriptWith1Args(scrollregion->OnVerticalScroll, scrollregion, -cursorscrollspeedy[t]);
+	}
+}
+
+void onTouchDragEnd(int t,int touch, float posx, float posy)
+{
+	if(touch >=0 && t>=0)
+	{
+		
+		cursorpositionx[t] = posx;
+		cursorpositiony[t] = posy;
+
+		int dragidx = FindSingleDragTouch(touch);
+		
+		if(dragidx != -1)
+		{
+			if(dragtouches[dragidx].touch1 == touch)
+			{
+#ifdef TARGET_IPHONE
+				RemoveUTID(dragtouches[dragidx].touch1);
+#endif
+				dragtouches[dragidx].touch1 = -1;
+			}
+			if(dragtouches[dragidx].touch2 == touch)
+			{
+#ifdef TARGET_IPHONE
+				RemoveUTID(dragtouches[dragidx].touch2);
+#endif
+				dragtouches[dragidx].touch2 = -1;
+			}
+			if(	dragtouches[dragidx].touch1 == -1 && dragtouches[dragidx].touch2 == -1)
+			{
+				dragtouches[dragidx].active = false;
+				dragtouches[dragidx].dragregion->isDragged = false;
+				callScript(dragtouches[dragidx].dragregion->OnDragStop, dragtouches[dragidx].dragregion);
+			}
+			else if(dragtouches[dragidx].touch2 != -1)
+			{
+#ifdef TARGET_IPHONE
+				RemoveUTID(dragtouches[dragidx].touch1);
+#endif
+				dragtouches[dragidx].touch1 = dragtouches[dragidx].touch2;
+				dragtouches[dragidx].touch2 = -1;
+			}
+			dragtouches[dragidx].dragregion->isResized = false;
+		}
+	}
+}
+
+#ifdef TARGET_IPHONE
 // Handles the start of a touch
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -1263,39 +1608,13 @@ int NumHitMatches(urAPI_Region_t* hitregion[], int max, int idx, int repeat)
 		callAllTouchSources(position.x/(float)HALF_SCREEN_WIDTH-1.0, 1.0-position.y/(float)HALF_SCREEN_HEIGHT,t);
 	}
 	
-	urAPI_Region_t* hitregion[MAX_FINGERS];
 	for(int t=0; t< numTouches; t++)
 	{
-		hitregion[t] = NULL;
 		UITouch *touch = [[touches allObjects] objectAtIndex:t];
 		NSUInteger numTaps = [touch tapCount];
-		UITouchPhase phase = [touch phase];
 		CGPoint position = [touch locationInView:self];
-		cursorpositionx[t] = position.x;
-		cursorpositiony[t] = position.y;
-		
-		if(phase == UITouchPhaseBegan) // Hope this works ...
-		{
-			hitregion[t] = findRegionHit(position.x, SCREEN_HEIGHT-position.y);
-			if(hitregion[t]!=nil)
-			{
-				// A double tap.
-				if (numTaps == 2 && hitregion[t]->OnDoubleTap) 
-				{
-					callScript(hitregion[t]->OnDoubleTap, hitregion[t]);
-				}
-				else if (numTaps == 3 && false)
-				{
-					// Tripple Tap NYI
-				}
-				else
-					callScript(hitregion[t]->OnTouchDown, hitregion[t]);
-			}
-		}
-		else
-		{
-			int a = 0;
-		}
+
+		onTouchDownParse(t, numTaps, position.x, position.y);
 	}
 	
 	// Find two-finger drags
@@ -1303,17 +1622,12 @@ int NumHitMatches(urAPI_Region_t* hitregion[], int max, int idx, int repeat)
 	{
 		for(int t2 = t1+1; t2<numTouches; t2++)
 		{
-			if(hitregion[t1] != NULL && hitregion[t1] == hitregion[t2] && hitregion[t1]->isMovable && hitregion[t1]->isResizable) // Pair of fingers on draggable region?
+			if(testDoubleDragStart(t1,t2))
 			{
-				hitregion[t1]->isDragged = true; // YAYA
-				hitregion[t1]->isResized = true;
-				int dragidx = FindAvailableDragTouch();
-				dragtouches[dragidx].dragregion = hitregion[t1];
-				dragtouches[dragidx].touch1 = [[touches allObjects] objectAtIndex:t1];
-				dragtouches[dragidx].touch2 = [[touches allObjects] objectAtIndex:t2];
-				dragtouches[dragidx].dragwidth = hitregion[t1]->width-fabs(cursorpositionx[t2]-cursorpositionx[t1]);
-				dragtouches[dragidx].dragheight = hitregion[t1]->height-fabs(cursorpositiony[t2]-cursorpositiony[t1]);
-				dragtouches[dragidx].active = true;
+				int touch1 = AddUITouch([[touches allObjects] objectAtIndex:t1]);
+				int touch2 = AddUITouch([[touches allObjects] objectAtIndex:t2]);
+
+				doTouchDoubleDragStart(t1,t2,touch1, touch2);
 			}
 		}
 	}
@@ -1321,41 +1635,22 @@ int NumHitMatches(urAPI_Region_t* hitregion[], int max, int idx, int repeat)
 	// Find single finger drags (not already classified as two-finger ones.
 	for(int t = 0; t<numTouches; t++)
 	{
-		if(hitregion[t]!=nil && hitregion[t]->isMovable)
+		if(testSingleDragStart(t))
 		{
-			hitregion[t]->isDragged = true; // YAYA
-			int dragidx = FindDragRegion(hitregion[t]);
-			if(dragidx == -1)
+			int touch1 = AddUITouch([[touches allObjects] objectAtIndex:t]);
+			CGPoint position1 = [[[touches allObjects] objectAtIndex:t] locationInView:self];
+			CGPoint position2;
+
+			int touch2 = getSingleDoubleTouchConversionID(t);
+			
+			if(touch2 != -1)
 			{
-				dragidx = FindAvailableDragTouch();
-				dragtouches[dragidx].dragregion = hitregion[t];
-				dragtouches[dragidx].touch1 = [[touches allObjects] objectAtIndex:t];
-				dragtouches[dragidx].touch2 = NULL;
-				dragtouches[dragidx].active = true;
+				position2 = [UTID2UITouch(touch2) locationInView:self];
 			}
-			else
-			{
-				AddDragRegion(dragidx,[[touches allObjects] objectAtIndex:t]);
-				if(dragtouches[dragidx].touch2 != NULL)
-				{
-					CGPoint position1 = [dragtouches[dragidx].touch1 locationInView:self];
-					CGPoint position2 = [dragtouches[dragidx].touch2 locationInView:self];
-					dragtouches[dragidx].dragwidth = dragtouches[dragidx].dragregion->width-fabs(position2.x-position1.x);
-					dragtouches[dragidx].dragheight = dragtouches[dragidx].dragregion->height-fabs(position2.y-position1.y);
-				}
-			}
+				
+			doTouchSingleDragStart(t, touch1, position1.x, position1.y, position2.x, position2.y);
 		}
 	}		
-}
-
-void ClampRegion(urAPI_Region_t*region)
-{
-	if(region->left < 0) region->left = 0;
-	if(region->bottom < 0) region->bottom = 0;
-	if(region->width > SCREEN_WIDTH) region->width = SCREEN_WIDTH;
-	if(region->height > SCREEN_HEIGHT) region->height = SCREEN_HEIGHT;
-	if(region->left+region->width > SCREEN_WIDTH) region->left = SCREEN_WIDTH-region->width;
-	if(region->bottom+region->height > SCREEN_HEIGHT) region->bottom = SCREEN_HEIGHT-region->height;
 }
 
 // Handles the continuation of a touch.
@@ -1379,8 +1674,7 @@ void ClampRegion(urAPI_Region_t*region)
 		callAllTouchSources(position.x/(float)HALF_SCREEN_WIDTH-1.0, 1.0-position.y/(float)HALF_SCREEN_HEIGHT,t);
 	}
 
-//	urAPI_Region_t* hitregion[MAX_FINGERS];
-	int arg = 0;
+	onTouchArgInit();
 	for(int t=0; t< numTouches; t++)
 	{
 		UITouch *touch = [[touches allObjects] objectAtIndex:t];
@@ -1399,16 +1693,7 @@ void ClampRegion(urAPI_Region_t*region)
 					t2=t;
 				}
 			}	
-			cursorscrollspeedx[t2] = position.x - oldposition.x;
-			cursorscrollspeedy[t2] = position.y - oldposition.y;
-			cursorpositionx[t2] = position.x;
-			cursorpositiony[t2] = position.y;
-			argmoved[arg] = t;
-			argcoordx[arg] = position.x;
-			argcoordy[arg] = SCREEN_HEIGHT-position.y;
-			arg2coordx[arg] = oldposition.x;
-			arg2coordy[arg] = SCREEN_HEIGHT-oldposition.y;
-			arg++;
+			onTouchMoveUpdate(t, t2, oldposition.x, oldposition.y, position.x, position.y);
 		}
 		else
 		{
@@ -1419,61 +1704,25 @@ void ClampRegion(urAPI_Region_t*region)
 	for(int i=0; i < arg; i++)
 	{
 		int t = argmoved[i];
-		int dragidx = FindSingleDragTouch([[touches allObjects] objectAtIndex:t]);
+		int dragidx = FindSingleDragTouch(UITouch2UTID([[touches allObjects] objectAtIndex:t]));
 		if(dragidx != -1)
 		{
-			if(dragtouches[dragidx].touch2 != NULL) // Double Touch here.
+			if(dragtouches[dragidx].touch2 != -1) // Double Touch here.
 			{
-				float dx = cursorscrollspeedx[t];
-				float dy = -(cursorscrollspeedy[t]);
-				if( dx !=0 || dy != 0)
-				{
-					urAPI_Region_t* dragregion = dragtouches[dragidx].dragregion;
-					dragregion->left += dx;
-					dragregion->bottom += dy;
-					CGPoint position1 = [dragtouches[dragidx].touch1 locationInView:self];
-					CGPoint position2 = [dragtouches[dragidx].touch2 locationInView:self];
-					float cursorpositionx2 = position2.x;
-					float cursorpositiony2 = position2.y;
-					if(dragregion->isResizable)
-					{
-						float deltanewwidth = fabs(cursorpositionx2-position1.x);
-						float deltanewheight = fabs(cursorpositiony2-position1.y);
-						dragregion->width = dragtouches[dragidx].dragwidth + deltanewwidth;
-						dragregion->height = dragtouches[dragidx].dragheight + deltanewheight;
-					}
-					dragregion->right = dragregion->left + dragregion->width;
-					dragregion->top = dragregion->bottom + dragregion->height;
-					if(dragregion->isClamped) ClampRegion(dragregion);
-					callScript(dragregion->OnSizeChanged, dragregion);
-				}
+				CGPoint position1 = [UTID2UITouch(dragtouches[dragidx].touch1) locationInView:self];
+				CGPoint position2 = [UTID2UITouch(dragtouches[dragidx].touch2) locationInView:self];
+				
+				onTouchDoubleDragUpdate(t, dragidx, position1.x, position1.y, position2.x, position2.y);
+				
 			}
 			else
 			{
-				float dx = cursorscrollspeedx[t];
-				float dy = -(cursorscrollspeedy[t]);
-				if( dx !=0 || dy != 0)
-				{
-					urAPI_Region_t* dragregion = dragtouches[dragidx].dragregion;
-					dragregion->left += dx;
-					dragregion->bottom += dy;
-					dragregion->right += dx;
-					dragregion->top += dy;
-				}
+				onTouchSingleDragUpdate(t, dragidx);
 			}
 		}
 		else 
 		{
-			urAPI_Region_t* scrollregion = findRegionXScrolled(cursorpositionx[t],SCREEN_HEIGHT-cursorpositiony[t],cursorscrollspeedx[t]);
-			if(scrollregion != nil)
-			{
-				callScriptWith1Args(scrollregion->OnHorizontalScroll, scrollregion, cursorscrollspeedx[t]);
-			}
-			scrollregion = findRegionYScrolled(cursorpositionx[t],SCREEN_HEIGHT-cursorpositiony[t],-cursorscrollspeedy[t]);
-			if(scrollregion != nil)
-			{
-				callScriptWith1Args(scrollregion->OnVerticalScroll, scrollregion, -cursorscrollspeedy[t]);
-			}
+			onTouchScrollUpdate(t);
 		}
 	}
 	
@@ -1500,55 +1749,21 @@ void ClampRegion(urAPI_Region_t*region)
 		callAllTouchSources(position.x/(float)HALF_SCREEN_WIDTH-1.0, 1.0-position.y/(float)HALF_SCREEN_HEIGHT,t);
 	}
 	
-	int arg = 0;
+	onTouchArgInit();
+	
 	for(int t=0; t< numTouches; t++)
 	{
-		UITouch *touch = [[touches allObjects] objectAtIndex:t];
-		UITouchPhase phase = [touch phase];
-		CGPoint position = [touch locationInView:self];
-		cursorpositionx[t] = position.x;
-		cursorpositiony[t] = position.y;
+		UITouch *touchip = [[touches allObjects] objectAtIndex:t];
+		int touch = UITouch2UTID(touchip);
+		UITouchPhase phase = [touchip phase];
+		CGPoint position = [touchip locationInView:self];
 
 		if(phase == UITouchPhaseEnded)		{
-			
-			int dragidx = FindSingleDragTouch(touch);
-			if(dragidx != -1)
-			{
-				if(dragtouches[dragidx].touch1 == touch)
-					dragtouches[dragidx].touch1 = NULL;
-				if(dragtouches[dragidx].touch2 == touch)
-					dragtouches[dragidx].touch2 = NULL;
-				if(	dragtouches[dragidx].touch1 == NULL && dragtouches[dragidx].touch2 == NULL)
-				{
-					dragtouches[dragidx].active = false;
-					dragtouches[dragidx].dragregion->isDragged = false;
-					callScript(dragtouches[dragidx].dragregion->OnDragStop, dragtouches[dragidx].dragregion);
-				}
-				else if(dragtouches[dragidx].touch2 != NULL)
-				{
-					dragtouches[dragidx].touch1 = dragtouches[dragidx].touch2;
-					dragtouches[dragidx].touch2 = NULL;
-				}
-				dragtouches[dragidx].dragregion->isResized = false;
-			}
-			
-			CGPoint oldposition = [touch previousLocationInView:self];
-			urAPI_Region_t* hitregion = findRegionHit(position.x, SCREEN_HEIGHT-position.y);
-			NSUInteger numTaps = [touch tapCount];
-			if(hitregion && numTaps <= 1)
-			{
-				callScript(hitregion->OnTouchUp, hitregion);
-				callAllOnLeaveRegions(position.x, SCREEN_HEIGHT-position.y);
-			}
-			else
-			{
-				argcoordx[arg] = position.x;
-				argcoordy[arg] = SCREEN_HEIGHT-position.y;
-				arg2coordx[arg] = oldposition.x;
-				arg2coordy[arg] = SCREEN_HEIGHT-oldposition.y;
-				arg++;
-				
-			}
+
+			onTouchDragEnd(t,touch,position.x,position.y);
+			CGPoint oldposition = [touchip previousLocationInView:self];
+			NSUInteger numTaps = [touchip tapCount];
+			onTouchEnds(numTaps, oldposition.x, oldposition.y, position.x, position.y);
 		}
 		else
 		{
@@ -1714,6 +1929,7 @@ void Net_Send(float data)
 			
 			if (_inReady && _outReady) {
 				// Connection established fully.
+				callAllOnNetConnect("test");
 			}
 			break;
 		}
@@ -1740,6 +1956,7 @@ void Net_Send(float data)
 			
 		case NSStreamEventEndEncountered:
 		{
+			callAllOnNetDisconnect("test");
 			// Connection ended.
 			
 			break;
@@ -1856,6 +2073,7 @@ void Net_Send(float data)
 		
 		[self openStreams];
 		while(not [_outStream hasSpaceAvailable]);
+		
 
 	}
 	// If moreComing is NO, it means that there are no more messages in the queue from the Bonjour daemon, so we should update the UI.
@@ -1879,3 +2097,5 @@ void Net_Send(float data)
 }
 
 @end
+	
+#endif //TARGET_IPHONE

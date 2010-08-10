@@ -27,6 +27,8 @@ LOCAL_SRC_FILES := urMus.cpp \
 	../../../src/urSound.cpp \
 	../../../src/urSoundAtoms.cpp \
 	../../../src/urSTK.cpp \
+	../../../src/urGraphics.cpp \
+	../../../src/urAPI.cpp \
 
 
 LOCAL_LDLIBS	:= -llog -ldl -lGLESv1_CM

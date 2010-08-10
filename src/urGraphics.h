@@ -6,11 +6,7 @@
 //  Copyright Georg Essl 2009. All rights reserved. See LICENSE.txt for license details.
 //
 
-#import <UIKit/UIKit.h>
-#import <OpenGLES/EAGL.h>
-#import <OpenGLES/ES1/gl.h>
-#import <OpenGLES/ES1/glext.h>
-#import <CoreLocation/CoreLocation.h>
+#include "config.h"
 
 #undef SANDWICH_SUPPORT
 
@@ -27,14 +23,18 @@ Note that setting the view non-opaque will only work if the EAGL surface has an 
 */
 
 //#define USEUDP
+#ifdef TARGET_IPHONE
 #ifdef USEUDP
 #import "AsyncUdpSocket.h"
 #else
 #import "TCPServer.h"
 #import <Foundation/NSNetServices.h>
 #endif
+#endif //TARGET_IPHONE
 
 #define MAX_FINGERS 10
+
+#ifdef TARGET_IPHONE
 
 #ifdef SANDWICH_SUPPORT
 #ifdef USEUDP
@@ -109,3 +109,4 @@ Note that setting the view non-opaque will only work if the EAGL surface has an 
 
 @end
 
+#endif
