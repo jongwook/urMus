@@ -1052,6 +1052,8 @@ int region_SetHeight(lua_State* lua)
 	urAPI_Region_t* region = checkregion(lua,1);
 	lua_Number height = luaL_checknumber(lua,2);
 	region->height=height;
+	if(region->textlabel!=NULL)
+		region->textlabel->updatestring = true;
 	region->update = true;
 	if(!layout(region)) // Change may not have had a layouting effect on parent, but still could affect children that are anchored to Y
 		layoutchildren(region);
@@ -1063,6 +1065,8 @@ int region_SetWidth(lua_State* lua)
 	urAPI_Region_t* region = checkregion(lua,1);
 	lua_Number width = luaL_checknumber(lua,2);
 	region->width=width;
+	if(region->textlabel!=NULL)
+		region->textlabel->updatestring = true;
 	region->update = true;
 	if(!layout(region)) // Change may not have had a layouting effect on parent, but still could affect children that are anchored to X
 		layoutchildren(region);
@@ -1626,6 +1630,8 @@ void setParent(urAPI_Region_t* region, urAPI_Region_t* parent)
 {
 	if(region!= NULL && parent!= NULL && region != parent)
 	{
+		region->relativeRegion = parent;
+		
 		removeChild(region->parent, region);
 		if(parent == UIParent)
 			region->parent = UIParent;
@@ -1643,6 +1649,8 @@ int region_SetParent(lua_State* lua)
 	urAPI_Region_t* parent = checkregion(lua, 2);
 
 	setParent(region, parent);
+	region->update = true;
+	layout(region);
 	return 0;
 }
 
@@ -3908,6 +3916,8 @@ void l_setupAPI(lua_State *lua)
 	myregion->bottom = 0;
 	myregion->left = 0;
 	myregion->right = SCREEN_WIDTH;
+	myregion->cx = SCREEN_WIDTH/2;
+	myregion->cy = SCREEN_HEIGHT/2;
 	myregion->firstchild = NULL;
 	myregion->point = NULL;
 	myregion->relativePoint = NULL;
