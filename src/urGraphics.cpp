@@ -820,7 +820,7 @@ void instantiateTexture(urAPI_Region_t* t)
 		CGSize rectsize;
 		rectsize.width = t->width;
 		rectsize.height = t->height;
-		t->texture->backgroundTex = 0; //TODO//[[urTexture alloc] initWithImage:textureimage rectsize:rectsize];
+		t->texture->backgroundTex = new urTexture(textureimage); 
 		t->texture->width = textureimage->getWidth();
 		t->texture->height = textureimage->getHeight();
 	}
@@ -842,6 +842,10 @@ UILineBreakMode tolinebreakmode(int wrap)
 	}
 	return UILineBreakModeWordWrap;
 }
+
+// Path to the default font
+string g_fontPath;
+static string &fontPath=g_fontPath;
 
 #ifdef TARGET_IPHONE
 - (void)drawView {
@@ -1013,7 +1017,7 @@ void drawView() {
 					t->texture->texcoords[6],  t->texture->texcoords[7]  };
 
 					glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-					//TODO//[t->texture->backgroundTex drawInRect:CGRectMake(t->left,t->bottom,t->width,t->height)];
+					t->texture->backgroundTex->drawInRect(CGRectMake(t->left,t->bottom,t->width,t->height));
 					
 					if(t->texture->isTiled)
 					{
@@ -1074,9 +1078,7 @@ void drawView() {
 					t->textlabel->updatestring = false;
 					if(t->textlabel->drawshadow==false)
 					{
-						t->textlabel->textlabelTex = 0;//TODO//[[urTexture alloc] initWithString:textlabelstr
-																//			  dimensions:CGSizeMake(t->width, t->height) alignment:align
-																//			  fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)];
+						t->textlabel->textlabelTex = new urTexture(textlabelstr.c_str(),fontPath.c_str(),t->textlabel->textheight,t->width,t->height);
 					}
 					else
 					{
@@ -1085,10 +1087,10 @@ void drawView() {
 						shadowColors[1] = t->textlabel->shadowcolor[1];
 						shadowColors[2] = t->textlabel->shadowcolor[2];
 						shadowColors[3] = t->textlabel->shadowcolor[3];
-						t->textlabel->textlabelTex = 0;//TODO//[[urTexture alloc] initWithString:textlabelstr
-																//			  dimensions:CGSizeMake(t->width, t->height) alignment:align
-																//				fontName:fontname fontSize:t->textlabel->textheight lineBreakMode:tolinebreakmode(t->textlabel->wrap)
-																//			shadowOffset:CGSizeMake(t->textlabel->shadowoffset[0],t->textlabel->shadowoffset[1]) shadowBlur:t->textlabel->shadowblur shadowColor:t->textlabel->shadowcolor];
+						t->textlabel->textlabelTex = new urTexture(textlabelstr.c_str(),fontPath.c_str(),t->textlabel->textheight,t->width,t->height,
+																	align,tolinebreakmode(t->textlabel->wrap),
+																	CGSizeMake(t->textlabel->shadowoffset[0],t->textlabel->shadowoffset[1]),
+																	t->textlabel->shadowblur,t->textlabel->shadowcolor);
 					}
 					//[fontname release];
 					//[textlabelstr release];
@@ -1127,7 +1129,7 @@ void drawView() {
 				glPushMatrix();
 				glTranslatef(t->left+t->width/2, bottom+t->height/2, 0);
 				glRotatef(t->textlabel->rotation, 0.0f, 0.0f, 1.0f);
-				//TODO//[t->textlabel->textlabelTex drawAtPoint:CGPointMake(-t->width/2, -t->height/2) tile:true];
+				t->textlabel->textlabelTex->drawAtPoint(CGPointMake(t->left,bottom), true);
 				glPopMatrix();
 				
 				// switch it back to GL_ONE for other types of images, rather than text because Texture2D uses CG to load, which premultiplies alpha
@@ -1146,17 +1148,13 @@ void drawView() {
 	if (errorStrTex == nil)
 	{
 		newerror = false;
-		errorStrTex = 0;//TODO//[[urTexture alloc] initWithString:errorstr
-							//			 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
-							//			   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap ];
+		errorStrTex = new urTexture(errorstr.c_str(),fontPath.c_str(),20,SCREEN_WIDTH,128);
 	}
 	else if(newerror)
 	{
 		delete errorStrTex;
 		newerror = false;
-		errorStrTex = 0;//TODO//[[urTexture alloc] initWithString:errorstr
-								//		 dimensions:CGSizeMake(SCREEN_WIDTH, 128) alignment:UITextAlignmentCenter
-								//		   fontName:@"Helvetica" fontSize:14 lineBreakMode:UILineBreakModeWordWrap];
+		errorStrTex = new urTexture(errorstr.c_str(),fontPath.c_str(),20,SCREEN_WIDTH,128);
 	}
 	
 	// text will need blending
@@ -1168,9 +1166,7 @@ void drawView() {
 		squareColors[i] = 200;
 	glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
 	glEnableClientState(GL_COLOR_ARRAY);
-	//TODO//[errorStrTex drawAtPoint:CGPointMake(0.0,
-			//						 bounds.size.height * 0.5f) tile:true];
-	
+	errorStrTex->drawAtPoint(CGPointMake(0.0, SCREEN_HEIGHT*0.5f), true);
 	// switch it back to GL_ONE for other types of images, rather than text because Texture2D uses CG to load, which premultiplies alpha
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	

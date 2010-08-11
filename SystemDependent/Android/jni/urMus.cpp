@@ -26,6 +26,7 @@ urTexture *t;
 
 extern int SCREEN_WIDTH;
 extern int SCREEN_HEIGHT;
+extern char g_fontPath[];
 
 static bool urMus_ready=false;
 

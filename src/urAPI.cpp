@@ -3893,9 +3893,7 @@ void l_setupAPI(lua_State *lua)
 	SCREEN_WIDTH = screendimensions.size.width;
 	SCREEN_HEIGHT = screendimensions.size.height;
 #else
-	//TODO// do dynamic screen size stuff; now just for nexus one
-	SCREEN_WIDTH = 480;
-	SCREEN_HEIGHT = 800;
+	// for android, SCREEN_WIDTH and SCREEN_HEIGHT are set up in urMus.init(int,int) native function
 #endif
 	// Set global userdata
 	// Create UIParent
