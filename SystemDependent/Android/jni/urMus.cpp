@@ -14,11 +14,20 @@
 #include <stdlib.h>
 #include <math.h>
 #include "../../../src/httpServer.h"
+#include "../../../src/urAPI.h"
+extern "C" {
+#include "lfs.h"
+}
 
 GLuint texture;
 GLfloat background;
+string storagePath;
+urTexture *t;
 
-#define FIXED_ONE 0x10000
+extern int SCREEN_WIDTH;
+extern int SCREEN_HEIGHT;
+
+static bool urMus_ready=false;
 
 static void printGLString(const char *name, GLenum s) {
     const char *v = (const char *) glGetString(s);
@@ -103,40 +112,25 @@ void init_scene(int width, int height)
     glMatrixMode(GL_MODELVIEW);
 	
     glLoadIdentity();
-/*    gluLookAt(
-			  0, 0, 3,  // eye
-			  0, 0, 0,  // center
-			  0, 1, 0); // up
-*/	
     glEnable(GL_TEXTURE_2D);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	
+	SCREEN_WIDTH=width;
+	SCREEN_HEIGHT=height;
 	
 	LOGI("init_scene(%d,%d)\n",width,height);
 }
 
 void create_texture()
 {
-    const unsigned int on = 0xffff9966;
-    const unsigned int off = 0xffffffff;
-    const unsigned int pixels[] =
-    {
-		 on, off, off, off, off, off,  on, off,
-		off, off, off, off, off, off, off,  on,
-		off, off, off, off, off, off, off, off,
-		off, off, off, off, off, off, off, off,
-		off, off, off, off, off, off, off, off,
-		off, off, off, off, off, off, off, off,
-		 on, off, off, off, off, off,  on,  on,
-		 on,  on, off, off, off, off,  on,  on,
-    };
-	
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 8, 8, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-    glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexEnvx(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	string imagePath=storagePath+"/cloud_sequencer.png";
+	urImage image(imagePath.c_str());
+	LOGI("Loaded image size : %d by %d",image.getWidth(),image.getHeight());
+	t=new urTexture(&image);
+	texture=t->getName();
+	t->autoTexCoord();
+	LOGI("Texture ID : %d",texture);
 }
 
 extern "C" {
@@ -144,44 +138,25 @@ extern "C" {
 	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_step(JNIEnv * env, jobject obj);
 	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_changeBackground(JNIEnv * env, jobject obj);
 	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobject obj);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_setupAPI(JNIEnv *env, jobject obj);
 }
 
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_init(JNIEnv * env, jobject obj,  jint width, jint height)
 {
     init_scene(width, height);
     create_texture();
-	
 }
 
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_step(JNIEnv * env, jobject obj)
 {
-    const GLfloat vertices[] = {
-		100,  100,  0,
-		300,  100,  0,
-		300,  300,  0,
-		100,  300,  0
-    };
-	
-    const GLfixed texCoords[] = {
-		0,            0,
-		FIXED_ONE,    0,
-		FIXED_ONE,    FIXED_ONE,
-		0,            FIXED_ONE
-    };
-	
-    const GLushort quadIndices[] = { 0, 1, 2,  0, 2, 3 };
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glTexCoordPointer(2, GL_FIXED, 0, texCoords);
-	
-    int nelem = sizeof(quadIndices)/sizeof(quadIndices[0]);
-    static float grey;
+	static float grey;
     grey += 0.01f;
-    if (grey > 1.0f) {
-        grey = 0.0f;
-    }
-    glClearColor(background, grey, grey, 1.0f);
+    if (grey > 1.0f) grey = 0.0f;
+    
+	glClearColor(background, grey, grey, 1.0f);
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-    glDrawElements(GL_TRIANGLES, nelem, GL_UNSIGNED_SHORT, quadIndices);
+
+	t->drawInRect(CGRectMake(0,0,SCREEN_WIDTH,SCREEN_HEIGHT));
 }
 
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_changeBackground(JNIEnv * env, jobject obj)
@@ -201,5 +176,15 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobj
 	LOGI("Internal storage path : %s\n",pathstr);
 	LOGI("Starting Server....\n");
 	http_start(pathstr,pathstr);
+	storagePath=pathstr;
 	env->ReleaseStringUTFChars(path, pathstr);
 }
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_setupAPI(JNIEnv *env, jobject obj)
+{
+	lua = lua_open();
+	luaL_openlibs(lua);
+	luaopen_lfs (lua); // Added external luafilesystem, runs under lua's open license
+	l_setupAPI(lua);
+}
+

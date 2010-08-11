@@ -53,6 +53,7 @@ public class urMus extends Activity
 	public static native void step();
 	public static native void changeBackground();
 	public native void startServer();
+	public native void setupAPI();
 	
 	protected class InitTask extends AsyncTask<Context, String, String>
 	{
@@ -60,10 +61,16 @@ public class urMus extends Activity
 		protected String doInBackground( Context... params ) {
 			publishProgress("Installing Files");
 			install();
+			
 			publishProgress("Starting Server");
 			startServer();
-			publishProgress("Initializing OpenGL");
-						
+			
+			publishProgress("Loading urMus API...");
+			setupAPI();
+			
+			publishProgress("Loading urMus.lua");
+			
+			
 			return "Complete!";
 		}
 		

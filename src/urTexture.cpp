@@ -179,7 +179,7 @@ urTexture::~urTexture(void)
 
 void urTexture::drawInRect(CGRect rect) {
 	if(name) {	// it's an image
-		//GLfloat  coordinates[] = { 0,_maxT, _maxS,_maxT, 0,0, _maxS,0};
+		GLfloat  coordinates[] = { 0,_maxT, _maxS,_maxT, 0,0, _maxS,0};
 		//GLfloat coordinates[] = { 0,1, 1,1, 0,0, 1,0 };
 		GLfloat vertices[] = {  rect.origin.x, rect.origin.y, 0.0,
 			rect.origin.x + rect.size.width, rect.origin.y, 0.0,
@@ -190,7 +190,8 @@ void urTexture::drawInRect(CGRect rect) {
 		glGetIntegerv(GL_TEXTURE_BINDING_2D, &saveName);
 		glBindTexture(GL_TEXTURE_2D, name);
 		glVertexPointer(3, GL_FLOAT, 0, vertices);
-		//glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
+		if(bAutoTexCoord)
+			glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		glBindTexture(GL_TEXTURE_2D, saveName);
 	} else if(font && font->bLoadedOk) {	// it's a text

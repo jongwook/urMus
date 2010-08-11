@@ -95,6 +95,7 @@ protected:
 	CGSize shadowOffset;
 	GLfloat shadowBlur;
 	GLfloat shadowColor[4];
+	bool bAutoTexCoord;
 	
 	void renderString(CGRect rect);
 	void drawString(CGRect rect);
@@ -114,6 +115,7 @@ public:
 	void unbind() { glBindTexture(GL_TEXTURE_2D, 0); }
 	GLfloat maxS() { return _maxS; }
 	GLfloat maxT() { return _maxT; }
+	void autoTexCoord() { bAutoTexCoord=true; }
 	
 	void drawInRect(CGRect rect);
 	void drawAtPoint(CGPoint point, bool tile);
