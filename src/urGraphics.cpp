@@ -804,10 +804,10 @@ void clearTexture(urTexture* texture, float r, float g, float b, float a)
 }
 
 // Create a texture instance for a given region
-
+extern string storagePath;
 void instantiateTexture(urAPI_Region_t* t)
 {
-	texturepathstr = t->texture->texturepath;
+	texturepathstr = storagePath+"/"+t->texture->texturepath;
 //	NSString *filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:texturepathstr]; // Leak here, fix.
 //	UIImage* textureimage = [UIImage imageNamed:texturepathstr];
 //	UIImage* textureimage = [UIImage imageWithContentsOfFile:texturepathstr];

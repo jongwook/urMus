@@ -10,8 +10,8 @@
 #include <GLES/gl.h>
 
 #include <stdio.h>
-
 #include <stdlib.h>
+#include <unistd.h>
 #include <math.h>
 #include "../../../src/httpServer.h"
 #include "../../../src/urAPI.h"
@@ -26,7 +26,7 @@ urTexture *t;
 
 extern int SCREEN_WIDTH;
 extern int SCREEN_HEIGHT;
-extern char g_fontPath[];
+extern string g_fontPath;
 
 static bool urMus_ready=false;
 
@@ -128,7 +128,7 @@ void create_texture()
 	string imagePath=storagePath+"/cloud_sequencer.png";
 	urImage image(imagePath.c_str());
 	LOGI("Loaded image size : %d by %d",image.getWidth(),image.getHeight());
-	t=new urTexture(&image);
+	t=new urTexture("Hello urMus!","/data/data/edu.umich.urMus/files/arial.ttf",20,320,533);
 	texture=t->getName();
 	t->autoTexCoord();
 	LOGI("Texture ID : %d",texture);
@@ -148,6 +148,8 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_init(JNIEnv * env, jobject obj
     create_texture();
 }
 
+extern void drawView();
+
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_step(JNIEnv * env, jobject obj)
 {
 	static float grey;
@@ -157,7 +159,7 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_step(JNIEnv * env, jobject obj
 	glClearColor(background, grey, grey, 1.0f);
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-	t->drawInRect(CGRectMake(0,0,SCREEN_WIDTH,SCREEN_HEIGHT));
+	drawView();
 }
 
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_changeBackground(JNIEnv * env, jobject obj)
@@ -174,6 +176,7 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobj
 	jmethodID getStoragePath = env->GetMethodID(dir, "getAbsolutePath", "()Ljava/lang/String;");
 	jstring path=(jstring)env->CallObjectMethod(dirobj, getStoragePath);
 	const char *pathstr=env->GetStringUTFChars(path, 0);
+	chdir(pathstr);
 	LOGI("Internal storage path : %s\n",pathstr);
 	LOGI("Starting Server....\n");
 	http_start(pathstr,pathstr);
@@ -187,5 +190,15 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_setupAPI(JNIEnv *env, jobject 
 	luaL_openlibs(lua);
 	luaopen_lfs (lua); // Added external luafilesystem, runs under lua's open license
 	l_setupAPI(lua);
+
+	// path to the default font 
+	g_fontPath=storagePath+"/arial.ttf";
+
+	string urMusPath=storagePath+"/urMus.lua";
+	if(luaL_dofile(lua, urMusPath.c_str())!=0)
+	{
+		const char* error = lua_tostring(lua, -1);
+		LOGI("Lua Error : %s",error);
+	}
 }
 
