@@ -1992,6 +1992,10 @@ void ur_Log(const char * str) {
 	ur_log.push_back(str);
 }
 
+extern "C" {
+	char * ur_GetLog(int since, int *nlog);
+}
+
 char * ur_GetLog(int since, int *nlog) {
 	if(since<0) since=0;
 	std::string str="";
