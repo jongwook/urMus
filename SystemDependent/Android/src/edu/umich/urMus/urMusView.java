@@ -74,6 +74,7 @@ class urMusView extends GLSurfaceView {
 		
         public void onSurfaceChanged(GL10 gl, int width, int height) {
             urMus.init(width, height);
+			urMus.setupAPI();
         }
 		
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {

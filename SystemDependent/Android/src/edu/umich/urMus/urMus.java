@@ -28,11 +28,13 @@ public class urMus extends Activity
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		textView = (TextView) findViewById( R.id.text_view );
+		
+		initTask=new InitTask();
+		initTask.execute( this );
+
 		mView = new urMusView(getApplication());
 		mView.setFocusableInTouchMode(true);
 
-		initTask=new InitTask();
-		initTask.execute( this );
     }
 
     @Override protected void onPause() {
@@ -52,24 +54,20 @@ public class urMus extends Activity
 	public static native void init(int width, int height);
 	public static native void step();
 	public static native void changeBackground();
-	public native void startServer();
-	public native void setupAPI();
+	public static native void startServer(String path);
+	public static native void setupAPI();
 	
-	protected class InitTask extends AsyncTask<Context, String, String>
+	public class InitTask extends AsyncTask<Context, String, String>
 	{
 		@Override
 		protected String doInBackground( Context... params ) {
 			publishProgress("Installing Files");
 			install();
 			
-			publishProgress("Starting Server");
-			startServer();
-			
-			publishProgress("Loading urMus API...");
-			setupAPI();
+			publishProgress("Starting HTTP Server");
+			startServer(getFilesDir().getAbsolutePath());
 			
 			publishProgress("Loading urMus.lua");
-			
 			
 			return "Complete!";
 		}

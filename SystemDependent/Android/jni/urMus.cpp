@@ -128,7 +128,8 @@ void create_texture()
 	string imagePath=storagePath+"/cloud_sequencer.png";
 	urImage image(imagePath.c_str());
 	LOGI("Loaded image size : %d by %d",image.getWidth(),image.getHeight());
-	t=new urTexture("Hello urMus!","/data/data/edu.umich.urMus/files/arial.ttf",20,320,533);
+//	t=new urTexture("Hello urMus!","/data/data/edu.umich.urMus/files/arial.ttf",20,320,533);
+	t=new urTexture(&image);
 	texture=t->getName();
 	t->autoTexCoord();
 	LOGI("Texture ID : %d",texture);
@@ -138,7 +139,7 @@ extern "C" {
 	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_init(JNIEnv * env, jobject obj,  jint width, jint height);
 	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_step(JNIEnv * env, jobject obj);
 	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_changeBackground(JNIEnv * env, jobject obj);
-	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobject obj);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobject obj, jstring path);
 	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_setupAPI(JNIEnv *env, jobject obj);
 }
 
@@ -158,7 +159,7 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_step(JNIEnv * env, jobject obj
     
 	glClearColor(background, grey, grey, 1.0f);
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-
+//	t->drawInRect(CGRectMake(0,0,320,533));
 	drawView();
 }
 
@@ -167,14 +168,8 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_changeBackground(JNIEnv * env,
     background = 1.0f - background;
 }
 
-JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobject obj)
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobject obj, jstring path)
 {
-	jclass cls = env->GetObjectClass(obj);
-	jmethodID getFilesDir = env->GetMethodID(cls, "getFilesDir", "()Ljava/io/File;");
-	jobject dirobj = env->CallObjectMethod(obj,getFilesDir);
-	jclass dir = env->GetObjectClass(dirobj);
-	jmethodID getStoragePath = env->GetMethodID(dir, "getAbsolutePath", "()Ljava/lang/String;");
-	jstring path=(jstring)env->CallObjectMethod(dirobj, getStoragePath);
 	const char *pathstr=env->GetStringUTFChars(path, 0);
 	chdir(pathstr);
 	LOGI("Internal storage path : %s\n",pathstr);

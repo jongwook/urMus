@@ -12,6 +12,11 @@
 //#include "MachTimer.h"
 #include "urSound.h"
 #include "httpServer.h"
+#include <android/log.h>
+#undef LOG_TAG
+#define LOG_TAG "urGraphics"
+#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 
 #ifdef SANDWICH_SUPPORT
 static float pressure[4] = {0,0,0,0};
@@ -808,6 +813,7 @@ extern string storagePath;
 void instantiateTexture(urAPI_Region_t* t)
 {
 	texturepathstr = storagePath+"/"+t->texture->texturepath;
+	LOGI("Instantiating texture : %s",texturepathstr.c_str());
 //	NSString *filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:texturepathstr]; // Leak here, fix.
 //	UIImage* textureimage = [UIImage imageNamed:texturepathstr];
 //	UIImage* textureimage = [UIImage imageWithContentsOfFile:texturepathstr];
@@ -815,7 +821,7 @@ void instantiateTexture(urAPI_Region_t* t)
 //	if(textureimage==NULL)
 //		textureimage = [UIImage imageNamed:texturepathstr];
 	
-	if(textureimage)
+	if(textureimage->getBuffer())
 	{
 		CGSize rectsize;
 		rectsize.width = t->width;
@@ -823,6 +829,7 @@ void instantiateTexture(urAPI_Region_t* t)
 		t->texture->backgroundTex = new urTexture(textureimage); 
 		t->texture->width = textureimage->getWidth();
 		t->texture->height = textureimage->getHeight();
+		LOGI("created texture %d , %d by %d",t->texture->backgroundTex->getName(),t->texture->width,t->texture->height);
 	}
 //	[texturepathstr release];	
 }

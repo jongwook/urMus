@@ -1,6 +1,5 @@
 #include "urTexture.h"
 
-
 // static font storage
 #include <map>
 std::map<string,urFont *> fonts;
@@ -55,12 +54,12 @@ urTexture::urTexture(urImage *image)
 			//image->flipPixels();
 			break;
 	}
-
+	
 	width=image->getWidth();
 	height=image->getHeight();
 	texWidth=pow2roundup(width);
 	texHeight=pow2roundup(height);
-	
+
 	image->resize(texWidth, texHeight);
 	const void* data=image->getBuffer();
 	
@@ -83,7 +82,7 @@ urTexture::urTexture(urImage *image)
 urTexture::urTexture(const char *str, const char *fontname, unsigned int size, unsigned int width, unsigned int height,
 					 UITextAlignment alignment, UILineBreakMode mode, CGSize shadowOffset, GLfloat shadowBlur, GLfloat shadowColor[]) {
 	name=0;
-	
+
 	char fontsizestr[16];
 	sprintf(fontsizestr, " %d", size);
 	string key=fontname;
