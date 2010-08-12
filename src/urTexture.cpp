@@ -233,7 +233,7 @@ void urTexture::drawAtPoint(CGPoint point, bool tile) {
 void urTexture::drawString(CGRect rect) {
 	float lineHeight=font->getLineHeight();
 	float width=rect.size.width;
-	float height=rect.size.height+6;
+	float height=rect.size.height;
 	int nLines=lines.size();
 	for(int i=0;i<nLines;i++) {
 		float offsetX, offsetY=(height+lineHeight*(nLines-2*i-2))*0.5;
@@ -243,7 +243,7 @@ void urTexture::drawString(CGRect rect) {
 			offsetX=(width-widths[i])*0.5;
 		if(alignment==UITextAlignmentRight) 
 			offsetX=width-widths[i];
-		font->drawString(lines[i], rect.origin.x+offsetX, rect.origin.y+offsetY);
+		font->drawString(lines[i], -width/2+offsetX, -height/2+offsetY+3);
 	}
 }
 

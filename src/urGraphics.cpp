@@ -1176,7 +1176,10 @@ void drawView() {
 		squareColors[i] = 200;
 	glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
 	glEnableClientState(GL_COLOR_ARRAY);
-	errorStrTex->drawAtPoint(CGPointMake(0.0, SCREEN_HEIGHT*0.5f), true);
+	glPushMatrix();
+	glTranslatef(SCREEN_WIDTH*0.5f,SCREEN_HEIGHT*0.5f+64,0.0);
+	errorStrTex->drawAtPoint(CGPointMake(0, SCREEN_HEIGHT*0.5f), true);
+	glPopMatrix();
 	// switch it back to GL_ONE for other types of images, rather than text because Texture2D uses CG to load, which premultiplies alpha
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	
