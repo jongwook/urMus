@@ -52,6 +52,7 @@ import javax.microedition.khronos.opengles.GL10;
  * instance.
  */
 class urMusView extends GLSurfaceView {
+	private boolean urMusReady=false;
     urMusView(Context context) {
         super(context);
         init();
@@ -74,7 +75,10 @@ class urMusView extends GLSurfaceView {
 		
         public void onSurfaceChanged(GL10 gl, int width, int height) {
             urMus.init(width, height);
-			urMus.setupAPI();
+			if(urMusReady==false) {
+				urMusReady=true;
+				urMus.setupAPI();
+			}
         }
 		
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {

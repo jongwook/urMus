@@ -101,6 +101,7 @@ protected:
 	void drawString(CGRect rect);
 public:
 	urTexture(const void *data, GLenum format, unsigned int width, unsigned int height);
+	urTexture(unsigned int width, unsigned int height);
 	urTexture(urImage *image);
 	urTexture(const char *str, const char *fontname, unsigned int size, unsigned int width, unsigned int height,
 			  UITextAlignment alignment=UITextAlignmentCenter, UILineBreakMode mode=UILineBreakModeWordWrap,

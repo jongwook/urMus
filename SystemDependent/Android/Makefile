@@ -5,3 +5,10 @@ all :
 
 clean :
 	rm obj -rf
+
+install : all
+	ant install
+
+
+
+

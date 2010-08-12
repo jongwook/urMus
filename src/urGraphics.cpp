@@ -813,7 +813,6 @@ extern string storagePath;
 void instantiateTexture(urAPI_Region_t* t)
 {
 	texturepathstr = storagePath+"/"+t->texture->texturepath;
-	LOGI("Instantiating texture : %s",texturepathstr.c_str());
 //	NSString *filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:texturepathstr]; // Leak here, fix.
 //	UIImage* textureimage = [UIImage imageNamed:texturepathstr];
 //	UIImage* textureimage = [UIImage imageWithContentsOfFile:texturepathstr];
@@ -829,7 +828,6 @@ void instantiateTexture(urAPI_Region_t* t)
 		t->texture->backgroundTex = new urTexture(textureimage); 
 		t->texture->width = textureimage->getWidth();
 		t->texture->height = textureimage->getHeight();
-		LOGI("created texture %d , %d by %d",t->texture->backgroundTex->getName(),t->texture->width,t->texture->height);
 	}
 //	[texturepathstr release];	
 }
@@ -1045,6 +1043,11 @@ void drawView() {
 					glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 					glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
 					glEnableClientState(GL_COLOR_ARRAY);
+					GLfloat vertices[] = {  t->left,			t->bottom,			  
+											t->left+t->width,	t->bottom,
+											t->left,			t->bottom+t->height, 
+											t->left+t->width,	t->bottom+t->height };
+					glVertexPointer(2, GL_FLOAT, 0, vertices);
 					glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 					glEnable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
