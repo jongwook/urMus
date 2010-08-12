@@ -66,7 +66,7 @@ LOCAL_SRC_FILES += \
 	../../../Classes/lua-5.1.4/src/lvm.c \
 	../../../Classes/lua-5.1.4/src/lzio.c 
 	
-LOCAL_CFLAGS += -I../../../Classes/lua-5.1.4/src/
+LOCAL_CFLAGS += -I../../Classes/lua-5.1.4/src/
 	
 # libpng files
 LOCAL_SRC_FILES += \
@@ -86,7 +86,7 @@ LOCAL_SRC_FILES += \
 	../../../src/lib/libpng/pngwtran.c \
 	../../../src/lib/libpng/pngwutil.c 
 	
-LOCAL_CFLAGS += -I../../../src/lib/libpng/
+LOCAL_CFLAGS += -I../../src/lib/libpng/
 	
 # zlib files
 LOCAL_SRC_FILES += \
@@ -131,7 +131,7 @@ LOCAL_SRC_FILES += \
 	../../../src/lib/Freetype/type42/type42.c \
 	../../../src/lib/Freetype/winfonts/winfnt.c
 	
-LOCAL_CFLAGS += -I../../../src/lib/Freetype/include/
+LOCAL_CFLAGS += -I../../src/lib/Freetype/include/
 
 
 # STK files
@@ -209,7 +209,7 @@ LOCAL_SRC_FILES += \
 	../../../Classes/stk-4.4.1/src/Whistle.cpp \
 	../../../Classes/stk-4.4.1/src/Wurley.cpp
 
-LOCAL_CFLAGS += -I../../../Classes/stk-4.4.1/include/
+LOCAL_CFLAGS += -I../../Classes/stk-4.4.1/include/
 
 # STLport files
 
@@ -246,7 +246,7 @@ LOCAL_SRC_FILES += \
 	../../../src/lib/STLport/src/strstream.cpp \
 	../../../src/lib/STLport/src/time_facets.cpp 
 
-LOCAL_CFLAGS += -I../../../src/lib/STLport/stlport/ \
+LOCAL_CFLAGS += -I../../src/lib/STLport/stlport/ \
 	-DANDROID \
 	-DOS_ANDROID \
 	-D__LITTLE_ENDIAN__ 

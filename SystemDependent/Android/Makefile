@@ -1,7 +1,7 @@
 
 
 all : 
-	ndk-build -C jni -j4
+	ndk-build -j4
 
 clean :
 	rm obj -rf
