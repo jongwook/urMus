@@ -10,10 +10,10 @@ function Paint(self)
 	
 	x2 = x - self:Left()*320.0/ScreenWidth()
 	y2 = y - self:Bottom()*480.0/ScreenHeight()
-	x2 = 2*x2
-	y2 = 2*y2
+--	x2 = 2*x2
+--	y2 = 2*y2
 
-	if not self.moving and x >= self:Left()*320.0/ScreenWidth() and x < self:Right()*320.0/ScreenWidth() and y >= self:Bottom()*480.0/ScreenHeight() and y < self:Top()*480.0/ScreenHeight()  then
+	if not self.moving and x >= self:Left()*320.0/ScreenWidth()-32 and x < self:Right()*320.0/ScreenWidth()+32 and y >= self:Bottom()*480.0/ScreenHeight()-32 and y < self:Top()*480.0/ScreenHeight()+32  then
 		if x2 ~= self.fingerposx or y2 ~= self.fingerposy then
 --			brush1.t:SetBrushSize(32);
 --			self.texture:SetBrushColor(255,127,0,30)
@@ -26,6 +26,7 @@ function Paint(self)
 end
 
 function BrushDown(self)
+	self:MoveToTop()
 	dopaint = true
 	for y=1,2 do
 		for x=1,2 do
@@ -37,8 +38,8 @@ function BrushDown(self)
 
 			x2 = x1 - tilebackdropregion[i]:Left()*320.0/ScreenWidth()
 			y2 = y1 - tilebackdropregion[i]:Bottom()*480.0/ScreenHeight()
-			x2 = 2*x2
-			y2 = 2*y2
+--			x2 = 2*x2
+--			y2 = 2*y2
 			tilebackdropregion[i].fingerposx, tilebackdropregion[i].fingerposy = x2,y2
 		end
 	end
@@ -58,6 +59,7 @@ function ToggleMovable(self)
 		self.texture:SetBrushColor(random(0,255),random(0,255),random(0,255),random(5,50))
 		self.moving = nil
 	else
+		self:MoveToTop()
 		self:EnableMoving(true)
 		self.moving = true
 	end
@@ -74,7 +76,9 @@ for y=1,2 do
 		tilebackdropregion[i]:SetAnchor('BOTTOMLEFT',(x-1)*ScreenWidth()/2,(y-1)*ScreenHeight()/2)
 		tilebackdropregion[i]:EnableClamping(true)
 		tilebackdropregion[i]:EnableMoving(false)
-		tilebackdropregion[i].texture = tilebackdropregion[i]:Texture("Default.png");
+--		tilebackdropregion[i].texture = tilebackdropregion[i]:Texture("Default.png");
+		tilebackdropregion[i].texture = tilebackdropregion[i]:Texture();
+		tilebackdropregion[i].texture:Clear(255,255,255,255);
 		tilebackdropregion[i].texture:SetGradientColor("TOP",255,255,255,255,255,255,255,255);
 		tilebackdropregion[i].texture:SetGradientColor("BOTTOM",255,255,255,255,255,255,255,255);
 		--tilebackdropregion[i].texture:SetBlendMode("BLEND")

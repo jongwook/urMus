@@ -79,6 +79,63 @@
 
 @synthesize contentSize=_size, pixelFormat=_format, pixelsWide=_width, pixelsHigh=_height, name=_name, maxS=_maxS, maxT=_maxT, fontblockHeight=_fontblockheight;
 
+- (id) initWithSize:(CGSize)rectsize
+{
+	NSUInteger	width,
+				height,
+				i;
+	CGContextRef	context = nil;
+	void*	data = nil;;
+	CGColorSpaceRef	colorSpace;
+	CGAffineTransform               transform;
+	CGSize                                  imageSize;
+	Texture2DPixelFormat    pixelFormat;
+	BOOL                                    sizeToFit = NO;
+
+	pixelFormat = kTexture2DPixelFormat_RGBA8888;
+
+	imageSize = rectsize;
+	transform = CGAffineTransformIdentity;
+
+	width = imageSize.width;
+
+	if((width != 1) && (width & (width - 1))) {
+		i = 1;
+		while((sizeToFit ? 2 * i : i) < width)
+			i *= 2;
+		width = i;
+	}
+	height = imageSize.height;
+	if((height != 1) && (height & (height - 1))) {
+		i = 1;
+		while((sizeToFit ? 2 * i : i) < height)
+			i *= 2;
+		height = i;
+	}
+	while((width > kMaxTextureSize) || (height > kMaxTextureSize)) {
+		width /= 2;
+		height /= 2;
+		transform = CGAffineTransformScale(transform, 0.5, 0.5);
+		imageSize.width *= 0.5;
+		imageSize.height *= 0.5;
+	}
+
+	colorSpace = CGColorSpaceCreateDeviceRGB();
+	data = malloc(height * width * 4);
+	context = CGBitmapContextCreate(data, width, height, 8, 4 * width, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+	CGColorSpaceRelease(colorSpace);
+
+	CGContextClearRect(context, CGRectMake(0, 0, width, height));
+	CGContextTranslateCTM(context, 0, height - imageSize.height);
+
+	self = [self initWithData:data pixelFormat:pixelFormat pixelsWide:width pixelsHigh:height contentSize:rectsize];
+
+	CGContextRelease(context);
+	free(data);
+
+	return self;
+}
+
 - (id) initWithData:(const void*)data pixelFormat:(Texture2DPixelFormat)pixelFormat pixelsWide:(NSUInteger)width pixelsHigh:(NSUInteger)height contentSize:(CGSize)size
 {
 	GLint                                   saveName;
