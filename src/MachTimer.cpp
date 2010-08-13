@@ -47,7 +47,7 @@ float MachTimer::elapsedSec() {
 	struct timeval tv;
 	struct timezone tz;
 	gettimeofday(&tv,&tz);
-	return (float)(tv.tv_sec-t0.tv_sec)+0.001f*(tv.tv_usec-t0.tv_usec);
+	return (float)(tv.tv_sec-t0.tv_sec)+1e-6f*(tv.tv_usec-t0.tv_usec);
 #endif
 }
 
