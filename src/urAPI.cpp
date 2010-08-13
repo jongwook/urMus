@@ -9,7 +9,7 @@
 
 #include "urAPI.h"
 #include "urGraphics.h"
-//TODO//#include "MachTimer.h"
+#include "MachTimer.h"
 //TODO//#include "RIOAudioUnitLayer.h"
 #include "urSound.h"
 #include "httpServer.h"
@@ -40,7 +40,7 @@ urAPI_Region_t* UIParent = nil;
 
 ursAPI_FlowBox_t* FBNope = nil;
 
-//TODO//MachTimer* systimer;
+MachTimer* systimer;
 
 const char DEFAULT_RPOINT[] = "BOTTOMLEFT";
 
@@ -2076,6 +2076,8 @@ int l_Time(lua_State* lua)
 {
 #ifdef TARGET_IPHONE
 	lua_pushnumber(lua, [systimer elapsedSec]);
+#else
+	lua_pushnumber(lua, systimer->elapsedSec());
 #endif
 	return 1;
 }
@@ -4092,6 +4094,7 @@ void l_setupAPI(lua_State *lua)
 	systimer = [MachTimer alloc];
 	[systimer start];
 #else
-	// initiaiza system timer
+	systimer = new MachTimer();
+	systimer->start();
 #endif
 }

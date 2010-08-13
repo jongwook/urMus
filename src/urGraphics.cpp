@@ -9,7 +9,7 @@
 #include "urGraphics.h"
 #include "urAPI.h"
 #include "urTexture.h"
-//#include "MachTimer.h"
+#include "MachTimer.h"
 #include "urSound.h"
 #include "httpServer.h"
 #include <android/log.h>
@@ -30,9 +30,9 @@ extern urAPI_Region_t* lastRegion[];
 
 extern urAPI_Region_t* UIParent;
 
-#ifdef TARGET_IPHONE
-
 MachTimer* mytimer;
+
+#ifdef TARGET_IPHONE
 
 // A class extension to declare private methods
 @interface EAGLView ()
@@ -854,20 +854,19 @@ static string &fontPath=g_fontPath;
 
 #ifdef TARGET_IPHONE
 - (void)drawView {
-  
-  // eval http buffer
-  eval_buffer_exec(lua);
-  
-	urs_PullVis(); // update vis data before we call events, this way we have a rate based pulling that is available in all events.
-	// Clock ourselves.
-	float elapsedtime = [mytimer elapsedSec];
-	[mytimer start];
-	callAllOnUpdate(elapsedtime); // Call lua APIs OnUpdates when we render a new region. We do this first so that stuff can still be drawn for this region.
-	
 	CGRect  bounds = [self bounds];
 #else //TARGET_IPHONE
 void drawView() {
 #endif //TARGET_IPHONE
+	// eval http buffer
+	eval_buffer_exec(lua);
+	
+	urs_PullVis(); // update vis data before we call events, this way we have a rate based pulling that is available in all events.
+	// Clock ourselves.
+	float elapsedtime = mytimer->elapsedSec();
+	mytimer->start();
+	callAllOnUpdate(elapsedtime); // Call lua APIs OnUpdates when we render a new region. We do this first so that stuff can still be drawn for this region.
+	
     // Replace the implementation of this method to do your own custom drawing
     GLfloat squareVertices[] = {
         -0.5f, -0.5f,

@@ -15,6 +15,8 @@
 #include <math.h>
 #include "../../../src/httpServer.h"
 #include "../../../src/urAPI.h"
+#include "../../../src/MachTimer.h"
+
 extern "C" {
 #include "lfs.h"
 }
@@ -179,6 +181,8 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobj
 	env->ReleaseStringUTFChars(path, pathstr);
 }
 
+extern MachTimer *mytimer;
+
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_setupAPI(JNIEnv *env, jobject obj)
 {
 	lua = lua_open();
@@ -195,5 +199,8 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_setupAPI(JNIEnv *env, jobject 
 		const char* error = lua_tostring(lua, -1);
 		LOGI("Lua Error : %s",error);
 	}
+	
+	mytimer=new MachTimer();
+	mytimer->start();
 }
 
