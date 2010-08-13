@@ -141,6 +141,7 @@ extern bool newerror;
 #endif
 	
 	[glView startAnimation];
+	[glView drawView];
 
 #ifdef EARLY_LAUNCH
 	NSString *resourcePath = [[NSBundle mainBundle] resourcePath];

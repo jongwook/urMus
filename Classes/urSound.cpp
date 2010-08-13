@@ -841,6 +841,15 @@ void urs_SetupObjects()
 	locationobject->AddOut("Lat", "TimeSeries", NULL, NULL, NULL); // Pushers cannot be ticked (oh the poetic justice)
 	locationobject->AddOut("Long", "TimeSeries", NULL, NULL, NULL); 
 	ursourceobjectlist.Append(locationobject);
+	micobject = new ursObject("Mic", NULL, NULL, 0, 1, true);
+	micobject->AddOut("Out", "TimeSeries", NULL, NULL, NULL);
+	ursourceobjectlist.Append(micobject);
+	netinobject = new ursObject("NetIn", NULL, NULL, 0, 1, true);
+	netinobject->AddOut("Out", "Event", NetIn_Tick, NetIn_Out, NULL);
+	ursourceobjectlist.Append(netinobject);
+	pushobject = new ursObject("Push", NULL, NULL, 0, 1); // An event based source ("bang" in PD parlance)
+	pushobject->AddOut("Out", "Event", NULL, NULL, NULL);
+	ursourceobjectlist.Append(pushobject);
 	touchobject = new ursObject("Touch", NULL, NULL, 0, 20, true);
 	touchobject->AddOut("X1", "TimeSeries", NULL, NULL, NULL); // Pushers cannot be ticked (oh the poetic justice)
 	touchobject->AddOut("Y1", "TimeSeries", NULL, NULL, NULL); 
@@ -863,15 +872,6 @@ void urs_SetupObjects()
 	touchobject->AddOut("X10", "TimeSeries", NULL, NULL, NULL);
 	touchobject->AddOut("Y10", "TimeSeries", NULL, NULL, NULL); 
 	ursourceobjectlist.Append(touchobject);
-	micobject = new ursObject("Mic", NULL, NULL, 0, 1, true);
-	micobject->AddOut("Out", "TimeSeries", NULL, NULL, NULL);
-	ursourceobjectlist.Append(micobject);
-	netinobject = new ursObject("NetIn", NULL, NULL, 0, 1, true);
-	netinobject->AddOut("Out", "Event", NetIn_Tick, NetIn_Out, NULL);
-	ursourceobjectlist.Append(netinobject);
-	pushobject = new ursObject("Push", NULL, NULL, 0, 1); // An event based source ("bang" in PD parlance)
-	pushobject->AddOut("Out", "Event", NULL, NULL, NULL);
-	ursourceobjectlist.Append(pushobject);
 //	fileobject = new ursObject("File", NULL, NULL, 0, 1); // An file based source
 //	fileobject->AddOut("Out", "Event", NULL, NULL, NULL);
 //	ursourceobjectlist.Append(fileobject);
@@ -885,14 +885,6 @@ void urs_SetupObjects()
 	sinobject->AddIn("Time", "Time", SinOsc_SetPhase);
 	urmanipulatorobjectlist.Append(sinobject);
 //	urmanipulatorobjectlist[lastmanipulatorobj++] = sinobject;
-	
-	object = new ursObject("OWF", OWF_Constructor, OWF_Destructor,4,1);
-	object->AddOut("WaveForm", "TimeSeries", OWF_Tick, OWF_Out, NULL);
-	object->AddIn("Freq", "Frequency", OWF_SetFreq);
-	object->AddIn("Amp", "Amplitude", OWF_SetAmp);
-	object->AddIn("SRate", "Rate", OWF_SetRate);
-	object->AddIn("Time", "Time", OWF_SetPhase);
-	urmanipulatorobjectlist.Append(object);
 	
 	object = new ursObject("Avg", Avg_Constructor, Avg_Destructor,2,1);
 	object->AddOut("WaveForm", "TimeSeries", Avg_Tick, Avg_Out, NULL);
@@ -1011,6 +1003,14 @@ void urs_SetupObjects()
 	object->AddIn("Time", "Time", CircleMap_SetPhase);
 	urmanipulatorobjectlist.Append(object);
 
+	object = new ursObject("OWF", OWF_Constructor, OWF_Destructor,4,1);
+	object->AddOut("WaveForm", "TimeSeries", OWF_Tick, OWF_Out, NULL);
+	object->AddIn("Freq", "Frequency", OWF_SetFreq);
+	object->AddIn("Amp", "Amplitude", OWF_SetAmp);
+	object->AddIn("SRate", "Rate", OWF_SetRate);
+	object->AddIn("Time", "Time", OWF_SetPhase);
+	urmanipulatorobjectlist.Append(object);
+	
 	dacobject = new ursObject("Dac", NULL, NULL, 1, 0, true);
 	dacobject->AddIn("In", "TimeSeries", Dac_In);
 	ursinkobjectlist.Append(dacobject);

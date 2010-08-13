@@ -12,10 +12,11 @@
 #if defined( __WIN32__ ) || defined( _WIN32 )
 	#define TARGET_WIN32
 #elif defined( __APPLE_CC__)
+	#define TARGET_APPLE
 	#include <TargetConditionals.h>
 
 	#if (TARGET_OF_IPHONE_SIMULATOR) || (TARGET_OS_IPHONE) || (TARGET_IPHONE)
-		#define TARGET_OF_IPHONE
+		#define TARGET_IPHONE
 		#define TARGET_OPENGLES
 	#else
 		#define TARGET_OSX
@@ -25,9 +26,8 @@
 		#define TARGET_ANDROID
 		#define SO_NOSIGPIPE 0
 		#include <stdio.h>
-	#else
-		#define TARGET_LINUX
 	#endif
+	#define TARGET_LINUX
 #endif
 
 //-------------------------------
@@ -79,22 +79,13 @@
 #endif
 
 #ifdef TARGET_ANDROID
+#include <unistd.h>
 #include <GLES/gl.h>
 #include <GLES/glext.h>
 #define GL_BGRA 0x80E1
 #endif
 
-#ifdef TARGET_LINUX
-#include <unistd.h>
-#include "GLee.h"
-#include <GL/glu.h>
-#define TARGET_LITTLE_ENDIAN		// intel cpu
-#define B14400	14400
-#define B28800	28800
-#endif
-
-
-#ifdef TARGET_OF_IPHONE
+#ifdef TARGET_IPHONE
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
 #endif
@@ -102,22 +93,23 @@
 
 #ifndef __APPLE_CC__
 
-#ifndef NULL
-#define NULL 0
+	#ifndef NULL
+		#define NULL 0
+	#endif
+
+	#ifndef nil
+		#define nil 0
+	#endif
+
+	typedef signed int SInt32;
+	typedef unsigned int UInt32;
+	typedef signed short SInt16;
+	typedef unsigned short UInt16;
+
+	#define MAX(x,y) (((x)>(y))?(x):(y))
+
+
+	#endif
+
 #endif
-
-#ifndef nil
-#define nil 0
-#endif
-
-typedef signed int SInt32;
-typedef unsigned int UInt32;
-typedef signed short SInt16;
-typedef unsigned short UInt16;
-
-#define MAX(x,y) (((x)>(y))?(x):(y))
-
-
-#endif
-
-#endif
+	

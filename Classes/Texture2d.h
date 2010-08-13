@@ -93,6 +93,8 @@ typedef enum {
 	_maxT;
 	GLfloat	_fontblockheight;
 }
+- (id) initWithSize:(CGSize)size;
+- (id) initWithSize2:(CGSize)rectsize;
 - (id) initWithData:(const void*)data pixelFormat:(Texture2DPixelFormat)pixelFormat pixelsWide:(NSUInteger)width pixelsHigh:(NSUInteger)height contentSize:(CGSize)size;
 - (float) getHeight;
 

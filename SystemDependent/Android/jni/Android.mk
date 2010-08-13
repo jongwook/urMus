@@ -29,6 +29,7 @@ LOCAL_SRC_FILES := urMus.cpp \
 	../../../src/urSTK.cpp \
 	../../../src/urGraphics.cpp \
 	../../../src/urAPI.cpp \
+	../../../src/MachTimer.cpp \
 
 
 LOCAL_LDLIBS	:= -llog -ldl -lGLESv1_CM

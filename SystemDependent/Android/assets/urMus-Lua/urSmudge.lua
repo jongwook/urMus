@@ -7,7 +7,7 @@ function Paint(self)
 		for i=1,10 do
 			brush1.t:SetBrushSize(random(1,16));
 			self.texture:SetBrushColor(random(0,255),random(0,255),random(0,255),random(1,60))
-			self.texture:Point(random(0,ScreenWidth()),random(0,ScreenHeight()))
+			self.texture:Point(random(0,ScreenWidth()),random(0,ScreenHeight()+32))
 		end
 		return
 	end
@@ -47,11 +47,15 @@ smudgebackdropregion:SetHeight(ScreenHeight());
 smudgebackdropregion:SetLayer("BACKGROUND");
 smudgebackdropregion:SetAnchor('BOTTOMLEFT',0,0); 
 --smudgebackdropregion:EnableClamping(true)
-smudgebackdropregion.texture = smudgebackdropregion:Texture("Default.png");
-smudgebackdropregion.texture:SetGradientColor("TOP",255,255,255,255,255,255,255,255);
-smudgebackdropregion.texture:SetGradientColor("BOTTOM",255,255,255,255,255,255,255,255);
+--smudgebackdropregion.texture = smudgebackdropregion:Texture("Default.png");
+smudgebackdropregion.texture = smudgebackdropregion:Texture();
+smudgebackdropregion.texture:SetTexture(255,255,255,255);
+--smudgebackdropregion.texture:SetGradientColor("TOP",255,255,255,255,255,255,255,255);
+--smudgebackdropregion.texture:SetGradientColor("BOTTOM",255,255,255,255,255,255,255,255);
 --smudgebackdropregion.texture:SetBlendMode("BLEND")
-smudgebackdropregion.texture:SetTexCoord(0,0.63,0.94,0.0);
+--smudgebackdropregion.texture:SetTexCoord(0,0.63,0.94,0.0);
+smudgebackdropregion.texture:SetTexCoord(0,320.0/512.0,480.0/512.0,0.0);
+--smudgebackdropregion.texture:Clear(255,255,255,0);
 smudgebackdropregion:Handle("OnUpdate", Paint);
 smudgebackdropregion:Handle("OnDoubleTap", Clear);
 smudgebackdropregion:Handle("OnTouchDown", BrushDown)

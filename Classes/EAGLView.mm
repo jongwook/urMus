@@ -415,7 +415,8 @@ extern lua_State *lua;
 	// Set up the ability to track multiple touches.
 	[self setMultipleTouchEnabled:YES];
 	self.multipleTouchEnabled = YES;
-    return self;
+
+	return self;
 }
 
 // Hard-wired screen dimension constants. This will soon be system-dependent variable!
@@ -580,7 +581,6 @@ void drawQuadToTexture(urAPI_Texture_t *texture, float x1, float y1, float x2, f
 	
 	SetupBrush();
 	
-	glDisable(GL_SCISSOR_TEST);
 	glEnable(GL_LINE_SMOOTH);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glColor4ub(texture->texturebrushcolor[0], texture->texturebrushcolor[1], texture->texturebrushcolor[2], texture->texturebrushcolor[3]);		
@@ -649,10 +649,7 @@ void drawEllipseToTexture(urAPI_Texture_t *texture, float x, float y, float w, f
 	
 	// attach renderbuffer
 	glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, bgtexture.name, 0);
-	
-//	glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
-//	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
-	
+		
 	SetupBrush();
 	
 	glEnable(GL_LINE_SMOOTH);
@@ -789,8 +786,6 @@ void clearTexture(Texture2D* texture, float r, float g, float b, float a)
 	// attach renderbuffer
 	glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, texture.name, 0);
 	
-//	glBindFramebufferOES(GL_FRAMEBUFFER_OES, textureFrameBuffer);
-	
 	glClearColor(r, g, b, a);
 	glClear(GL_COLOR_BUFFER_BIT);
 	// unbind frame buffer
@@ -798,6 +793,15 @@ void clearTexture(Texture2D* texture, float r, float g, float b, float a)
 }
 
 // Create a texture instance for a given region
+
+Texture2D* createBlankTexture(float width, float height)
+{
+	CGSize size;
+	size.width = width;
+	size.height = height;
+
+	return [[Texture2D alloc] initWithSize:size];
+}
 
 void instantiateTexture(urAPI_Region_t* t)
 {
@@ -818,6 +822,25 @@ void instantiateTexture(urAPI_Region_t* t)
 		t->texture->height = [textureimage size].height;
 	}
 	[texturepathstr release];	
+}
+
+void instantiateBlankTexture(urAPI_Region_t* t)
+{	
+	t->texture->backgroundTex = createBlankTexture(t->width, t->height);
+	t->texture->width = t->width;
+	t->texture->height = t->height;
+	clearTexture(t->texture->backgroundTex, t->texture->texturesolidcolor[0], t->texture->texturesolidcolor[1], t->texture->texturesolidcolor[2], t->texture->texturesolidcolor[3]);
+}
+
+void instantiateAllTextures(urAPI_Region_t* t)
+{
+	if(t->texture->texturepath != TEXTURE_SOLID)
+	{
+		instantiateTexture(t);
+	}
+	else {
+		instantiateBlankTexture(t);
+	}
 }
 
 // Convert line break modes to UILineBreakMode enums
@@ -1126,6 +1149,8 @@ UILineBreakMode tolinebreakmode(int wrap)
 		}
 	}
 	
+	glDisable(GL_SCISSOR_TEST);
+	
 	glDisable(GL_TEXTURE_2D);
 #ifdef RENDERERRORSTRTEXTUREFONT
 	// texturing will need these
@@ -1233,6 +1258,33 @@ UILineBreakMode tolinebreakmode(int wrap)
 
 - (void)startAnimation {
     self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:animationInterval target:self selector:@selector(drawView) userInfo:nil repeats:YES];
+//#define LATE_LAUNCH2
+#ifdef LATE_LAUNCH2
+	NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+	NSString *filePath = [resourcePath stringByAppendingPathComponent:@"urMus.lua"];
+	NSArray *paths;
+	paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentPath;
+	if ([paths count] > 0)
+		documentPath = [paths objectAtIndex:0];
+	
+	// start off http server
+#define HTTP_EDITING
+#ifdef HTTP_EDITING
+	http_start([resourcePath UTF8String],
+			   [documentPath UTF8String]);
+#endif
+	
+	const char* filestr = [filePath UTF8String];
+	
+	if(luaL_dofile(lua, filestr)!=0)
+	{
+		const char* error = lua_tostring(lua, -1);
+		errorstr = [[NSString alloc] initWithCString:error ]; // DPrinting errors for now
+		newerror = true;
+	}
+#endif	
+	
 }
 
 
