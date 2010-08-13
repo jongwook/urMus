@@ -17,7 +17,7 @@
 // Make EAGLview global so lua interface can grab it without breaking a leg over IMP
 extern EAGLView* g_glView;
 // This is to transport error and print messages to EAGLview
-extern NSString * errorstr;
+extern std::string errorstr;
 extern bool newerror;
 
 // Global lua state
@@ -680,7 +680,7 @@ bool callScriptWith4Args(int func_ref, urAPI_Region_t* region, float a, float b,
 	{
 		// Error!!
 		const char* error = lua_tostring(lua, -1);
-		errorstr = [[NSString alloc] initWithCString:error ]; // DPrinting errors for now
+		errorstr = error; // DPrinting errors for now
 		newerror = true;
 		return false;
 	}
@@ -703,7 +703,7 @@ bool callScriptWith3Args(int func_ref, urAPI_Region_t* region, float a, float b,
 	{
 		// Error!!
 		const char* error = lua_tostring(lua, -1);
-		errorstr = [[NSString alloc] initWithCString:error ]; // DPrinting errors for now
+		errorstr = error; // DPrinting errors for now
 		newerror = true;
 		return false;
 	}
@@ -725,7 +725,7 @@ bool callScriptWith2Args(int func_ref, urAPI_Region_t* region, float a, float b)
 	{
 		//<return Error>
 		const char* error = lua_tostring(lua, -1);
-		errorstr = [[NSString alloc] initWithCString:error ]; // DPrinting errors for now
+		errorstr = error; // DPrinting errors for now
 		newerror = true;
 		return false;
 	}
@@ -747,7 +747,7 @@ bool callScriptWith1Args(int func_ref, urAPI_Region_t* region, float a)
 	{
 		//<return Error>
 		const char* error = lua_tostring(lua, -1);
-		errorstr = [[NSString alloc] initWithCString:error ]; // DPrinting errors for now
+		errorstr = error; // DPrinting errors for now
 		newerror = true;
 		return false;
 	}
@@ -769,7 +769,7 @@ bool callScriptWith1Global(int func_ref, urAPI_Region_t* region, const char* glo
 	{
 		//<return Error>
 		const char* error = lua_tostring(lua, -1);
-		errorstr = [[NSString alloc] initWithCString:error ]; // DPrinting errors for now
+		errorstr = error; // DPrinting errors for now
 		newerror = true;
 		return false;
 	}
@@ -791,7 +791,7 @@ bool callScriptWith1String(int func_ref, urAPI_Region_t* region, const char* nam
 	{
 		//<return Error>
 		const char* error = lua_tostring(lua, -1);
-		errorstr = [[NSString alloc] initWithCString:error ]; // DPrinting errors for now
+		errorstr = error; // DPrinting errors for now
 		newerror = true;
 		return false;
 	}
@@ -811,7 +811,7 @@ bool callScript(int func_ref, urAPI_Region_t* region)
 	{
 		//<return Error>
 		const char* error = lua_tostring(lua, -1);
-		errorstr = [[NSString alloc] initWithCString:error ]; // DPrinting errors for now
+		errorstr = error; // DPrinting errors for now
 		newerror = true;
 		return false;
 	}
@@ -2016,7 +2016,7 @@ int l_DPrint(lua_State* lua)
 	if(str!=nil)
 	{
 		ur_Log(str);
-		errorstr = [[NSString alloc] initWithCString:str ];
+		errorstr = str;
 		newerror = true;
 	}
 	return 0;
@@ -2075,7 +2075,7 @@ int l_InputPosition(lua_State* lua)
 
 int l_Time(lua_State* lua)
 {
-	lua_pushnumber(lua, [systimer elapsedSec]);
+	lua_pushnumber(lua, systimer->elapsedSec());
 	return 1;
 }
 
@@ -4073,6 +4073,6 @@ void l_setupAPI(lua_State *lua)
 	lua_rawseti(lua, -2, 2); // Can be extended to any number of channels here
 	lua_setglobal(lua,"urSoundData");
 #endif
-	systimer = [MachTimer alloc];
-	[systimer start];
+	systimer = new MachTimer();
+	systimer->start();
 }

@@ -153,11 +153,14 @@ function ToggleFx(self)
 	end
 end
 
+local rescalex = ScreenWidth()/320.0
+local rescaley = ScreenHeight()/480.0
+
 fx = {}
 fx[1] = Region('region','fx[1]',UIParent)
-fx[1]:SetWidth(56)
-fx[1]:SetHeight(53)
-fx[1]:SetAnchor("BOTTOMLEFT", 13, 480-15-53)
+fx[1]:SetWidth(56*rescalex)
+fx[1]:SetHeight(53*rescaley)
+fx[1]:SetAnchor("BOTTOMLEFT", 13*rescalex, (480-15-53)*rescaley)
 fx[1]:SetLayer("LOW");
 fx[1]:EnableInput(true)
 fx[1]:Handle("OnTouchUp", ToggleFx)
@@ -169,9 +172,9 @@ fx[1]:Show()
 fx[1].fx = 1
 
 fx[2] = Region('region','fx[2]',UIParent)
-fx[2]:SetWidth(56)
-fx[2]:SetHeight(53)
-fx[2]:SetAnchor("BOTTOMLEFT", 93, 480-15-53)
+fx[2]:SetWidth(56*rescalex)
+fx[2]:SetHeight(53*rescaley)
+fx[2]:SetAnchor("BOTTOMLEFT", 93*rescalex, (480-15-53)*rescaley)
 fx[2]:EnableInput(true)
 fx[2]:Handle("OnTouchUp", ToggleFx)
 fx[2].t = fx[2]:Texture()
@@ -182,9 +185,9 @@ fx[2]:Show()
 fx[2].fx = 2
 
 fx[3] = Region('region','fx[3]',UIParent)
-fx[3]:SetWidth(56)
-fx[3]:SetHeight(53)
-fx[3]:SetAnchor("BOTTOMLEFT", 168, 480-15-53)
+fx[3]:SetWidth(56*rescalex)
+fx[3]:SetHeight(53*rescaley)
+fx[3]:SetAnchor("BOTTOMLEFT", 168*rescalex, (480-15-53)*rescaley)
 fx[3]:EnableInput(true)
 fx[3]:Handle("OnTouchUp", ToggleFx)
 fx[3].t = fx[3]:Texture()
@@ -194,9 +197,9 @@ fx[3].t:SetBlendMode("BLEND")
 fx[3]:Show()
 
 fx[4] = Region('region','fx[4]',UIParent)
-fx[4]:SetWidth(56)
-fx[4]:SetHeight(53)
-fx[4]:SetAnchor("BOTTOMLEFT", 247, 480-15-53)
+fx[4]:SetWidth(56*rescalex)
+fx[4]:SetHeight(53*rescaley)
+fx[4]:SetAnchor("BOTTOMLEFT", 247*rescalex, (480-15-53)*rescaley)
 fx[4]:EnableInput(true)
 fx[4]:Handle("OnTouchUp", ToggleFx)
 fx[4].t = fx[4]:Texture()

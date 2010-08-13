@@ -11,6 +11,7 @@
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
 #import <CoreLocation/CoreLocation.h>
+#include <string>
 
 #undef SANDWICH_SUPPORT
 

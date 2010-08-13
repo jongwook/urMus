@@ -19,8 +19,8 @@ thumperbackdropregion:SetLayer("BACKGROUND");
 thumperbackdropregion:SetAnchor('BOTTOMLEFT',0,0); 
 --thumperbackdropregion:EnableClamping(true)
 thumperbackdropregion.texture = thumperbackdropregion:Texture("thumper.png");
-thumperbackdropregion.texture:SetGradientColor("TOP",255,255,255,255,255,255,255,255);
-thumperbackdropregion.texture:SetGradientColor("BOTTOM",255,255,255,255,255,255,255,255);
+thumperbackdropregion.texture:SetGradientColor("TOP",255,255,255,128,255,255,255,128);
+thumperbackdropregion.texture:SetGradientColor("BOTTOM",255,255,255,128,255,255,255,128);
 --thumperbackdropregion.texture:SetBlendMode("BLEND")
 thumperbackdropregion.texture:SetTexCoord(0,0.63,0.94,0.0);
 --thumperbackdropregion:EnableInput(true);
@@ -148,23 +148,25 @@ function Releasekey(self)
 	utPushB3:Push(0.0) -- Gain of second partial
 --	utPushA3:Push(0.0) -- Gain of first partial
 --	utPushB3:Push(0.0) -- Gain of second partial
+	self:Hide()
 end
 
-
+local rescaley = ScreenHeight()/480.0
+local rescalex = ScreenWidth()/320.0
 
 key = {}
 for k=1,6 do
 	for j=1,2 do
 		i = (3-j)+(k-1)*2
 		key[i] = Region('region', 'keys', thumperbackdropregion);
-		key[i]:SetWidth(59);
-		key[i]:SetHeight(59);
+		key[i]:SetWidth(59*rescalex);
+		key[i]:SetHeight(59*rescaley);
 		key[i]:SetLayer("LOW");
-		key[i]:SetAnchor('BOTTOMLEFT',87+(j-1)*80,28+65*(k-1)); 
+		key[i]:SetAnchor('BOTTOMLEFT',87*rescalex+(j-1)*80*rescalex,28*rescaley+65*rescaley*(k-1)); 
 		key[i]:EnableClamping(true)
 		key[i]:EnableInput(true)
 		key[i].t = key[i]:Texture()
-		key[i].t:SetTexture(255,255,255,255)
+		key[i].t:SetTexture(255,255,0,255)
 		key[i].t:SetBlendMode("MOD")
 		key[i]:Handle("OnTouchDown", Playkey)
 		key[i]:Handle("OnEnter", Playkey)

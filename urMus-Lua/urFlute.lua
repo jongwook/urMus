@@ -38,21 +38,28 @@ function ChangePitch()
 end
 
 function Playtonehole(self)
+	self.t:SetGradientColor("TOP",255,0,0,255,255,0,0,255);
+	self.t:SetGradientColor("BOTTOM",255,0,0,255,255,0,0,255);
 	toneholestate[self.key] = 1 -- Could do partial holing here
 	ChangePitch()
 end
 
 function Releasetonehole(self)
+	self.t:SetGradientColor("TOP",255,255,255,255,255,255,255,255);
+	self.t:SetGradientColor("BOTTOM",255,255,255,255,255,255,255,255);
+	self.t:SetSolidColor(255,255,255,255)
 	toneholestate[self.key] = 0 -- Could do partial holing here
 	ChangePitch()
 end
 
+local rescale = ScreenHeight()/480.0
+
 for i = 1,3 do
 	tonehole[i] = Region('region', 'toneholes', UIParent)
-	tonehole[i]:SetWidth(128)
-	tonehole[i]:SetHeight(128)
+	tonehole[i]:SetWidth(128*rescale)
+	tonehole[i]:SetHeight(128*rescale)
 	tonehole[i]:SetLayer("HIGH")
-	tonehole[i]:SetAnchor('BOTTOMLEFT',ScreenWidth()/2-64,(128+24)*(i-1)+24)
+	tonehole[i]:SetAnchor('BOTTOMLEFT',ScreenWidth()/2-64*rescale,(128*rescale+24*rescale)*(i-1)+24*rescale)
 	tonehole[i]:EnableClamping(true)
 	tonehole[i]:EnableInput(true)
 	tonehole[i].t = tonehole[i]:Texture()

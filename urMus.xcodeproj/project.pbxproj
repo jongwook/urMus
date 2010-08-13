@@ -65,7 +65,7 @@
 		7778B2090FED04AF00F491D3 /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 7778B1E80FED04AF00F491D3 /* lzio.c */; };
 		7778B20A0FED04AF00F491D3 /* print.c in Sources */ = {isa = PBXBuildFile; fileRef = 7778B1EA0FED04AF00F491D3 /* print.c */; };
 		7778B2F90FED34FB00F491D3 /* urAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7778B2F80FED34FB00F491D3 /* urAPI.cpp */; };
-		777E0FC20FF19903005882D0 /* MachTimer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 777E0FC10FF19903005882D0 /* MachTimer.mm */; };
+		777E0FC20FF19903005882D0 /* MachTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777E0FC10FF19903005882D0 /* MachTimer.cpp */; };
 		777E5AC91057F5EB007FD908 /* RIOAudioUnitLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 777E5AC81057F5EB007FD908 /* RIOAudioUnitLayer.mm */; };
 		778FB5220FEEE8F900F109A7 /* Texture2d.mm in Sources */ = {isa = PBXBuildFile; fileRef = 778FB5210FEEE8F900F109A7 /* Texture2d.mm */; };
 		778FB5350FEEEB7800F109A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778FB5340FEEEB7800F109A7 /* QuartzCore.framework */; };
@@ -317,7 +317,7 @@
 		7778B2F70FED34FB00F491D3 /* urAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = urAPI.h; sourceTree = "<group>"; };
 		7778B2F80FED34FB00F491D3 /* urAPI.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = urAPI.cpp; sourceTree = "<group>"; };
 		777E0FC00FF19903005882D0 /* MachTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachTimer.h; sourceTree = "<group>"; };
-		777E0FC10FF19903005882D0 /* MachTimer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MachTimer.mm; sourceTree = "<group>"; };
+		777E0FC10FF19903005882D0 /* MachTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachTimer.cpp; sourceTree = "<group>"; };
 		777E5AC71057F5EB007FD908 /* RIOAudioUnitLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RIOAudioUnitLayer.h; path = RIOAudioUnitLayer/RIOAudioUnitLayer.h; sourceTree = "<group>"; };
 		777E5AC81057F5EB007FD908 /* RIOAudioUnitLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RIOAudioUnitLayer.mm; path = RIOAudioUnitLayer/RIOAudioUnitLayer.mm; sourceTree = "<group>"; };
 		778FB5200FEEE8F900F109A7 /* Texture2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture2d.h; sourceTree = "<group>"; };
@@ -609,7 +609,7 @@
 				778FB5200FEEE8F900F109A7 /* Texture2d.h */,
 				778FB5210FEEE8F900F109A7 /* Texture2d.mm */,
 				777E0FC00FF19903005882D0 /* MachTimer.h */,
-				777E0FC10FF19903005882D0 /* MachTimer.mm */,
+				777E0FC10FF19903005882D0 /* MachTimer.cpp */,
 				77C492F8105CAA1300B2BA88 /* urSound.h */,
 				77C492F9105CAA1300B2BA88 /* urSound.cpp */,
 				77B56EE4108954C4008931AC /* urSTK.h */,
@@ -1242,7 +1242,7 @@
 				7778B20A0FED04AF00F491D3 /* print.c in Sources */,
 				7778B2F90FED34FB00F491D3 /* urAPI.cpp in Sources */,
 				778FB5220FEEE8F900F109A7 /* Texture2d.mm in Sources */,
-				777E0FC20FF19903005882D0 /* MachTimer.mm in Sources */,
+				777E0FC20FF19903005882D0 /* MachTimer.cpp in Sources */,
 				777E5AC91057F5EB007FD908 /* RIOAudioUnitLayer.mm in Sources */,
 				77C492FA105CAA1300B2BA88 /* urSound.cpp in Sources */,
 				77B56E3B10894FE7008931AC /* ADSR.cpp in Sources */,

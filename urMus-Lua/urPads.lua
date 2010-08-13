@@ -11,8 +11,8 @@ backdrop:SetWidth(ScreenWidth())
 backdrop:SetHeight(ScreenHeight())
 backdrop:Show()
 
-local buttoncols = 3
-local buttonrows = 4
+local buttoncols = math.floor(ScreenWidth()/106.6)  -- 3
+local buttonrows = math.floor(ScreenHeight()/120.0) -- 4
 buttons = {} -- Create rows
 for i=1,buttonrows do
 	buttons[i] = {} -- Create columns
@@ -31,6 +31,10 @@ padlabels[9] = "dsound"
 padlabels[10] = "dp"
 padlabels[11] = "Sam/PSM"
 padlabels[12] = "42"
+
+for i=13,buttoncols*buttonrows do
+	padlabels[i] = "K"..i
+end
 
 function SingleDown(self)
 	local pushflowbox = _G["FBPush"]
@@ -81,8 +85,8 @@ for ix = 1, buttoncols do
 		newbutton.t = newbutton:Texture("flatbutton-64.png")
 		newbutton:SetHeight(96)
 		newbutton:SetWidth(96)
-		local x = 5+(ix-1)*(ScreenWidth()/3)
-		local y = 12+(iy-1)*(ScreenHeight()/4)
+		local x = 5+(ix-1)*(ScreenWidth()/buttoncols)
+		local y = 12+(iy-1)*(ScreenHeight()/buttonrows)
 		newbutton:SetAnchor("BOTTOMLEFT", x,y)
 		newbutton:Show()
 		newbutton:Handle("OnTouchDown", SingleDown)
@@ -92,7 +96,7 @@ for ix = 1, buttoncols do
 		newbutton.index = ix + (iy-1)*buttoncols
 		buttons[iy][ix] = newbutton
 		newannotation1 = Region('region','annotation1'..ix..":"..iy,UIParent)
-		newannotation1:SetWidth(ScreenWidth()/3)
+		newannotation1:SetWidth(ScreenWidth()/buttoncols)
 		newannotation1:SetHeight(11)
 		newannotation1.tl = newannotation1:TextLabel()
 		newannotation1:SetAnchor("BOTTOMLEFT", newbutton, "TOPLEFT", 0,0)
@@ -114,7 +118,7 @@ for ix = 1, buttoncols do
 		newannotation2.tl:SetColor(0,255,0,255)
 		newannotation2:Show()
 		newannotation3 = Region('region','annotation3'..ix..":"..iy,UIParent)
-		newannotation3:SetWidth(ScreenWidth()/3)
+		newannotation3:SetWidth(ScreenWidth()/buttoncols)
 		newannotation3:SetHeight(11)
 		newannotation3.tl = newannotation3:TextLabel()
 		newannotation3:SetAnchor("RIGHT", newannotation2, "LEFT", 0,0)

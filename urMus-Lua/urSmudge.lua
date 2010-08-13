@@ -2,6 +2,10 @@
 local fingerposx, fingerposy = InputPosition()
 local random = math.random
 local dopaint = false
+
+local rescalex = ScreenWidth()/320.0
+local rescaley = ScreenHeight()/480.0
+
 function Paint(self)
 	if not dopaint then
 		for i=1,10 do
@@ -12,8 +16,8 @@ function Paint(self)
 		return
 	end
 	local x,y = InputPosition()
-	x = x*320.0/ScreenWidth() -- Converting texture to screen coordinates (requires for iPad as they mismatch there)
-	y = y*480.0/ScreenHeight()
+--	x = x*320.0/ScreenWidth() -- Converting texture to screen coordinates (requires for iPad as they mismatch there)
+--	y = y*480.0/ScreenHeight()
 	if x ~= fingerposx or y ~= fingerposy then
 		brush1.t:SetBrushSize(32)
 		y = y + 32
@@ -29,8 +33,8 @@ end
 function BrushDown(self)
 	dopaint = true
 	fingerposx, fingerposy = InputPosition()
-	fingerposx = fingerposx*320.0/ScreenWidth() -- Converting texture to screen coordinates (requires for iPad as they mismatch there)
-	fingerposy = fingerposy*480.0/ScreenHeight()
+--	fingerposx = fingerposx*320.0/ScreenWidth() -- Converting texture to screen coordinates (requires for iPad as they mismatch there)
+--	fingerposy = fingerposy*480.0/ScreenHeight()
 end
 
 function BrushUp(self)
@@ -54,7 +58,11 @@ smudgebackdropregion.texture:SetTexture(255,255,255,255);
 --smudgebackdropregion.texture:SetGradientColor("BOTTOM",255,255,255,255,255,255,255,255);
 --smudgebackdropregion.texture:SetBlendMode("BLEND")
 --smudgebackdropregion.texture:SetTexCoord(0,0.63,0.94,0.0);
-smudgebackdropregion.texture:SetTexCoord(0,320.0/512.0,480.0/512.0,0.0);
+if ScreenWidth() == 320.0 then
+	smudgebackdropregion.texture:SetTexCoord(0,320.0/512.0,480.0/512.0,0.0);
+else
+	smudgebackdropregion.texture:SetTexCoord(0,ScreenWidth()/1024.0,1.0,0.0);
+end
 --smudgebackdropregion.texture:Clear(255,255,255,0);
 smudgebackdropregion:Handle("OnUpdate", Paint);
 smudgebackdropregion:Handle("OnDoubleTap", Clear);
@@ -68,12 +76,12 @@ smudgebackdropregion:Show();
 --smudgebackdropregion.texture:SetBrushSize(1)
 smudgebackdropregion.texture:SetFill(true)
 smudgebackdropregion.texture:SetBrushColor(0,0,255,30)
-smudgebackdropregion.texture:Ellipse(160, 240, 120, 120)
+smudgebackdropregion.texture:Ellipse(160*rescalex, 240*rescaley, 120*rescalex, 120*rescaley)
 smudgebackdropregion.texture:SetBrushColor(255,0,0,90)
-smudgebackdropregion.texture:Rect(40,40,100,100)
+smudgebackdropregion.texture:Rect(40*rescalex,40*rescaley,100*rescalex,100*rescaley)
 smudgebackdropregion.texture:SetFill(false)
 smudgebackdropregion.texture:SetBrushColor(0,255,0,60)
-smudgebackdropregion.texture:Quad(320-20,480-20,320-300,480-40,320-40,480-400,320-290,480-390)
+smudgebackdropregion.texture:Quad((320-20)*rescalex,(480-20)*rescaley,(320-300)*rescalex,(480-40)*rescaley,(320-40)*rescalex,(480-400)*rescaley,(320-290)*rescalex,(480-390)*rescaley)
 
 brush1=Region('region','brush',UIParent)
 brush1.t=brush1:Texture()
@@ -82,11 +90,11 @@ brush1.t:SetSolidColor(127,0,0,15)
 brush1:UseAsBrush();
 
 smudgebackdropregion.texture:SetBrushColor(0,0,255,30)
-smudgebackdropregion.texture:Ellipse(320-160, 480-240, 120, 80)
+smudgebackdropregion.texture:Ellipse((320-160)*rescalex, (480-240)*rescaley, 120*rescalex, 80*rescaley)
 smudgebackdropregion.texture:SetBrushColor(0,255,0,60)
-smudgebackdropregion.texture:Quad(20,20,300,40,40,400,290,390)
+smudgebackdropregion.texture:Quad(20*rescalex,20*rescaley,300*rescalex,40*rescaley,40*rescalex,400*rescaley,290*rescalex,390*rescaley)
 smudgebackdropregion.texture:SetBrushColor(255,0,0,90)
-smudgebackdropregion.texture:Rect(320-40-100,480-40-100,100,100)
+smudgebackdropregion.texture:Rect((320-40-100)*rescalex,(480-40-100)*rescaley,100*rescalex,100*rescaley)
 
 smudgebackdropregion.texture:SetBrushColor(255,127,0,30)
 

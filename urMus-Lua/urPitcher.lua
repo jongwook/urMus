@@ -70,15 +70,16 @@ function Releasekey(self)
 	self:Handle("OnUpdate", FadeRegion)
 end
 
+local rescale = ScreenHeight()/480.0
 
 
 key = {}
 for i=1,12 do
 	key[i] = Region('region', 'keys', pitcherbackdropregion);
 	key[i]:SetWidth(ScreenWidth());
-	key[i]:SetHeight(32);
+	key[i]:SetHeight(32*rescale);
 	key[i]:SetLayer("LOW");
-	key[i]:SetAnchor('BOTTOMLEFT',0 --[[194--]],82+31*(i-1)); 
+	key[i]:SetAnchor('BOTTOMLEFT',0 --[[194--]],82*rescale+31*(i-1)*rescale); 
 	key[i]:EnableClamping(true)
 	key[i]:EnableInput(true)
 	key[i].t = key[i]:Texture()
