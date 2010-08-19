@@ -52,7 +52,15 @@ import javax.microedition.khronos.opengles.GL10;
  * instance.
  */
 class urMusView extends GLSurfaceView {
+	public static final String TAG="urMusView";
+	
 	private boolean urMusReady=false;
+	
+	private int SCREEN_WIDTH;
+	private int SCREEN_HEIGHT;
+	private int HALF_SCREEN_WIDTH;
+	private int HALF_SCREEN_HEIGHT;
+	
     urMusView(Context context) {
         super(context);
         init();
@@ -74,6 +82,11 @@ class urMusView extends GLSurfaceView {
         }
 		
         public void onSurfaceChanged(GL10 gl, int width, int height) {
+			SCREEN_WIDTH=width;
+			SCREEN_HEIGHT=height;
+			HALF_SCREEN_WIDTH=SCREEN_WIDTH/2;
+			HALF_SCREEN_HEIGHT=SCREEN_HEIGHT/2;
+			
             urMus.init(width, height);
 			if(urMusReady==false) {
 				urMusReady=true;
@@ -91,5 +104,171 @@ class urMusView extends GLSurfaceView {
         urMus.changeBackground();
         return true;
     }
+	
+	/** Show an event in the LogCat view, for debugging */
+	private void dumpEvent(MotionEvent event) {
+		String names[] = { "DOWN" , "UP" , "MOVE" , "CANCEL" , "OUTSIDE" ,
+			"POINTER_DOWN" , "POINTER_UP" , "7?" , "8?" , "9?" };
+		StringBuilder sb = new StringBuilder();
+		int action = event.getAction();
+		int actionCode = action & MotionEvent.ACTION_MASK;
+		sb.append("event ACTION_" ).append(names[actionCode]);
+		if (actionCode == MotionEvent.ACTION_POINTER_DOWN
+			|| actionCode == MotionEvent.ACTION_POINTER_UP) {
+			sb.append("(pid " ).append(
+									   action >> MotionEvent.ACTION_POINTER_ID_SHIFT);
+			sb.append(")" );
+		}
+		sb.append("[" );
+		for (int i = 0; i < event.getPointerCount(); i++) {
+			sb.append("#" ).append(i);
+			sb.append("(pid " ).append(event.getPointerId(i));
+			sb.append(")=" ).append((int) event.getX(i));
+			sb.append("," ).append((int) event.getY(i));
+			if (i + 1 < event.getPointerCount())
+				sb.append(";" );
+		}
+		sb.append("]" );
+		Log.d(TAG, sb.toString());
+	}
+	
+	////////////////////
+	// Touch Handling //
+	////////////////////
+	
+	private long lastDown[]=new long[10];
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if(!urMusReady) return true;
+		
+		// get which type this event is
+		int action=event.getAction();
+		int type=action & MotionEvent.ACTION_MASK;
+		
+		// get index of related pointer
+		int index=action & MotionEvent.ACTION_POINTER_INDEX_MASK;
+		index >>= MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+		
+		// retrieve touch data
+		int pointers=event.getPointerCount();
+		float x[]=new float[pointers];
+		float y[]=new float[pointers];
+		int id[]=new int[pointers];
+		for(int i=0;i<pointers;i++) {
+			x[i]=event.getX(i);
+			y[i]=event.getY(i);
+			id[i]=event.getPointerId(i);
+		}
+		
+		// single tap by default
+		int numTaps=1;
+		
+		int historySize=event.getHistorySize();
+		
+		switch(type) {
+			case MotionEvent.ACTION_DOWN:
+				// detect double tap
+				long time=System.currentTimeMillis();
+				if(lastDown[id[index]]-time < 250) {
+					numTaps=2;
+				}
+				lastDown[id[index]]=time;
+				
+				for(int i=0; i<pointers; i++) {
+					callAllTouchSources(x[i]/(float)HALF_SCREEN_WIDTH-1.0, 1.0-y[i]/(float)HALF_SCREEN_HEIGHT,id[i]);
+				}
+				
+				for(int i=0; i<pointers; i++) {
+					onTouchDownParse(id[i], numTaps, x[i], y[i]);
+				}
+				
+				for(int i=0; i<pointers-1; i++) {
+					for(int j=i+1; j<pointers; j++) {
+						if(testDoubleDragStart(id[i],id[j])) {
+							doTouchDoubleDragStart(i,j,id[i],id[j]);
+						}
+					}
+				}
+				
+				for(int i=0; i<pointers; i++) {
+					if(testSingleDragStart(id[i])) {
+						// TODO : not sure what position2 is
+						doTouchSingleDragStart(i,id[i],x[i],y[i],x[i],y[i]);
+					}
+				}
+				
+				break;
+			case MotionEvent.ACTION_MOVE:
+				for(int i=0; i<pointers; i++) {
+					callAllTouchSources(x[i]/(float)HALF_SCREEN_WIDTH-1.0, 1.0-y[i]/(float)HALF_SCREEN_HEIGHT,id[i]);
+				}
+				
+				onTouchArgInit();
+				
+				for(int i=0; i<pointers; i++) {
+					float oldx=event.getHistoricalX(historySize-1);
+					float oldy=event.getHistoricalY(historySize-1);
+					onTouchMoveUpdate(i,id[i],oldx,oldy,x[i],y[i]);
+				}
+				
+				int args=getArg();
+				for(int i=0; i<args; i++) {
+					int t=getArgMoved(i);
+					int dragidx = FindSingleDragTouch(t);
+					if(dragidx != -1) {
+						//TODO : double touch
+						onTouchSingleDragUpdate(t, dragidx);
+					} else {
+						onTouchScrollUpdate(t);
+					}
+				}
+				
+				callAllOnEnterLeaveRegions();
+				
+				break;
+			case MotionEvent.ACTION_UP:
+				for(int i=0; i<pointers; i++) {
+					callAllTouchSources(x[i]/(float)HALF_SCREEN_WIDTH-1.0, 1.0-y[i]/(float)HALF_SCREEN_HEIGHT,id[i]);
+				}
+				
+				onTouchArgInit();
+				
+				for(int i=0; i<pointers; i++) {
+					float oldx=event.getHistoricalX(historySize-1);
+					float oldy=event.getHistoricalY(historySize-1);
+					onTouchDragEnd(i,id[i],x[i],y[i]);
+					onTouchEnds(numTaps, oldx, oldy, x[i], y[i]);
+				}
+				
+				callAllOnEnterLeaveRegions();
+				break;
+			default:
+				break;
+		}
+		
+		dumpEvent(event);
+		return true;
+	}
+	
+	private native int FindDoubleDragTouch(int t1, int t2);
+	private native int FindSingleDragTouch(int t);
+	private native void onTouchDownParse(int t, int numTaps, float posx, float posy);
+	private native void onTouchArgInit();
+	private native void onTouchMoveUpdate(int t, int t2, float oposx, float oposy, float posx, float posy);
+	private native void onTouchEnds(int numTaps, float oposx, float oposy, float posx, float posy);
+	private native void onTouchDoubleDragUpdate(int t, int dragidx, float pos1x, float pos1y, float pos2x, float pos2y);
+	private native boolean testDoubleDragStart(int t1, int t2);
+	private native void doTouchDoubleDragStart(int t1,int t2,int touch1, int touch2);
+	private native boolean testSingleDragStart(int t);
+	private native int getSingleDoubleTouchConversionID(int t);
+	private native void doTouchSingleDragStart(int t, int touch1, float pos1x, float pos1y, float pos2x, float pos2y);
+	private native void onTouchSingleDragUpdate(int t, int dragidx);
+	private native void onTouchScrollUpdate(int t);
+	private native void onTouchDragEnd(int t,int touch, float posx, float posy);
+	private native void callAllOnEnterLeaveRegions();
+	private native void callAllTouchSources(double x, double y, int index);
+	private native int getArg();
+	private native int getArgMoved(int i);
 }
 

@@ -16,6 +16,7 @@
 #include "../../../src/httpServer.h"
 #include "../../../src/urAPI.h"
 #include "../../../src/MachTimer.h"
+#include "../../../src/urGraphics.h"
 
 extern "C" {
 #include "lfs.h"
@@ -143,6 +144,26 @@ extern "C" {
 	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_changeBackground(JNIEnv * env, jobject obj);
 	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_startServer(JNIEnv * env, jobject obj, jstring path);
 	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_setupAPI(JNIEnv *env, jobject obj);
+	
+	JNIEXPORT jint JNICALL Java_edu_umich_urMus_urMusView_FindDoubleDragTouch(JNIEnv *env, jobject obj, jint t1, jint t2);
+	JNIEXPORT jint JNICALL Java_edu_umich_urMus_urMusView_FindSingleDragTouch(JNIEnv *env, jobject obj, jint t);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchDownParse(JNIEnv *env, jobject obj, jint t, jint numTaps, jfloat posx, jfloat posy);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchArgInit(JNIEnv *env, jobject obj);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchMoveUpdate(JNIEnv *env, jobject obj, jint t, jint t2, jfloat oposx, jfloat oposy, jfloat posx, jfloat posy);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchEnds(JNIEnv *env, jobject obj, jint numTaps, jfloat oposx, jfloat oposy, jfloat posx, jfloat posy);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchDoubleDragUpdate(JNIEnv *env, jobject obj, jint t, jint dragidx, jfloat pos1x, jfloat pos1y, jfloat pos2x, jfloat pos2y);
+	JNIEXPORT jboolean JNICALL Java_edu_umich_urMus_urMusView_testDoubleDragStart(JNIEnv *env, jobject obj, jint t1, jint t2);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_doTouchDoubleDragStart(JNIEnv *env, jobject obj, jint t1,jint t2,jint touch1, jint touch2);
+	JNIEXPORT jboolean JNICALL Java_edu_umich_urMus_urMusView_testSingleDragStart(JNIEnv *env, jobject obj, jint t);
+	JNIEXPORT jint JNICALL Java_edu_umich_urMus_urMusView_getSingleDoubleTouchConversionID(JNIEnv *env, jobject obj, jint t);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_doTouchSingleDragStart(JNIEnv *env, jobject obj, jint t, jint touch1, jfloat pos1x, jfloat pos1y, jfloat pos2x, jfloat pos2y);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchSingleDragUpdate(JNIEnv *env, jobject obj, jint t, jint dragidx);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchScrollUpdate(JNIEnv *env, jobject obj, jint t);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchDragEnd(JNIEnv *env, jobject obj, jint t,jint touch, jfloat posx, jfloat posy);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callAllOnEnterLeaveRegions(JNIEnv *env, jobject obj);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callAllTouchSources(JNIEnv *env, jobject obj, jdouble x, jdouble y, jint index);
+	JNIEXPORT jint JNICALL Java_edu_umich_urMus_urMusView_getArg(JNIEnv *env, jobject obj);
+	JNIEXPORT jint JNICALL Java_edu_umich_urMus_urMusView_getArgMoved(JNIEnv *env, jobject obj, jint i);	
 }
 
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_init(JNIEnv * env, jobject obj,  jint width, jint height)
@@ -203,4 +224,110 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMus_setupAPI(JNIEnv *env, jobject 
 	mytimer=new MachTimer();
 	mytimer->start();
 }
+
+
+
+
+
+// Touch Handling JNI interface
+int FindDoubleDragTouch(int t1, int t2);
+int FindSingleDragTouch(int t);
+void onTouchDownParse(int t, int numTaps, float posx, float posy);
+void onTouchArgInit();
+void onTouchMoveUpdate(int t, int t2, float oposx, float oposy, float posx, float posy);
+void onTouchEnds(int numTaps, float oposx, float oposy, float posx, float posy);
+void onTouchDoubleDragUpdate(int t, int dragidx, float pos1x, float pos1y, float pos2x, float pos2y);
+bool testDoubleDragStart(int t1, int t2);
+void doTouchDoubleDragStart(int t1,int t2,int touch1, int touch2);
+bool testSingleDragStart(int t);
+bool getSingleDoubleTouchConversionID(int t);
+void doTouchSingleDragStart(int t, int touch1, float pos1x, float pos1y, float pos2x, float pos2y);
+void onTouchSingleDragUpdate(int t, int dragidx);
+void onTouchScrollUpdate(int t);
+void onTouchDragEnd(int t,int touch, float posx, float posy);
+
+extern int arg;
+extern int argmoved[MAX_FINGERS];
+extern float argcoordx[MAX_FINGERS];
+extern float argcoordy[MAX_FINGERS];
+extern float arg2coordx[MAX_FINGERS];
+extern float arg2coordy[MAX_FINGERS];
+
+JNIEXPORT jint JNICALL Java_edu_umich_urMus_urMusView_FindDoubleDragTouch(JNIEnv *env, jobject obj, jint t1, jint t2) {
+	return FindDoubleDragTouch(t1, t2);
+}
+
+JNIEXPORT jint JNICALL Java_edu_umich_urMus_urMusView_FindSingleDragTouch(JNIEnv *env, jobject obj, jint t) {
+	return FindSingleDragTouch(t);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchDownParse(JNIEnv *env, jobject obj, jint t, jint numTaps, jfloat posx, jfloat posy) {
+	onTouchDownParse(t, numTaps, posx, posy);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchArgInit(JNIEnv *env, jobject obj) {
+	onTouchArgInit();
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchMoveUpdate(JNIEnv *env, jobject obj, jint t, jint t2, jfloat oposx, jfloat oposy, jfloat posx, jfloat posy) {
+	onTouchMoveUpdate(t, t2, oposx, oposy, posx, posy);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchEnds(JNIEnv *env, jobject obj, jint numTaps, jfloat oposx, jfloat oposy, jfloat posx, jfloat posy) {
+	onTouchEnds(numTaps, oposx, oposy, posx, posy);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchDoubleDragUpdate(JNIEnv *env, jobject obj, jint t, jint dragidx, jfloat pos1x, jfloat pos1y, jfloat pos2x, jfloat pos2y) {
+	onTouchDoubleDragUpdate(t, dragidx, pos1x, pos1y, pos2x, pos2y);
+}
+
+JNIEXPORT jboolean JNICALL Java_edu_umich_urMus_urMusView_testDoubleDragStart(JNIEnv *env, jobject obj, jint t1, jint t2) {
+	return testDoubleDragStart(t1, t2);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_doTouchDoubleDragStart(JNIEnv *env, jobject obj, jint t1,jint t2,jint touch1, jint touch2) {
+	doTouchDoubleDragStart(t1, t2, touch1, touch2);
+}
+
+JNIEXPORT jboolean JNICALL Java_edu_umich_urMus_urMusView_testSingleDragStart(JNIEnv *env, jobject obj, jint t) {
+	return testSingleDragStart(t);
+}
+
+JNIEXPORT jint JNICALL Java_edu_umich_urMus_urMusView_getSingleDoubleTouchConversionID(JNIEnv *env, jobject obj, jint t) {
+	return getSingleDoubleTouchConversionID(t);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_doTouchSingleDragStart(JNIEnv *env, jobject obj, jint t, jint touch1, jfloat pos1x, jfloat pos1y, jfloat pos2x, jfloat pos2y) {
+	doTouchSingleDragStart(t, touch1, pos1x, pos1y, pos2x, pos2y);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchSingleDragUpdate(JNIEnv *env, jobject obj, jint t, jint dragidx) {
+	onTouchSingleDragUpdate(t, dragidx);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchScrollUpdate(JNIEnv *env, jobject obj, jint t) {
+	onTouchScrollUpdate(t);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_onTouchDragEnd(JNIEnv *env, jobject obj, jint t,jint touch, jfloat posx, jfloat posy) {
+	onTouchDragEnd(t, touch, posx, posy);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callAllOnEnterLeaveRegions(JNIEnv *env, jobject obj) {
+	callAllOnEnterLeaveRegions(arg, argcoordx, argcoordy,arg2coordx,arg2coordy);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callAllTouchSources(JNIEnv *env, jobject obj, jdouble x, jdouble y, jint index) {
+	callAllTouchSources(x, y, index);	
+}
+
+JNIEXPORT jint JNICALL Java_edu_umich_urMus_urMusView_getArg(JNIEnv *env, jobject obj) {
+	return arg;
+}
+
+JNIEXPORT jint JNICALL Java_edu_umich_urMus_urMusView_getArgMoved(JNIEnv *env, jobject obj, jint i) {
+	return argmoved[i];
+}
+
+
 
