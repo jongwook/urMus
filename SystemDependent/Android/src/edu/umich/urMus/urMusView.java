@@ -136,118 +136,126 @@ class urMusView extends GLSurfaceView {
 	// Touch Handling //
 	////////////////////
 	
-	private long lastDown[]=new long[10];
+	private final int MAX_FINGERS=10;
+	private long lastDown[]=new long[MAX_FINGERS];
+	private float oldx[]=new float[MAX_FINGERS];
+	private float oldy[]=new float[MAX_FINGERS];
 	
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	public boolean onTouchEvent(final MotionEvent event) {
 		if(!urMusReady) return true;
 		
 		// get which type this event is
-		int action=event.getAction();
-		int type=action & MotionEvent.ACTION_MASK;
+		final int action=event.getAction();
+		final int type=action & MotionEvent.ACTION_MASK;
 		
 		// get index of related pointer
-		int index=action & MotionEvent.ACTION_POINTER_INDEX_MASK;
-		index >>= MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+		final int index=action >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+		
+		final int historySize=event.getHistorySize();
 		
 		// retrieve touch data
-		int pointers=event.getPointerCount();
-		float x[]=new float[pointers];
-		float y[]=new float[pointers];
-		int id[]=new int[pointers];
+		final int pointers=event.getPointerCount();
+		final float x[]=new float[pointers];
+		final float y[]=new float[pointers];
+		final int id[]=new int[pointers];
+		final float oldx[]=new float[pointers];
+		final float oldy[]=new float[pointers];
 		for(int i=0;i<pointers;i++) {
+			id[i]=event.getPointerId(i);
 			x[i]=event.getX(i);
 			y[i]=event.getY(i);
-			id[i]=event.getPointerId(i);
+			oldx[i]=this.oldx[i];
+			oldy[i]=this.oldy[i];
+			this.oldx[i]=x[i];
+			this.oldy[i]=y[i];
 		}
 		
-		// single tap by default
-		int numTaps=1;
-		
-		int historySize=event.getHistorySize();
-		
-		switch(type) {
-			case MotionEvent.ACTION_DOWN:
-				// detect double tap
-				long time=System.currentTimeMillis();
-				if(lastDown[id[index]]-time < 250) {
-					numTaps=2;
-				}
-				lastDown[id[index]]=time;
+		queueEvent(new Runnable() {
+			public void run() {
+				// single tap by default
+				int numTaps=1;
 				
-				for(int i=0; i<pointers; i++) {
-					callAllTouchSources(x[i]/(float)HALF_SCREEN_WIDTH-1.0, 1.0-y[i]/(float)HALF_SCREEN_HEIGHT,id[i]);
-				}
-				
-				for(int i=0; i<pointers; i++) {
-					onTouchDownParse(id[i], numTaps, x[i], y[i]);
-				}
-				
-				for(int i=0; i<pointers-1; i++) {
-					for(int j=i+1; j<pointers; j++) {
-						if(testDoubleDragStart(id[i],id[j])) {
-							doTouchDoubleDragStart(i,j,id[i],id[j]);
+				switch(type) {
+					case MotionEvent.ACTION_DOWN:
+						// detect double tap
+						long time=System.currentTimeMillis();
+						if(lastDown[id[index]]-time < 250) {
+							numTaps=2;
 						}
-					}
+						lastDown[id[index]]=time;
+						
+						for(int i=0; i<pointers; i++) {
+							callAllTouchSources(x[i]/(float)HALF_SCREEN_WIDTH-1.0, 1.0-y[i]/(float)HALF_SCREEN_HEIGHT,id[i]);
+						}
+						
+						for(int i=0; i<pointers; i++) {
+							onTouchDownParse(id[i], numTaps, x[i], y[i]);
+						}
+						
+						for(int i=0; i<pointers-1; i++) {
+							for(int j=i+1; j<pointers; j++) {
+								if(testDoubleDragStart(id[i],id[j])) {
+									doTouchDoubleDragStart(i,j,id[i],id[j]);
+								}
+							}
+						}
+						
+						for(int i=0; i<pointers; i++) {
+							if(testSingleDragStart(id[i])) {
+								// TODO : not sure what position2 is
+								doTouchSingleDragStart(i,id[i],x[i],y[i],x[i],y[i]);
+							}
+						}
+						
+						break;
+					case MotionEvent.ACTION_MOVE:
+						for(int i=0; i<pointers; i++) {
+							callAllTouchSources(x[i]/(float)HALF_SCREEN_WIDTH-1.0, 1.0-y[i]/(float)HALF_SCREEN_HEIGHT,id[i]);
+						}
+						
+						onTouchArgInit();
+						
+						for(int i=0; i<pointers; i++) {
+							onTouchMoveUpdate(i,id[i],oldx[i],oldy[i],x[i],y[i]);
+						}
+						
+						int args=getArg();
+						for(int i=0; i<args; i++) {
+							int t=getArgMoved(i);
+							int dragidx = FindSingleDragTouch(t);
+							if(dragidx != -1) {
+								//TODO : double touch
+								onTouchSingleDragUpdate(t, dragidx);
+							} else {
+								onTouchScrollUpdate(t);
+							}
+						}
+						
+						callAllOnEnterLeaveRegions();
+						
+						break;
+					case MotionEvent.ACTION_UP:
+						for(int i=0; i<pointers; i++) {
+							callAllTouchSources(x[i]/(float)HALF_SCREEN_WIDTH-1.0, 1.0-y[i]/(float)HALF_SCREEN_HEIGHT,id[i]);
+						}
+						
+						onTouchArgInit();
+						
+						for(int i=0; i<pointers; i++) {
+							onTouchDragEnd(i,id[i],x[i],y[i]);
+							onTouchEnds(numTaps, oldx[i], oldy[i], x[i], y[i]);
+						}
+						
+						callAllOnEnterLeaveRegions();
+						break;
+					default:
+						break;
 				}
-				
-				for(int i=0; i<pointers; i++) {
-					if(testSingleDragStart(id[i])) {
-						// TODO : not sure what position2 is
-						doTouchSingleDragStart(i,id[i],x[i],y[i],x[i],y[i]);
-					}
-				}
-				
-				break;
-			case MotionEvent.ACTION_MOVE:
-				for(int i=0; i<pointers; i++) {
-					callAllTouchSources(x[i]/(float)HALF_SCREEN_WIDTH-1.0, 1.0-y[i]/(float)HALF_SCREEN_HEIGHT,id[i]);
-				}
-				
-				onTouchArgInit();
-				
-				for(int i=0; i<pointers; i++) {
-					float oldx=event.getHistoricalX(historySize-1);
-					float oldy=event.getHistoricalY(historySize-1);
-					onTouchMoveUpdate(i,id[i],oldx,oldy,x[i],y[i]);
-				}
-				
-				int args=getArg();
-				for(int i=0; i<args; i++) {
-					int t=getArgMoved(i);
-					int dragidx = FindSingleDragTouch(t);
-					if(dragidx != -1) {
-						//TODO : double touch
-						onTouchSingleDragUpdate(t, dragidx);
-					} else {
-						onTouchScrollUpdate(t);
-					}
-				}
-				
-				callAllOnEnterLeaveRegions();
-				
-				break;
-			case MotionEvent.ACTION_UP:
-				for(int i=0; i<pointers; i++) {
-					callAllTouchSources(x[i]/(float)HALF_SCREEN_WIDTH-1.0, 1.0-y[i]/(float)HALF_SCREEN_HEIGHT,id[i]);
-				}
-				
-				onTouchArgInit();
-				
-				for(int i=0; i<pointers; i++) {
-					float oldx=event.getHistoricalX(historySize-1);
-					float oldy=event.getHistoricalY(historySize-1);
-					onTouchDragEnd(i,id[i],x[i],y[i]);
-					onTouchEnds(numTaps, oldx, oldy, x[i], y[i]);
-				}
-				
-				callAllOnEnterLeaveRegions();
-				break;
-			default:
-				break;
-		}
+			}
+		});
 		
-		dumpEvent(event);
+		//dumpEvent(event);
 		return true;
 	}
 	
