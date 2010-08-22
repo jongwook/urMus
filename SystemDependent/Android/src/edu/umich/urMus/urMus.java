@@ -39,17 +39,24 @@ public class urMus extends Activity
 
     @Override protected void onPause() {
         super.onPause();
+		Log.i(TAG,"paused");
 		if(mView!=null) {
 			mView.onPause();
 		}
+		finish();
     }
 	
     @Override protected void onResume() {
         super.onResume();
+		Log.i(TAG,"resumed");
 		if(mView!=null) {
 			mView.onResume();
 		}
     }
+	
+	@Override protected void onDestroy() {
+		System.exit(0);
+	}
 	
 	public static native void init(int width, int height);
 	public static native void step();
