@@ -23,7 +23,7 @@ pagefile = {
 "urPlayground.lua",
 "urRecorder.lua",
 "urPads.lua",
-"urCloud.lua",
+--"urCloud.lua",
 --"urClockSeq.lua",
 "urSleigh.lua",
 "urThumper.lua",

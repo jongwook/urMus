@@ -149,13 +149,15 @@ function ReleaseBlackKey(self)
 	self:Handle("OnUpdate", FadeRegion)
 end
 
+local rescale = ScreenHeight()/480.0
+
 whitekey = {}
 for i=1,8 do
 	whitekey[i] = Region('region', 'whitekeys', pianoregion);
 	whitekey[i]:SetWidth(ScreenWidth());
-	whitekey[i]:SetHeight((ScreenHeight()-32)/8);
+	whitekey[i]:SetHeight((ScreenHeight()-32*rescale)/8);
 	whitekey[i]:SetLayer("FULLSCREEN_DIALOG");
-	whitekey[i]:SetAnchor('BOTTOMLEFT',0,(ScreenHeight()-32)/8*(i-1)+32); 
+	whitekey[i]:SetAnchor('BOTTOMLEFT',0,(ScreenHeight()-32*rescale)/8*(i-1)+32*rescale); 
 	whitekey[i]:EnableClamping(true)
 	whitekey[i]:EnableInput(true)
 	whitekey[i].t = whitekey[i]:Texture()
@@ -173,9 +175,9 @@ blackkey = {}
 for i=1,6 do
 	blackkey[i] = Region('region', 'blackkeys', pianoregion)
 	blackkey[i]:SetWidth(ScreenWidth()/2.7*2)
-	blackkey[i]:SetHeight((ScreenHeight()-32)/8/2)
+	blackkey[i]:SetHeight((ScreenHeight()-32*rescale)/8/2)
 	blackkey[i]:SetLayer("FULLSCREEN_DIALOG")
-	blackkey[i]:SetAnchor('BOTTOMLEFT',ScreenWidth()/2.7,(ScreenHeight()-32)/8*(blackkeyindex[i]-1)+32-16)
+	blackkey[i]:SetAnchor('BOTTOMLEFT',ScreenWidth()/2.7,(ScreenHeight()-32*rescale)/8*(blackkeyindex[i]-1)+32*rescale-16*rescale)
 	blackkey[i]:EnableClamping(true)
 	blackkey[i]:EnableInput(true)
 	blackkey[i].t = blackkey[i]:Texture()

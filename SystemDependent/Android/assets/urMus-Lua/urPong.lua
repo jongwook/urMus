@@ -6,6 +6,9 @@
 dofile(SystemPath("urHelpers.lua"))
 Req("urWidget")
 
+local rescalex = ScreenWidth()/320.0
+local rescaley = ScreenHeight()/480.0
+
 local function Shutdown()
     dac:RemovePullLink(0, upSample, 0)
     dac:RemovePullLink(0, upSample2, 0)
@@ -23,12 +26,13 @@ pongBGRegion = MakeRegion({
     layer='BACKGROUND', 
     x=0,y=0, img="PongBG.png"
 })
+pongBGRegion.t:SetTexCoord(0,320.0/512.0,480.0/512.0,0.0);
 -- SetAttrs(pongBGRegion, {w=514,h=514,x=0,y=-31})
 pongBGRegion:Handle("OnPageEntered", ReInit)
 pongBGRegion:Handle("OnPageLeft", Shutdown)
 
 MAXSCORE = 10
-DEFAULT_VELOCITY = 3
+DEFAULT_VELOCITY = 3*rescalex
 
 -- Notification Information Overlay
 
@@ -68,6 +72,8 @@ popuptextregion = MakeRegion({
 })
 popuptextregion.tl:SetHorizontalAlign("CENTER")
 popuptextregion.tl:SetVerticalAlign("TOP")
+popuptextregion.t:SetSolidColor(255,255,255,0)
+popuptextregion.t:SetBlendMode("BLEND")
 popuptextregion:EnableClamping(true)
 popuptextregion:Show()
 
@@ -140,12 +146,14 @@ function MakeScoreLabel(x, y)
     return score
 end
 
-myScore = MakeScoreLabel(160, 80)
-opponentScore = MakeScoreLabel(160, 400)
+myScore = MakeScoreLabel(160*rescalex, 80*rescaley)
+opponentScore = MakeScoreLabel(160*rescalex, 400*rescaley)
 
 function MakePaddle(x, y, OnUpdate)
-    local paddle = MakeRegion({layer='MEDIUM',w=120,h=20,x=x,y=y,img="paddle.png"})
-    
+    local paddle = MakeRegion({layer='MEDIUM',w=120*rescalex,h=20*rescaley,x=x,y=y,img="paddle.png"})
+	
+	paddle.t:SetTexCoord(0,0.95,0,0.95)
+	
     function paddle:MoveTo(xCoord, yCoord)
         self:SetAnchor('BOTTOMLEFT', xCoord, yCoord)
     end
@@ -157,21 +165,21 @@ end
 function Clamp(x)
     if x < 0 then
         x = 0
-    elseif x >= 200 then
-        x = 200
+    elseif x >= 200*rescalex then
+        x = 200*rescalex
     end
     return x
 end
 
 function UserInputUpdatePosition(self)
     local x,_ = InputPosition()
-    self:MoveTo(Clamp(x - self:Width()/2), 10)
+    self:MoveTo(Clamp(x - self:Width()/2), 10*rescaley)
 end
 
 local tiltspeed = 40.0
 
 function UserTilt(self,x,y,z)
-    self:MoveTo(Clamp(self:Left()+tiltspeed*x),10)
+    self:MoveTo(Clamp(self:Left()+tiltspeed*x),10*rescaley)
 end
 
 function AIUpdatePosition(self)
@@ -182,11 +190,11 @@ function AIUpdatePosition(self)
         self.direction = -1
     end
         
-    self:MoveTo(Clamp(self:Left() + self.direction * self.velocity), 450)
+    self:MoveTo(Clamp(self:Left() + self.direction * self.velocity), 450*rescaley)
 end
     
-myPaddle = MakePaddle(0, 10, UserInputUpdatePosition)
-opponentPaddle = MakePaddle(0, 450, AIUpdatePosition)
+myPaddle = MakePaddle(0, 10*rescaley, UserInputUpdatePosition)
+opponentPaddle = MakePaddle(0, 450*rescaley, AIUpdatePosition)
 opponentPaddle.velocity = 3
 
 local accelerate
@@ -209,16 +217,16 @@ pongBGRegion:EnableInput(true)
 
 ball = Region('Region', 'ball', UIParent)
 ball:SetLayer("HIGH")
-ball:SetWidth(20)
-ball:SetHeight(20)
+ball:SetWidth(20*rescaley)
+ball:SetHeight(20*rescaley)
 
 function ball:MoveTo(xCoord, yCoord)
     self:SetAnchor('BOTTOMLEFT', xCoord, yCoord)
 end
 
 function ball:Reset()
-    self.x = 0
-    self.y = 460
+    self.x = math.random(0,300*rescalex)
+    self.y = 460*rescaley
     self.directionX = 1 -- to the right
     self.directionY = -1 -- down
     self.velocity = DEFAULT_VELOCITY
@@ -230,7 +238,7 @@ function ball:UpdateBallPosition()
     if self.x <= 0 then
         self.directionX = 1
         upPush:Push(0.0); -- Play
-    elseif self.x >= 300 then
+    elseif self.x >= 300*rescalex then
         self.directionX = -1
         upPush:Push(0.0); -- Play
     end
@@ -255,7 +263,7 @@ function ball:UpdateBallPosition()
     -- score detection
     if self.y < 0 then
         opponentScore:IncrementScore()
-    elseif self.y > 460 then
+    elseif self.y > 460*rescaley then
         myScore:IncrementScore()
     end
 
@@ -267,6 +275,7 @@ end
 
 ball.texture = ball:Texture("small-ball.png")
 ball.texture:SetBlendMode("BLEND")
+ball.texture:SetTexCoord(0,0.99,0,0.99)
 ball:Reset()
 ball:Handle("OnUpdate",ball.UpdateBallPosition)
 ball:Show()

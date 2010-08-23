@@ -2,18 +2,26 @@
 -- Concept by: Georg Essl & Nate Derbinsky
 -- Initial Hack by: Georg Essl 04/29/10
 
+local rescalex = ScreenWidth()/320
+local rescaley = ScreenHeight()/480
+
 local backdrop = Region('region','backdrop',UIParent)
-backdrop.t = backdrop:Texture()
-backdrop.t:SetTexture("Default.png")
-backdrop.t:SetTexCoord(0,0.63,0.94,0.0);
-backdrop:SetLayer("BACKGROUND")
 backdrop:SetWidth(ScreenWidth())
 backdrop:SetHeight(ScreenHeight())
+backdrop.t = backdrop:Texture()
+--backdrop.t:SetTexture("Default.png")
+if ScreenWidth() == 320.0 then
+	backdrop.t:SetTexCoord(0,0.63,0.94,0.0);
+else
+	backdrop.t:SetTexCoord(0,ScreenWidth()/1024.,1.0,0.0);
+end
+backdrop.t:Clear(255,255,255,255);
+backdrop:SetLayer("BACKGROUND")
 backdrop:Show()
 
 
 function FreshBoard()
-	backdrop.t:Clear(255,255,255)
+	backdrop.t:Clear(255,255,255,255)
 	backdrop.t:SetBrushColor(255,0,0,192)
 	backdrop.t:SetBrushSize(4)
 	backdrop.t:Line(ScreenWidth()/3, 0, ScreenWidth()/3,ScreenHeight())
@@ -106,9 +114,6 @@ end
 
 function DoubleTap(self)
 end
-
-local rescalex = ScreenWidth()/320
-local rescaley = ScreenHeight()/480
 
 for ix = 1, buttoncols do
 	for iy = 1, buttonrows do

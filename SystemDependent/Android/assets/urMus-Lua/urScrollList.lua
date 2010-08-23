@@ -12,7 +12,8 @@
 local titleHeight = 40
 local titleFont = "Trebuchet MS"
 local titleColor = { 255 ,255, 255, 255}
-local maxVisiblescrollRegions = 8
+local normativeScrollRegionHeight = 55
+local maxVisiblescrollRegions = (ScreenHeight()-titleHeight)/normativeScrollRegionHeight
 local scrollRegionGap = 1
 local scrollRegionHeight = (ScreenHeight() - titleHeight - maxVisiblescrollRegions*scrollRegionGap)/maxVisiblescrollRegions
 local text1Font = "Trebuchet MS"
@@ -27,7 +28,6 @@ local text3Font = "Trebuchet MS"
 local text3Width = ScreenWidth()/2
 local text3Size = 16
 local text3Color = { 255, 0, 0, 255 }
-
 
 -- Create local name-space
 if not urScrollList then

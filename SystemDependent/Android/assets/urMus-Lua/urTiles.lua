@@ -1,19 +1,22 @@
 local dopaint = false
 
+local rescalex = ScreenWidth()/320.0
+local rescaley = ScreenHeight()/480.0
+
 local random = math.random
 function Paint(self)
 	if not dopaint then return end
 	local x,y = InputPosition()
-	x = x*320.0/ScreenWidth() -- Converting texture to screen coordinates (requires for iPad as they mismatch there)
-	y = y*480.0/ScreenHeight()
+--	x = x*320.0/ScreenWidth() -- Converting texture to screen coordinates (requires for iPad as they mismatch there)
+--	y = y*480.0/ScreenHeight()
 	local x2,y2
 	
-	x2 = x - self:Left()*320.0/ScreenWidth()
-	y2 = y - self:Bottom()*480.0/ScreenHeight()
+	x2 = x - self:Left()--*320.0/ScreenWidth()
+	y2 = y - self:Bottom()--*480.0/ScreenHeight()
 --	x2 = 2*x2
 --	y2 = 2*y2
 
-	if not self.moving and x >= self:Left()*320.0/ScreenWidth()-32 and x < self:Right()*320.0/ScreenWidth()+32 and y >= self:Bottom()*480.0/ScreenHeight()-32 and y < self:Top()*480.0/ScreenHeight()+32  then
+	if not self.moving and x >= self:Left()-32 and x < self:Right()+32 and y >= self:Bottom()-32 and y < self:Top()+32  then
 		if x2 ~= self.fingerposx or y2 ~= self.fingerposy then
 --			brush1.t:SetBrushSize(32);
 --			self.texture:SetBrushColor(255,127,0,30)
@@ -32,12 +35,12 @@ function BrushDown(self)
 		for x=1,2 do
 			local i = (x-1)*2+y
 			local x1,y1 = InputPosition()
-			x1 = x1*320.0/ScreenWidth() -- Converting texture to screen coordinates (requires for iPad as they mismatch there)
-			y1 = y1*480.0/ScreenHeight()
+--			x1 = x1*320.0/ScreenWidth() -- Converting texture to screen coordinates (requires for iPad as they mismatch there)
+--			y1 = y1*480.0/ScreenHeight()
 			local x2,y2
 
-			x2 = x1 - tilebackdropregion[i]:Left()*320.0/ScreenWidth()
-			y2 = y1 - tilebackdropregion[i]:Bottom()*480.0/ScreenHeight()
+			x2 = x1 - tilebackdropregion[i]:Left()--*320.0/ScreenWidth()
+			y2 = y1 - tilebackdropregion[i]:Bottom()--*480.0/ScreenHeight()
 --			x2 = 2*x2
 --			y2 = 2*y2
 			tilebackdropregion[i].fingerposx, tilebackdropregion[i].fingerposy = x2,y2
@@ -82,7 +85,12 @@ for y=1,2 do
 		tilebackdropregion[i].texture:SetGradientColor("TOP",255,255,255,255,255,255,255,255);
 		tilebackdropregion[i].texture:SetGradientColor("BOTTOM",255,255,255,255,255,255,255,255);
 		--tilebackdropregion[i].texture:SetBlendMode("BLEND")
-		tilebackdropregion[i].texture:SetTexCoord(0,0.63,0.94,0.0);
+--		tilebackdropregion[i].texture:SetTexCoord(0,0.63,0.94,0.0);
+		if ScreenWidth() == 320.0 then
+			tilebackdropregion[i].texture:SetTexCoord(0,ScreenWidth()/2.0/256.0,ScreenHeight()/2.0/256.0,0.0);
+		else
+			tilebackdropregion[i].texture:SetTexCoord(0,ScreenWidth()/2.0/512.0,ScreenHeight()/2.0/512.0,0.0);
+		end
 		tilebackdropregion[i]:Handle("OnUpdate", Paint);
 		tilebackdropregion[i]:Handle("OnDoubleTap", ToggleMovable);
 		tilebackdropregion[i]:Handle("OnTouchDown", BrushDown)
