@@ -109,7 +109,7 @@ class urMusView extends GLSurfaceView {
 	// Touch Handling //
 	////////////////////
 	
-	private final int MAX_FINGERS=10;
+	private static final int MAX_FINGERS=10;
 	private long lastDown[]=new long[MAX_FINGERS];
 	private float oldx[]=new float[MAX_FINGERS];
 	private float oldy[]=new float[MAX_FINGERS];
@@ -153,7 +153,7 @@ class urMusView extends GLSurfaceView {
 					case MotionEvent.ACTION_DOWN:
 						// detect double tap
 						long time=System.currentTimeMillis();
-						if(lastDown[id[index]]-time < 250) {
+						if(time-lastDown[id[index]] < 250) {
 							numTaps=2;
 						}
 						lastDown[id[index]]=time;

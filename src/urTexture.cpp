@@ -32,6 +32,7 @@ urTexture::urTexture(const void *data, GLenum format, unsigned int width, unsign
 	this->format=format;
 	
 	this->font=NULL;
+	this->bAutoTexCoord=false;
 }
 
 urTexture::urTexture(unsigned int width, unsigned int height)
@@ -41,6 +42,7 @@ urTexture::urTexture(unsigned int width, unsigned int height)
 	this->height=height;
 	
 	this->font=NULL;
+	this->bAutoTexCoord=false;
 }
 
 urTexture::urTexture(urImage *image) 
@@ -86,6 +88,7 @@ urTexture::urTexture(urImage *image)
 	this->format=format;
 	
 	this->font=NULL;
+	this->bAutoTexCoord=false;
 }
 
 urTexture::urTexture(const char *str, const char *fontname, unsigned int size, unsigned int width, unsigned int height,
