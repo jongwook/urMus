@@ -34,7 +34,6 @@ public class urMus extends Activity
 
 		mView = new urMusView(getApplication());
 		mView.setFocusableInTouchMode(true);
-
     }
 
     @Override protected void onPause() {

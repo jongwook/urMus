@@ -1,36 +1,4 @@
-/*
- * Copyright (C) 2009 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package edu.umich.urMus;
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
@@ -42,15 +10,13 @@ import android.view.MotionEvent;
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-/**
- * An implementation of SurfaceView that uses the dedicated surface for
- * displaying an OpenGL animation.  This allows the animation to run in a
- * separate thread, without requiring that it be driven by the update mechanism
- * of the view hierarchy.
- *
- * The application-specific rendering code is delegated to a GLView.Renderer
- * instance.
- */
+
+import java.util.List;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+
 class urMusView extends GLSurfaceView {
 	public static final String TAG="urMusView";
 	
@@ -73,6 +39,7 @@ class urMusView extends GLSurfaceView {
 	
     private void init() {
         setRenderer(new Renderer());
+		initAccelerometer();
     }
 	
     private class Renderer implements GLSurfaceView.Renderer {
@@ -228,7 +195,6 @@ class urMusView extends GLSurfaceView {
 			}
 		});
 		
-		//dumpEvent(event);
 		return true;
 	}
 	
@@ -251,5 +217,39 @@ class urMusView extends GLSurfaceView {
 	private native void callAllTouchSources(double x, double y, int index);
 	private native int getArg();
 	private native int getArgMoved(int i);
+	
+	
+	/////////////////////
+	/// Accelerometer ///
+	/////////////////////
+	float accelX, accelY, accelZ;
+	
+	private SensorEventListener sensorEventListener; 
+	
+	private void initAccelerometer() {
+		sensorEventListener = new SensorEventListener() {
+			public void onAccuracyChanged(Sensor sensor, int accuracy) {};
+			public void onSensorChanged(SensorEvent event) {
+				accelX=-event.values[0]/10;
+				accelY=-event.values[1]/10;
+				accelZ=-event.values[2]/10;
+				if(urMusReady) {
+					didAccelerate(accelX,accelY,accelZ);
+				}
+			}
+		};
+		
+		SensorManager sensorManager = (SensorManager)getContext().getSystemService(Context.SENSOR_SERVICE);
+        List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
+        if (sensors.size() > 0) {
+            sensorManager.registerListener(sensorEventListener, sensors.get(0), SensorManager.SENSOR_DELAY_GAME);
+		} else {
+			Log.i(TAG,"Could not initialize accelerometer");
+		}
+		
+	}
+
+	private native void didAccelerate(float x, float y, float z);
+
 }
 
