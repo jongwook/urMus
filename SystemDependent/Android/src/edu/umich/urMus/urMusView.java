@@ -17,6 +17,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import android.media.AudioTrack;
+import android.media.AudioRecord;	
+import android.media.AudioFormat;
+import android.media.MediaRecorder;
+
 class urMusView extends GLSurfaceView {
 	public static final String TAG="urMusView";
 	
@@ -26,6 +31,8 @@ class urMusView extends GLSurfaceView {
 	private int SCREEN_HEIGHT;
 	private int HALF_SCREEN_WIDTH;
 	private int HALF_SCREEN_HEIGHT;
+	
+	private final int PCM_FREQUENCY=48000;
 	
     urMusView(Context context) {
         super(context);
@@ -40,6 +47,7 @@ class urMusView extends GLSurfaceView {
     private void init() {
         setRenderer(new Renderer());
 		initAccelerometer();
+		initMicrophone();
     }
 	
     private class Renderer implements GLSurfaceView.Renderer {
@@ -251,5 +259,39 @@ class urMusView extends GLSurfaceView {
 
 	private native void didAccelerate(float x, float y, float z);
 
+	
+	//////////////////
+	/// Microphone ///
+	//////////////////
+	
+	private void initMicrophone() {
+		int frequency = PCM_FREQUENCY;
+		int channelConfiguration = AudioFormat.CHANNEL_CONFIGURATION_MONO;
+		int audioEncoding = AudioFormat.ENCODING_PCM_16BIT;
+		final int bufferSize = AudioRecord.getMinBufferSize(frequency, channelConfiguration,  audioEncoding);
+		
+		final AudioRecord audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, 
+												  frequency, channelConfiguration, 
+												  audioEncoding, bufferSize);
+		
+		final short[] buffer = new short[bufferSize];   
+		audioRecord.startRecording();
+		
+		Log.i(TAG,"Mic initialized : "+bufferSize);
+		
+		new Thread() {
+			public void run() {
+				while(true) {
+					int bufferReadResult = audioRecord.read(buffer, 0, bufferSize);
+//					Log.i(TAG,"AudioRecord read " + bufferReadResult + " samples ("+bufferSize+" samples requested");
+					if(urMusReady) {
+						callOnMicrophone(buffer,bufferReadResult);
+					}
+				}
+			}
+		}.start();
+	}
+	
+	private native void callOnMicrophone(short [] buffer, int length);
 }
 

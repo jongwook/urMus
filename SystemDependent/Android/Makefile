@@ -4,7 +4,7 @@ all :
 	ndk-build -j4
 
 clean :
-	rm obj -rf
+	rm -rf obj
 
 install : all
 	ant install

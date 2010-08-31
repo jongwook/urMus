@@ -290,4 +290,22 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_didAccelerate(JNIEnv *env,
 	callAllAccelerateSources(x, y, z);
 }
 
+//////////////////
+/// Microphone ///
+//////////////////
 
+extern "C" {
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callOnMicrophone(JNIEnv *env, jobject obj, jshortArray buffer, jint length);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callOnMicrophone(JNIEnv *env, jobject obj, jshortArray buffer, jint length) {
+	jboolean isCopy;
+	jshort *pBuffer=env->GetShortArrayElements(buffer, &isCopy);
+	callAllMicSources(pBuffer, length);
+	for(int i=0;i<length;i++) {
+		callAllMicSingleTickSources(pBuffer[i]);
+	}
+	if(isCopy) {
+		env->ReleaseShortArrayElements(buffer,pBuffer,JNI_ABORT);
+	}
+}
