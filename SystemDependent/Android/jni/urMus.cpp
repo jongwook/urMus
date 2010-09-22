@@ -290,13 +290,16 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_didAccelerate(JNIEnv *env,
 	callAllAccelerateSources(x, y, z);
 }
 
-//////////////////
-/// Microphone ///
-//////////////////
+////////////////////////////
+/// Microphone & Speaker ///
+////////////////////////////
 
 extern "C" {
 	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callOnMicrophone(JNIEnv *env, jobject obj, jshortArray buffer, jint length);
+	JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callOnSpeaker(JNIEnv *env, jobject obj, jshortArray buffer, jint length);
 }
+
+double urs_PullActiveDacSingleTickSinks();
 
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callOnMicrophone(JNIEnv *env, jobject obj, jshortArray buffer, jint length) {
 	jboolean isCopy;
@@ -305,7 +308,15 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callOnMicrophone(JNIEnv *e
 	for(int i=0;i<length;i++) {
 		callAllMicSingleTickSources(pBuffer[i]);
 	}
-	if(isCopy) {
-		env->ReleaseShortArrayElements(buffer,pBuffer,JNI_ABORT);
+	
+	env->ReleaseShortArrayElements(buffer,pBuffer,JNI_ABORT);
+}
+
+JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callOnSpeaker(JNIEnv *env, jobject obj, jshortArray buffer, jint length) {
+	jshort *pBuffer=new jshort[length];
+	for(int i=0;i<length;i++) {
+		pBuffer[i]=urs_PullActiveDacSingleTickSinks();
 	}
+	env->SetShortArrayRegion(buffer,0,length,pBuffer);
+	delete [] pBuffer;
 }

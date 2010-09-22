@@ -21,6 +21,7 @@ import android.media.AudioTrack;
 import android.media.AudioRecord;	
 import android.media.AudioFormat;
 import android.media.MediaRecorder;
+import android.media.AudioManager;
 
 class urMusView extends GLSurfaceView {
 	public static final String TAG="urMusView";
@@ -47,7 +48,7 @@ class urMusView extends GLSurfaceView {
     private void init() {
         setRenderer(new Renderer());
 		initAccelerometer();
-		initMicrophone();
+		initSound();
     }
 	
     private class Renderer implements GLSurfaceView.Renderer {
@@ -260,38 +261,57 @@ class urMusView extends GLSurfaceView {
 	private native void didAccelerate(float x, float y, float z);
 
 	
-	//////////////////
-	/// Microphone ///
-	//////////////////
+	////////////////////////////
+	/// Microphone & Speaker ///
+	////////////////////////////
 	
-	private void initMicrophone() {
-		int frequency = PCM_FREQUENCY;
+	private void initSound() {
+		// start playing
+		
+		final int minSize = AudioTrack.getMinBufferSize( 48000, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT );
+		final AudioTrack track = new AudioTrack( AudioManager.STREAM_MUSIC, 48000, 
+							   AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT, 
+							   minSize, AudioTrack.MODE_STREAM);
+		track.play();        
+		
+		// start recording
+		
+		int frequency = 48000;
 		int channelConfiguration = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 		int audioEncoding = AudioFormat.ENCODING_PCM_16BIT;
 		final int bufferSize = AudioRecord.getMinBufferSize(frequency, channelConfiguration,  audioEncoding);
 		
 		final AudioRecord audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, 
-												  frequency, channelConfiguration, 
-												  audioEncoding, bufferSize);
+														frequency, channelConfiguration, 
+														audioEncoding, bufferSize);
 		
 		final short[] buffer = new short[bufferSize];   
 		audioRecord.startRecording();
 		
 		Log.i(TAG,"Mic initialized : "+bufferSize);
 		
-		new Thread() {
+		// pass audio from mic to speaker
+		
+		new Thread(new Runnable() {
+			float angle=0.0f;
 			public void run() {
 				while(true) {
-					int bufferReadResult = audioRecord.read(buffer, 0, bufferSize);
-//					Log.i(TAG,"AudioRecord read " + bufferReadResult + " samples ("+bufferSize+" samples requested");
+					int bufferReadResult = audioRecord.read(buffer, 0, 256);
+					
 					if(urMusReady) {
 						callOnMicrophone(buffer,bufferReadResult);
+						callOnSpeaker(buffer,256);
 					}
+					
+					track.flush();
+					int len=track.write(buffer, 0, bufferReadResult);
 				}
 			}
-		}.start();
+		}).start();
+		
 	}
 	
 	private native void callOnMicrophone(short [] buffer, int length);
+	private native void callOnSpeaker(short [] buffer, int length);
 }
 
