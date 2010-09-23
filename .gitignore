@@ -22,7 +22,6 @@ profile
 
 # for android
 SystemDependent/Android/bin
-SystemDependent/Android/libs
 SystemDependent/Android/obj
 SystemDependent/Android/default.properties
 SystemDependent/Android/local.properties
