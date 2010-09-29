@@ -315,8 +315,9 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callOnMicrophone(JNIEnv *e
 JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callOnSpeaker(JNIEnv *env, jobject obj, jshortArray buffer, jint length) {
 	jshort *pBuffer=new jshort[length];
 	for(int i=0;i<length;i++) {
-		pBuffer[i]=urs_PullActiveDacSingleTickSinks();
+		pBuffer[i]=(jshort)(32768*urs_PullActiveDacSingleTickSinks());
 	}
+//	LOGI("First few : %04x %04x %04x %04x",pBuffer[0],pBuffer[1],pBuffer[2],pBuffer[3]);
 	env->SetShortArrayRegion(buffer,0,length,pBuffer);
 	delete [] pBuffer;
 }
