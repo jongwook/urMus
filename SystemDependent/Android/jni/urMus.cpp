@@ -17,6 +17,7 @@
 #include "../../../src/urAPI.h"
 #include "../../../src/MachTimer.h"
 #include "../../../src/urGraphics.h"
+#include "../../../src/urSTK.h"
 
 extern "C" {
 #include "lfs.h"
@@ -321,3 +322,35 @@ JNIEXPORT void JNICALL Java_edu_umich_urMus_urMusView_callOnSpeaker(JNIEnv *env,
 	env->SetShortArrayRegion(buffer,0,length,pBuffer);
 	delete [] pBuffer;
 }
+
+
+void* LoadAudioFileData(const char *filename, UInt32 *outDataSize, UInt32*	outSampleRate)
+{
+	FileWvIn input;
+
+	// Try to load the soundfile.
+	
+	input.openFile( storagePath+"/"+filename );
+	
+
+	double rate = 1.0;
+	rate = input.getFileRate() / Stk::sampleRate();
+	input.setRate( rate );
+	LOGI("wave file %s rate - %f",filename,rate);
+	input.ignoreSampleRateChange();
+
+	// Find out how many channels we have.
+	int channels = input.channelsOut();
+	*outDataSize=input.getSize();
+	*outSampleRate=input.getFileRate();
+	SInt16 *data=new SInt16[input.getSize()];
+	for(unsigned int i=0;i<input.getSize();i++) {
+		data[i]=(int)(input.tick()*32768.0);
+	}
+
+	input.closeFile();
+
+
+	return data;
+}
+
